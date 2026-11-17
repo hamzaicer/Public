@@ -1,4 +1,5 @@
 import { startTransition, useDeferredValue, useEffect, useState } from 'react'
+import EpgPanel from './components/EpgPanel.jsx'
 import Player from './components/Player.jsx'
 import {
   categoryLabel,
@@ -7,6 +8,7 @@ import {
   loadCountry,
   loadMeta,
 } from './lib/catalog.js'
+import { loadEpgMeta } from './lib/epg.js'
 
 function ChannelLogo({ name, logo }) {
   const [failed, setFailed] = useState(false)
@@ -34,15 +36,17 @@ export default function App() {
   const [query, setQuery] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [epgIds, setEpgIds] = useState(() => new Set())
   const deferredQuery = useDeferredValue(query)
 
   useEffect(() => {
     let cancelled = false
     ;(async () => {
       try {
-        const data = await loadMeta()
+        const [data, epg] = await Promise.all([loadMeta(), loadEpgMeta()])
         if (cancelled) return
         setMeta(data)
+        if (epg?.ids) setEpgIds(new Set(epg.ids))
         const hasTr = data.countries.some((c) => c.code === 'tr')
         setSelected(hasTr ? 'tr' : data.countries[0]?.code || '')
       } catch (err) {
@@ -104,7 +108,7 @@ export default function App() {
           Bea<span>con</span>
         </h1>
         <p className="lede">
-          iptv-org’un güncel açık yayınları — kanal seç, tarayıcıda izle veya M3U’yu VLC’ye aktar.
+          iptv-org yayınları + EPG rehberi — kanal seç, şimdi/sonra programını gör, M3U veya XMLTV indir.
         </p>
         <div className="cta-row">
           <a className="btn btn-primary" href="/playlists/index.m3u" download>
@@ -112,6 +116,9 @@ export default function App() {
           </a>
           <a className="btn btn-ghost" href="/playlists/countries/tr.m3u" download>
             Türkiye playlist
+          </a>
+          <a className="btn btn-ghost" href="/epg/tr.xml" download>
+            Türkiye EPG (.xml)
           </a>
         </div>
         {meta && (
@@ -191,6 +198,7 @@ export default function App() {
 
         <main className="main">
           <Player channel={active} />
+          <EpgPanel channelId={active?.id} />
 
           <section className="panel">
             <div className="toolbar">
@@ -221,7 +229,10 @@ export default function App() {
                 >
                   <ChannelLogo name={ch.name} logo={ch.logo} />
                   <div>
-                    <strong>{ch.name}</strong>
+                    <strong>
+                      {ch.name}
+                      {epgIds.has(ch.id) && <span className="epg-badge">EPG</span>}
+                    </strong>
                     <small>{ch.group}</small>
                   </div>
                 </button>
@@ -232,11 +243,11 @@ export default function App() {
       </div>
 
       <footer className="footer">
-        Kaynak: açık IPTV koleksiyonu (
-        <a href="https://github.com/iptv-org/iptv" target="_blank" rel="noreferrer">
-          iptv-org/iptv
-        </a>
-        ). Birçok yayın coğrafi kısıt veya CORS nedeniyle tarayıcıda açılmaz; VLC önerilir.
+        Yayın: <a href="https://github.com/iptv-org/iptv" target="_blank" rel="noreferrer">iptv-org/iptv</a>
+        {' · '}
+        Rehber: <a href="https://github.com/iptv-org/epg" target="_blank" rel="noreferrer">iptv-org/epg</a>
+        {' '}(tvplus / digiturk / dsmart / turksat). Bazı yayınlar CORS veya geo-block yüzünden
+        tarayıcıda açılmaz; VLC önerilir.
       </footer>
     </div>
   )

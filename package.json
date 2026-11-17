@@ -6,11 +6,12 @@
   "scripts": {
     "sync": "node scripts/sync-playlists.mjs",
     "catalog": "node scripts/build-catalog.mjs",
+    "epg:index": "node scripts/build-epg-index.mjs",
     "dev": "vite",
-    "build": "npm run catalog && vite build",
+    "build": "npm run catalog && npm run epg:index && vite build",
     "preview": "vite preview --host 127.0.0.1 --port 4173",
     "start": "node server.mjs",
-    "refresh": "npm run sync && npm run catalog"
+    "refresh": "npm run sync && npm run catalog && npm run epg:index"
   },
   "dependencies": {
     "express": "^5.1.0",
