@@ -287,6 +287,16 @@ img {
   font-size: 1.15rem;
 }
 
+.player-detail {
+  display: block;
+  max-width: 36rem;
+  margin: 0.25rem auto 0;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: rgba(158, 184, 176, 0.9);
+  word-break: break-all;
+}
+
 .player-meta {
   display: flex;
   flex-wrap: wrap;

@@ -6,14 +6,42 @@ function proxied(url, userAgent) {
   return `/api/proxy?url=${encodeURIComponent(url)}${ua}`
 }
 
-async function resolvePlayUrl(sourceUrl, userAgent) {
-  try {
-    const probe = await fetch(proxied(sourceUrl, userAgent), { method: 'GET' })
-    if (probe.ok) return proxied(sourceUrl, userAgent)
-  } catch {
-    // fall through
+function isHlsUrl(url) {
+  const u = url.toLowerCase()
+  return u.includes('.m3u8') || u.includes('m3u8') || u.endsWith('.m3u') || u.includes('/hls/')
+}
+
+function isDashUrl(url) {
+  return url.toLowerCase().includes('.mpd')
+}
+
+let proxyProbePromise
+
+function detectProxy() {
+  if (!proxyProbePromise) {
+    proxyProbePromise = fetch('/api/proxy', { method: 'GET' })
+      .then((res) => {
+        // Express route answers 400 "Missing url" when the proxy is mounted.
+        return res.status === 400 || res.status === 200
+      })
+      .catch(() => false)
   }
-  return sourceUrl
+  return proxyProbePromise
+}
+
+function describeHlsError(data) {
+  if (!data) return 'Yayın açılamadı.'
+  if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+    const code = data.response?.code
+    if (code === 403 || code === 401) return `Kaynak erişimi reddetti (HTTP ${code}).`
+    if (code === 404) return 'Yayın adresi bulunamadı (HTTP 404).'
+    if (code) return `Ağ hatası (HTTP ${code}).`
+    return 'Ağ hatası: yayın adresine ulaşılamadı veya CORS engeli var.'
+  }
+  if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
+    return 'Medya hatası: akış çözülemedi.'
+  }
+  return 'Yayın açılamadı.'
 }
 
 export default function Player({ channel }) {
@@ -21,19 +49,26 @@ export default function Player({ channel }) {
   const hlsRef = useRef(null)
   const [error, setError] = useState('')
   const [status, setStatus] = useState('idle')
+  const [detail, setDetail] = useState('')
 
   useEffect(() => {
     const video = videoRef.current
     if (!video) return undefined
 
     let cancelled = false
-    setError('')
-    setStatus(channel ? 'loading' : 'idle')
+    let loadTimer
 
-    if (hlsRef.current) {
-      hlsRef.current.destroy()
-      hlsRef.current = null
+    const cleanupHls = () => {
+      if (hlsRef.current) {
+        hlsRef.current.destroy()
+        hlsRef.current = null
+      }
     }
+
+    setError('')
+    setDetail('')
+    setStatus(channel ? 'loading' : 'idle')
+    cleanupHls()
     video.removeAttribute('src')
     video.load()
 
@@ -41,78 +76,137 @@ export default function Player({ channel }) {
 
     const sourceUrl = channel.url
     const userAgent = channel.userAgent || ''
-    const onError = (message) => {
+
+    const fail = (message, extra = '') => {
       if (cancelled) return
       setStatus('error')
       setError(message)
+      setDetail(extra)
+      cleanupHls()
     }
 
-    if (sourceUrl.includes('.mpd')) {
-      onError('Bu yayın DASH formatında; bu tarayıcıda açılamıyor.')
+    if (isDashUrl(sourceUrl)) {
+      fail('DASH (.mpd) bu oynatıcıda desteklenmiyor.', 'DRM/DASH için yetkili sağlayıcı oynatıcısı gerekir.')
       return undefined
     }
 
-    ;(async () => {
-      const playUrl = await resolvePlayUrl(sourceUrl, userAgent)
-      if (cancelled) return
-      const usingProxy = playUrl.includes('/api/proxy?url=')
+    loadTimer = setTimeout(() => {
+      if (!cancelled) {
+        setDetail((d) => d || 'Bağlantı uzun sürüyor…')
+      }
+    }, 8000)
 
-      const playViaHls = (url) => {
+    ;(async () => {
+      const hasProxy = await detectProxy()
+      if (cancelled) return
+
+      const useProxy = hasProxy
+      const playUrl = useProxy ? proxied(sourceUrl, userAgent) : sourceUrl
+
+      if (!useProxy) {
+        setDetail('Yayın proxy’si yok; doğrudan kaynak deneniyor (CORS gerekebilir).')
+      }
+
+      const attachNative = (url) => {
+        video.src = url
+        const onLoaded = () => {
+          if (cancelled) return
+          clearTimeout(loadTimer)
+          setStatus('playing')
+          setDetail(useProxy ? 'Proxy üzerinden' : 'Doğrudan kaynak')
+          video.play().catch(() => {})
+        }
+        const onErr = () => {
+          fail(
+            'Yayın yüklenemedi.',
+            useProxy
+              ? 'Proxy yanıt verdi ama medya açılamadı.'
+              : 'CORS veya bağlantı engeli olabilir. `npm start` ile proxy’li sunucuyu deneyin.',
+          )
+        }
+        video.addEventListener('loadedmetadata', onLoaded, { once: true })
+        video.addEventListener('error', onErr, { once: true })
+      }
+
+      const canNativeHls = video.canPlayType('application/vnd.apple.mpegurl')
+
+      const tryHls =
+        Hls.isSupported() &&
+        (isHlsUrl(sourceUrl) || /^https?:/i.test(sourceUrl))
+
+      if (tryHls) {
+        let didNetworkRecover = false
+        let didMediaRecover = false
         const hls = new Hls({
           enableWorker: true,
           lowLatencyMode: true,
+          // Authorized public HLS only — no DRM license hooking.
           xhrSetup(xhr, requestUrl) {
-            if (usingProxy && !requestUrl.includes('/api/proxy?url=')) {
-              xhr.open('GET', proxied(requestUrl, userAgent), true)
-            }
+            if (!useProxy) return
+            if (requestUrl.includes('/api/proxy?url=')) return
+            // hls.js calls open() before xhrSetup; reopen against the CORS proxy.
+            xhr.open('GET', proxied(requestUrl, userAgent), true)
           },
         })
         hlsRef.current = hls
-        hls.loadSource(url)
+        hls.loadSource(playUrl)
         hls.attachMedia(video)
+
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
           if (cancelled) return
+          clearTimeout(loadTimer)
           setStatus('playing')
+          setDetail(useProxy ? 'HLS · proxy' : 'HLS · doğrudan')
           video.play().catch(() => {})
         })
-        hls.on(Hls.Events.ERROR, (_event, data) => {
-          if (!data.fatal || cancelled) return
-          onError('Yayın açılamadı. Başka bir kanal dene.')
-          hls.destroy()
-          hlsRef.current = null
-        })
-      }
 
-      if (
-        Hls.isSupported() &&
-        (sourceUrl.includes('.m3u8') || sourceUrl.includes('m3u8') || sourceUrl.includes('.m3u'))
-      ) {
-        playViaHls(playUrl)
-      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        video.src = playUrl
-        video.addEventListener(
-          'loadedmetadata',
-          () => {
-            if (cancelled) return
-            setStatus('playing')
-            video.play().catch(() => {})
-          },
-          { once: true },
-        )
-        video.addEventListener('error', () => onError('Yayın yüklenemedi.'), { once: true })
+        hls.on(Hls.Events.ERROR, (_event, data) => {
+          if (cancelled || !data?.fatal) return
+          if (data.type === Hls.ErrorTypes.NETWORK_ERROR && !didNetworkRecover) {
+            didNetworkRecover = true
+            try {
+              hls.startLoad()
+              return
+            } catch {
+              // fall through
+            }
+          }
+          if (data.type === Hls.ErrorTypes.MEDIA_ERROR && !didMediaRecover) {
+            didMediaRecover = true
+            try {
+              hls.recoverMediaError()
+              return
+            } catch {
+              // fall through
+            }
+          }
+          fail(describeHlsError(data), sourceUrl)
+        })
+      } else if (isHlsUrl(sourceUrl) && canNativeHls) {
+        attachNative(playUrl)
+      } else if (isHlsUrl(sourceUrl)) {
+        fail('Bu tarayıcıda HLS desteklenmiyor.', 'Modern Chrome/Firefox veya Safari kullanın.')
       } else {
-        video.src = usingProxy ? playUrl : sourceUrl
-        video.play().catch(() => onError('Bu format tarayıcıda desteklenmiyor.'))
-        setStatus('playing')
+        // MPEG-TS / progressive / unknown — try native <video>, report clearly on failure.
+        setDetail('HLS dışı kaynak; tarayıcı desteği sınırlı olabilir.')
+        attachNative(playUrl)
+        // If metadata never arrives, time out to error.
+        setTimeout(() => {
+          if (cancelled) return
+          if (video.readyState < 1) {
+            fail(
+              'Bu yayın formatı tarayıcıda açılamıyor.',
+              'Yetkili sağlayıcının HLS (m3u8) veya desteklenen bir adresi gerekir.',
+            )
+          }
+        }, 10000)
       }
     })()
 
     return () => {
       cancelled = true
-      if (hlsRef.current) {
-        hlsRef.current.destroy()
-        hlsRef.current = null
-      }
+      clearTimeout(loadTimer)
+      cleanupHls()
     }
   }, [channel])
 
@@ -130,19 +224,24 @@ export default function Player({ channel }) {
           <div className="player-empty">
             <strong>Bağlanıyor…</strong>
             <span>{channel.name}</span>
+            {detail && <span className="player-detail">{detail}</span>}
           </div>
         )}
         {channel && status === 'error' && (
           <div className="player-error">
-            <strong>Önizleme yok</strong>
+            <strong>Yayın yüklenmedi</strong>
             <span>{error}</span>
+            {detail && <span className="player-detail">{detail}</span>}
           </div>
         )}
       </div>
       <div className="player-meta">
         <div>
           <h3>{channel?.name || 'Beacon Player'}</h3>
-          <p>{channel ? channel.group : 'iptv-org açık yayınları'}</p>
+          <p>
+            {channel ? channel.group : 'iptv-org açık yayınları'}
+            {status === 'playing' && detail ? ` · ${detail}` : ''}
+          </p>
         </div>
         {channel && (
           <div className="cta-row">

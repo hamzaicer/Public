@@ -8,6 +8,10 @@ const dist = path.join(__dirname, 'dist')
 const app = express()
 const port = Number(process.env.PORT || 4173)
 
+app.get('/api/health', (_req, res) => {
+  res.json({ ok: true, proxy: true })
+})
+
 app.get('/api/proxy', async (req, res) => {
   try {
     const target = req.query.url
