@@ -29,11 +29,17 @@ function detectProxy() {
   return proxyProbePromise
 }
 
+function httpCodeFromHls(data) {
+  return data?.response?.code || data?.response?.status || 0
+}
+
 function describeHlsError(data) {
   if (!data) return 'Yayın açılamadı.'
   if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
-    const code = data.response?.code
-    if (code === 403 || code === 401) return `Kaynak erişimi reddetti (HTTP ${code}).`
+    const code = httpCodeFromHls(data)
+    if (code === 403 || code === 401) {
+      return `Kaynak erişimi reddetti (HTTP ${code}). Yetkisiz veya korumalı yayın; erişim aşılmadı.`
+    }
     if (code === 404) return 'Yayın adresi bulunamadı (HTTP 404).'
     if (code) return `Ağ hatası (HTTP ${code}).`
     return 'Ağ hatası: yayın adresine ulaşılamadı veya CORS engeli var.'
@@ -42,6 +48,11 @@ function describeHlsError(data) {
     return 'Medya hatası: akış çözülemedi.'
   }
   return 'Yayın açılamadı.'
+}
+
+function isAccessDenied(data) {
+  const code = httpCodeFromHls(data)
+  return code === 401 || code === 403
 }
 
 export default function Player({ channel }) {
@@ -57,12 +68,18 @@ export default function Player({ channel }) {
 
     let cancelled = false
     let loadTimer
+    let hardTimer
 
     const cleanupHls = () => {
       if (hlsRef.current) {
         hlsRef.current.destroy()
         hlsRef.current = null
       }
+    }
+
+    const clearTimers = () => {
+      clearTimeout(loadTimer)
+      clearTimeout(hardTimer)
     }
 
     setError('')
@@ -79,6 +96,7 @@ export default function Player({ channel }) {
 
     const fail = (message, extra = '') => {
       if (cancelled) return
+      clearTimers()
       setStatus('error')
       setError(message)
       setDetail(extra)
@@ -96,6 +114,15 @@ export default function Player({ channel }) {
       }
     }, 8000)
 
+    // Never leave the UI stuck on “Bağlanıyor…” (e.g. repeated HLS recover on 403).
+    hardTimer = setTimeout(() => {
+      if (cancelled) return
+      fail(
+        'Yayın zaman aşımına uğradı.',
+        'Kaynak yanıt vermiyor, CORS engeli var veya erişim reddedildi.',
+      )
+    }, 20000)
+
     ;(async () => {
       const hasProxy = await detectProxy()
       if (cancelled) return
@@ -111,7 +138,7 @@ export default function Player({ channel }) {
         video.src = url
         const onLoaded = () => {
           if (cancelled) return
-          clearTimeout(loadTimer)
+          clearTimers()
           setStatus('playing')
           setDetail(useProxy ? 'Proxy üzerinden' : 'Doğrudan kaynak')
           video.play().catch(() => {})
@@ -154,7 +181,7 @@ export default function Player({ channel }) {
 
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
           if (cancelled) return
-          clearTimeout(loadTimer)
+          clearTimers()
           setStatus('playing')
           setDetail(useProxy ? 'HLS · proxy' : 'HLS · doğrudan')
           video.play().catch(() => {})
@@ -162,6 +189,11 @@ export default function Player({ channel }) {
 
         hls.on(Hls.Events.ERROR, (_event, data) => {
           if (cancelled || !data?.fatal) return
+          // Do not retry access-denied responses (rights / auth) — surface them immediately.
+          if (isAccessDenied(data)) {
+            fail(describeHlsError(data), sourceUrl)
+            return
+          }
           if (data.type === Hls.ErrorTypes.NETWORK_ERROR && !didNetworkRecover) {
             didNetworkRecover = true
             try {
@@ -205,7 +237,7 @@ export default function Player({ channel }) {
 
     return () => {
       cancelled = true
-      clearTimeout(loadTimer)
+      clearTimers()
       cleanupHls()
     }
   }, [channel])
