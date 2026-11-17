@@ -1,0 +1,11 @@
+#EXTM3U
+#EXTINF:-1 tvg-id="RTHKTV31.hk" tvg-logo="https://i.imgur.com/kf818kM.png" tvg-country="HK" group-title="Hong Kong",RTHK TV 31
+https://rthktv31-live.akamaized.net/hls/live/2036818/RTHKTV31/master.m3u8
+#EXTINF:-1 tvg-id="RTHKTV32.hk" tvg-logo="https://i.imgur.com/MXLuUoU.png" tvg-country="HK" group-title="Hong Kong",RTHK TV 32
+https://rthktv32-live.akamaized.net/hls/live/2036819/RTHKTV32/master.m3u8
+#EXTINF:-1 tvg-id="HKIBC.hk" tvg-logo="https://i.imgur.com/NfVZPTT.png" tvg-country="HK" group-title="Hong Kong",HOY TV Ⓖ
+https://hoytv-live-stream.hoy.tv/ch78/index-fhd.m3u8
+#EXTINF:-1 tvg-id="TVBNewsChannel.hk" tvg-logo="https://i.imgur.com/Gwij0Fj.png" tvg-country="HK" group-title="Hong Kong",TVB News Channel
+https://tvp22.sky4k.top/index1.php
+#EXTINF:-1 tvg-id="TVBFinanceSportsInformationChannel.hk" tvg-logo="https://i.imgur.com/Fkkp7x7.png" tvg-country="HK" group-title="Hong Kong",TVB Finance (Sports & Information Channel)
+https://tvp22.sky4k.top/index2.php

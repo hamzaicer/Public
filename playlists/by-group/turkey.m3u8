@@ -1,0 +1,33 @@
+#EXTM3U
+#EXTINF:-1 tvg-id="TRT1.tr" tvg-logo="https://i.imgur.com/j786OLG.png" tvg-country="TR" group-title="Turkey",TRT 1
+https://tv-trt1.medya.trt.com.tr/master.m3u8
+#EXTINF:-1 tvg-id="TRT2.tr" tvg-logo="https://i.imgur.com/lNWrOE2.png" tvg-country="TR" group-title="Turkey",TRT 2 Ⓖ
+https://tv-trt2.medya.trt.com.tr/master.m3u8
+#EXTINF:-1 tvg-id="TRTHaber.tr" tvg-logo="https://i.imgur.com/OVfo8Ab.png" tvg-country="TR" group-title="Turkey",TRT Haber
+https://tv-trthaber.medya.trt.com.tr/master.m3u8
+#EXTINF:-1 tvg-id="TRTSpor.tr" tvg-logo="https://i.imgur.com/N2wGZyf.png" tvg-country="TR" group-title="Turkey",TRT Spor Ⓖ
+https://tv-trtspor1.medya.trt.com.tr/master.m3u8
+#EXTINF:-1 tvg-id="trt-spor-2-g-1752" tvg-logo="https://i.imgur.com/ysKteM8.png" tvg-country="TR" group-title="Turkey",TRT Spor 2 Ⓖ
+https://tv-trtspor2.medya.trt.com.tr/master.m3u8
+#EXTINF:-1 tvg-id="TRTCocuk.tr" tvg-logo="https://i.imgur.com/QLFmD6d.png" tvg-country="TR" group-title="Turkey",TRT Çocuk
+https://tv-trtcocuk.medya.trt.com.tr/master.m3u8
+#EXTINF:-1 tvg-id="trt-muzik-1754" tvg-logo="https://i.imgur.com/fIVFCEd.png" tvg-country="TR" group-title="Turkey",TRT Müzik
+https://tv-trtmuzik.medya.trt.com.tr/master.m3u8
+#EXTINF:-1 tvg-id="TRTBelgesel.tr" tvg-logo="https://i.imgur.com/MGO87pe.png" tvg-country="TR" group-title="Turkey",TRT Belgesel
+https://tv-trtbelgesel-dai.medya.trt.com.tr/master.m3u8
+#EXTINF:-1 tvg-id="TRTAvaz.tr" tvg-logo="https://i.imgur.com/VhTwXu5.png" tvg-country="TR" group-title="Turkey",TRT Avaz
+https://tv-trtavaz.medya.trt.com.tr/master.m3u8
+#EXTINF:-1 tvg-id="TRTKurdi.tr" tvg-logo="https://i.imgur.com/6BpymfB.png" tvg-country="TR" group-title="Turkey",TRT Kurdî
+https://tv-trtkurdi.medya.trt.com.tr/master.m3u8
+#EXTINF:-1 tvg-id="TRTArabi.tr" tvg-logo="https://i.imgur.com/yyhWOZs.png" tvg-country="TR" group-title="Turkey",TRT Arabi
+https://tv-trtarabi.medya.trt.com.tr/master.m3u8
+#EXTINF:-1 tvg-id="TRTWorld.tr" tvg-logo="https://i.imgur.com/JEA2xpv.png" tvg-country="TR" group-title="Turkey",TRT World
+https://tv-trtworld.medya.trt.com.tr/master.m3u8
+#EXTINF:-1 tvg-id="TRTTurk.tr" tvg-logo="https://i.imgur.com/OSTOQNw.png" tvg-country="TR" group-title="Turkey",TRT Türk
+https://tv-trtturk.medya.trt.com.tr/master.m3u8
+#EXTINF:-1 tvg-id="trt-eba-ilkokul-1761" tvg-logo="https://i.imgur.com/wDvZfk8.png" tvg-country="TR" group-title="Turkey",TRT EBA Ilkokul
+https://tv-e-okul00.medya.trt.com.tr/master.m3u8
+#EXTINF:-1 tvg-id="trt-eba-ortaokul-1762" tvg-logo="https://i.imgur.com/yfPTvRx.png" tvg-country="TR" group-title="Turkey",TRT EBA Ortaokul
+https://tv-e-okul01.medya.trt.com.tr/master.m3u8
+#EXTINF:-1 tvg-id="trt-eba-lise-1763" tvg-logo="https://i.imgur.com/IebUZx1.png" tvg-country="TR" group-title="Turkey",TRT EBA Lise
+https://tv-e-okul02.medya.trt.com.tr/master.m3u8

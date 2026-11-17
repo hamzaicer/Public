@@ -1,0 +1,15 @@
+#EXTM3U
+#EXTINF:-1 tvg-id="BNT1.bg" tvg-logo="https://i.imgur.com/7JU9b5j.png" tvg-country="BG" group-title="Bulgaria",BNT1
+https://shift03.isp.bg/BNT1_HD/index.m3u8
+#EXTINF:-1 tvg-id="BNT2.bg" tvg-logo="https://i.imgur.com/FyTUr9Q.png" tvg-country="BG" group-title="Bulgaria",BNT2
+https://shift03.isp.bg/BNT2_HD/index.m3u8
+#EXTINF:-1 tvg-id="BNT3.bg" tvg-logo="https://i.imgur.com/pPpSJ4u.png" tvg-country="BG" group-title="Bulgaria",BNT3
+https://shift03.isp.bg/BNT3_HD/index.m3u8
+#EXTINF:-1 tvg-id="City.bg" tvg-logo="https://i.imgur.com/BjRTbrU.png" tvg-country="BG" group-title="Bulgaria",City TV Ⓢ
+https://tv.city.bg/play/tshls/citytv/index.m3u8
+#EXTINF:-1 tvg-id="BNT4.bg" tvg-logo="https://i.imgur.com/Lw8b3yu.png" tvg-country="BG" group-title="Bulgaria",BNT4
+https://shift03.isp.bg/BNT4_HD/index.m3u8
+#EXTINF:-1 tvg-id="EuroNewsBulgaria.bg" tvg-logo="https://i.imgur.com/RrQVoOg.png" tvg-country="BG" group-title="Bulgaria",Euronews Bulgaria Ⓨ
+https://www.youtube.com/channel/UCU1i6qBMjY9El6q5L2OK8hA/live
+#EXTINF:-1 tvg-id="TV1.bg" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/6/64/Tv1-new.png" tvg-country="BG" group-title="Bulgaria",TV1
+https://tv1.cloudcdn.bg/temp/livestream.m3u8

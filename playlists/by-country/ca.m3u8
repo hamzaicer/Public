@@ -1,0 +1,41 @@
+#EXTM3U
+#EXTINF:-1 tvg-id="CBCTDT.ca" tvg-logo="https://i.imgur.com/H5yEbxf.png" tvg-country="CA" group-title="Canada",CBC Toronto Ⓖ
+https://cbcrclinear-tor.akamaized.net/hls/live/2042760/CBCRCLINEAR_TOR_6/master5.m3u8
+#EXTINF:-1 tvg-id="ctv-toronto-157" tvg-logo="https://i.imgur.com/qOutOWN.png" tvg-country="CA" group-title="Canada",CTV Toronto
+http://stream.cammonitorplus.net/1712/index.m3u8
+#EXTINF:-1 tvg-id="ctv-2-158" tvg-country="CA" group-title="Canada",CTV 2
+http://stream.cammonitorplus.net/1731/index.m3u8
+#EXTINF:-1 tvg-id="ntv-159" tvg-logo="https://i.imgur.com/b8W3Aah.png" tvg-country="CA" group-title="Canada",NTV
+http://152.89.62.111:8080/nXyAiP3DNp/QgOuvocpGv/223012
+#EXTINF:-1 tvg-id="chch-160" tvg-logo="https://i.imgur.com/jYSXaga.png" tvg-country="CA" group-title="Canada",CHCH
+http://152.89.62.111:8080/nXyAiP3DNp/QgOuvocpGv/222841
+#EXTINF:-1 tvg-id="CBCNewsNetwork.ca" tvg-logo="https://i.imgur.com/1EqQGKS.png" tvg-country="CA" group-title="Canada",CBC News
+https://cbcnewshd-f.akamaihd.net/i/cbcnews_1@8981/index_2500_av-p.m3u8
+#EXTINF:-1 tvg-id="CTVNewsChannel.ca" tvg-logo="https://i.imgur.com/T3oBeiX.png" tvg-country="CA" group-title="Canada",CTV News Ⓨ
+https://www.youtube.com/c/CTVNews/live
+#EXTINF:-1 tvg-id="global-news-163" tvg-logo="https://i.imgur.com/IpfmG93.png" tvg-country="CA" group-title="Canada",Global News
+https://jmp2.uk/plu-62cbef9ebb857100072fc187.m3u8
+#EXTINF:-1 tvg-id="CFSKDT.ca" tvg-logo="https://i.imgur.com/IpfmG93.png" tvg-country="CA" group-title="Canada",Global News Saskatoon
+https://jmp2.uk/plu-62cc00359cb58900088dc840.m3u8
+#EXTINF:-1 tvg-id="CKNDDT.ca" tvg-logo="https://i.imgur.com/IpfmG93.png" tvg-country="CA" group-title="Canada",Global News Winnipeg
+https://jmp2.uk/plu-62cc0120880c890007191016.m3u8
+#EXTINF:-1 tvg-id="CPACEnglish.ca" tvg-logo="https://i.imgur.com/AbdFD0S.png" tvg-country="CA" group-title="Canada",CPAC (EN)
+https://d7z3qjdsxbwoq.cloudfront.net/groupa/live/f9809cea-1e07-47cd-a94d-2ddd3e1351db/live.isml/.m3u8
+#EXTINF:-1 tvg-id="IciRDI.ca" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/ICI_RDI_logo.svg/500px-ICI_RDI_logo.svg.png" tvg-country="CA" group-title="Canada",ICI RDI
+https://rcavlive.akamaized.net/hls/live/704025/xcanrdi/master.m3u8
+#EXTINF:-1 tvg-id="ici-tele-hd-g-168" tvg-logo="https://i.imgur.com/HsSi3NV.png" tvg-country="CA" group-title="Canada",ICI Télé HD Ⓖ
+https://rcavlive.akamaized.net/hls/live/696615/xcancbft/master.m3u8
+#EXTINF:-1 tvg-id="tva-g-169" tvg-logo="https://i.imgur.com/1GR8Szn.png" tvg-country="CA" group-title="Canada",TVA Ⓖ
+https://tvalive-dai01.akamaized.net/Content/HLS/Live/channel(575b93c5-be31-ee34-6285-14620fd14048)/index.m3u8
+#EXTINF:-1 tvg-id="noovo-170" tvg-logo="https://i.imgur.com/BL9ziSJ.png" tvg-country="CA" group-title="Canada",Noovo
+https://pe-ak-lp04a-9c9media.akamaized.net/live/NOOVO/p/dash/00000001/f481c583dbd06b6c/manifest.mpd
+#EXTINF:-1 tvg-id="CIVMDT.ca" tvg-logo="https://i.imgur.com/8grBWK9.png" tvg-country="CA" group-title="Canada",Télé Québec
+https://bcovlive-a.akamaihd.net/575d86160eb143458d51f7ab187a4e68/us-east-1/6101674910001/playlist.m3u8
+#EXTINF:-1 tvg-id="CFTUDT.ca" tvg-logo="https://i.imgur.com/pa4wOVY.png" tvg-country="CA" group-title="Canada",Savoir Média
+https://hls.savoir.media/live/stream.m3u8
+#EXTINF:-1 tvg-id="CPACFrench.ca" tvg-logo="https://i.imgur.com/AbdFD0S.png" tvg-country="CA" group-title="Canada",CPAC (FR)
+https://bcsecurelivehls-i.akamaihd.net/hls/live/680604/1242843915001_3/master.m3u8
+#EXTINF:-1 tvg-id="CBFTDT.ca" tvg-logo="https://i.imgur.com/Z1b2TJD.png" tvg-country="CA" group-title="Canada",ICI Montreal
+https://amdici.akamaized.net/hls/live/873426/ICI-Live-Stream/master.m3u8
+#EXTINF:-1 tvg-id="Toronto360.tv" tvg-logo="https://i.imgur.com/PkWndsv.png" tvg-country="CA" group-title="Canada",Toronto 360 TV
+http://cdn3.toronto360.tv:8081/toronto360/hd/playlist.m3u8

@@ -1,0 +1,27 @@
+#EXTM3U
+#EXTINF:-1 tvg-id="OmropFryslanTV.nl" tvg-logo="https://i.imgur.com/0VKJLAK.png" tvg-country="NL" group-title="Netherlands",Omrop Fryslân
+https://d3pvma9xb2775h.cloudfront.net/live/omropfryslan/f8f68bd5/playlist.m3u8
+#EXTINF:-1 tvg-id="RTVNoord.nl" tvg-logo="https://i.imgur.com/pO5Mexa.png" tvg-country="NL" group-title="Netherlands",RTV Noord
+https://media.rtvnoord.nl/live/rtvnoord/tv/playlist.m3u8
+#EXTINF:-1 tvg-id="RTVDrenthe.nl" tvg-logo="https://i.imgur.com/GaGqM4z.png" tvg-country="NL" group-title="Netherlands",RTV Drenthe
+https://cdn.rtvdrenthe.nl/live/rtvdrenthe/tv/index.m3u8
+#EXTINF:-1 tvg-id="RTVOost.nl" tvg-logo="https://i.imgur.com/8ropV29.png" tvg-country="NL" group-title="Netherlands",RTV Oost
+https://d34cg2bnc08ruf.cloudfront.net/live/rtvoost/tv/index.m3u8
+#EXTINF:-1 tvg-id="OmroepGelderlandTV.nl" tvg-logo="https://i.imgur.com/TPlyvUQ.png" tvg-country="NL" group-title="Netherlands",Omroep Gelderland
+https://d2od87akyl46nm.cloudfront.net/live/omroepgelderland/tvgelderland-hls/index.m3u8
+#EXTINF:-1 tvg-id="RTVUtrecht.nl" tvg-logo="https://i.imgur.com/c0I24N6.png" tvg-country="NL" group-title="Netherlands",RTV Utrecht
+http://media.rtvutrecht.nl/live/rtvutrecht/rtvutrecht/index.m3u8
+#EXTINF:-1 tvg-id="OmroepFlevolandTV.nl" tvg-logo="https://i.imgur.com/d1CmTcI.png" tvg-country="NL" group-title="Netherlands",Omroep Flevoland Ⓢ
+https://d5ms27yy6exnf.cloudfront.net/live/omroepflevoland/tv/index.m3u8
+#EXTINF:-1 tvg-id="NH.nl" tvg-logo="https://i.imgur.com/SQPVOwn.png" tvg-country="NL" group-title="Netherlands",NH Nieuws
+https://rrr.sz.xlcdn.com/?account=nhnieuws&file=live&type=live&service=wowza&protocol=https&output=playlist.m3u8
+#EXTINF:-1 tvg-id="RTVRijnmond.nl" tvg-logo="https://i.imgur.com/TNhUVEm.png" tvg-country="NL" group-title="Netherlands",RTV Rijnmond
+https://dcur8bjarl5c2.cloudfront.net/live/rijnmond/tv/index.m3u8
+#EXTINF:-1 tvg-id="OmroepWestTV.nl" tvg-logo="https://i.imgur.com/aax1HPH.png" tvg-country="NL" group-title="Netherlands",Omroep West
+https://d1axml5ozykh3g.cloudfront.net/live/omroepwest/tv/index.m3u8
+#EXTINF:-1 tvg-id="OmroepZeelandTV.nl" tvg-logo="https://i.imgur.com/8aLDyUI.png" tvg-country="NL" group-title="Netherlands",Omroep Zeeland
+http://d3isaxd2t6q8zm.cloudfront.net/live/omroepzeeland/tv/index.m3u8
+#EXTINF:-1 tvg-id="OmroepBrabantTV.nl" tvg-logo="https://i.imgur.com/Jv7IjHJ.png" tvg-country="NL" group-title="Netherlands",Omroep Brabant
+http://d3slqp9xhts6qb.cloudfront.net/live/omroepbrabant/tv/index.m3u8
+#EXTINF:-1 tvg-id="L1TV.nl" tvg-logo="https://i.imgur.com/Jyhn1iP.png" tvg-country="NL" group-title="Netherlands",L1 Ⓢ
+http://d34pj260kw1xmk.cloudfront.net/live/l1/tv/index.m3u8

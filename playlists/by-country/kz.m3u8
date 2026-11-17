@@ -1,0 +1,7 @@
+#EXTM3U
+#EXTINF:-1 tvg-id="Balapan.kz" tvg-country="KZ" group-title="Kazakhstan",Balapan TV
+https://balapantv-stream.qazcdn.com/balapantv/balapantv/playlist.m3u8
+#EXTINF:-1 tvg-id="QazaqstanInternational.kz" tvg-country="KZ" group-title="Kazakhstan",Qazaqstan
+https://qazaqstantv-stream.qazcdn.com/international/international/playlist.m3u8
+#EXTINF:-1 tvg-id="QazSport.kz" tvg-country="KZ" group-title="Kazakhstan",QazSport
+http://stream.mcquack.net/72/index.m3u8

@@ -1,0 +1,851 @@
+{
+  "source": "https://github.com/Free-TV/IPTV",
+  "generatedAt": "2026-11-17T22:09:14.835Z",
+  "totalStreams": 2203,
+  "countries": [
+    {
+      "code": "it",
+      "count": 443
+    },
+    {
+      "code": "pl",
+      "count": 139
+    },
+    {
+      "code": "hu",
+      "count": 84
+    },
+    {
+      "code": "gr",
+      "count": 61
+    },
+    {
+      "code": "ru",
+      "count": 59
+    },
+    {
+      "code": "gb",
+      "count": 55
+    },
+    {
+      "code": "es",
+      "count": 48
+    },
+    {
+      "code": "ua",
+      "count": 47
+    },
+    {
+      "code": "mn",
+      "count": 41
+    },
+    {
+      "code": "ae",
+      "count": 36
+    },
+    {
+      "code": "de",
+      "count": 35
+    },
+    {
+      "code": "fr",
+      "count": 33
+    },
+    {
+      "code": "in",
+      "count": 32
+    },
+    {
+      "code": "mk",
+      "count": 31
+    },
+    {
+      "code": "fi",
+      "count": 29
+    },
+    {
+      "code": "us",
+      "count": 28
+    },
+    {
+      "code": "cz",
+      "count": 27
+    },
+    {
+      "code": "ar",
+      "count": 26
+    },
+    {
+      "code": "au",
+      "count": 26
+    },
+    {
+      "code": "cl",
+      "count": 26
+    },
+    {
+      "code": "hr",
+      "count": 26
+    },
+    {
+      "code": "ir",
+      "count": 26
+    },
+    {
+      "code": "kr",
+      "count": 22
+    },
+    {
+      "code": "cn",
+      "count": 21
+    },
+    {
+      "code": "jp",
+      "count": 21
+    },
+    {
+      "code": "ca",
+      "count": 20
+    },
+    {
+      "code": "so",
+      "count": 19
+    },
+    {
+      "code": "by",
+      "count": 18
+    },
+    {
+      "code": "ie",
+      "count": 18
+    },
+    {
+      "code": "al",
+      "count": 17
+    },
+    {
+      "code": "ba",
+      "count": 17
+    },
+    {
+      "code": "tr",
+      "count": 16
+    },
+    {
+      "code": "lb",
+      "count": 15
+    },
+    {
+      "code": "pt",
+      "count": 15
+    },
+    {
+      "code": "ro",
+      "count": 15
+    },
+    {
+      "code": "iq",
+      "count": 14
+    },
+    {
+      "code": "mx",
+      "count": 14
+    },
+    {
+      "code": "sa",
+      "count": 14
+    },
+    {
+      "code": "se",
+      "count": 14
+    },
+    {
+      "code": "nl",
+      "count": 13
+    },
+    {
+      "code": "tw",
+      "count": 13
+    },
+    {
+      "code": "dk",
+      "count": 12
+    },
+    {
+      "code": "eg",
+      "count": 12
+    },
+    {
+      "code": "ng",
+      "count": 12
+    },
+    {
+      "code": "qa",
+      "count": 12
+    },
+    {
+      "code": "az",
+      "count": 11
+    },
+    {
+      "code": "br",
+      "count": 11
+    },
+    {
+      "code": "ge",
+      "count": 11
+    },
+    {
+      "code": "be",
+      "count": 10
+    },
+    {
+      "code": "lt",
+      "count": 10
+    },
+    {
+      "code": "at",
+      "count": 9
+    },
+    {
+      "code": "rs",
+      "count": 9
+    },
+    {
+      "code": "ve",
+      "count": 9
+    },
+    {
+      "code": "ee",
+      "count": 8
+    },
+    {
+      "code": "il",
+      "count": 8
+    },
+    {
+      "code": "sk",
+      "count": 8
+    },
+    {
+      "code": "tm",
+      "count": 8
+    },
+    {
+      "code": "bg",
+      "count": 7
+    },
+    {
+      "code": "cr",
+      "count": 7
+    },
+    {
+      "code": "cy",
+      "count": 7
+    },
+    {
+      "code": "pe",
+      "count": 7
+    },
+    {
+      "code": "md",
+      "count": 6
+    },
+    {
+      "code": "no",
+      "count": 6
+    },
+    {
+      "code": "ch",
+      "count": 6
+    },
+    {
+      "code": "tt",
+      "count": 6
+    },
+    {
+      "code": "hk",
+      "count": 5
+    },
+    {
+      "code": "ke",
+      "count": 5
+    },
+    {
+      "code": "lv",
+      "count": 5
+    },
+    {
+      "code": "mo",
+      "count": 5
+    },
+    {
+      "code": "me",
+      "count": 4
+    },
+    {
+      "code": "am",
+      "count": 3
+    },
+    {
+      "code": "is",
+      "count": 3
+    },
+    {
+      "code": "id",
+      "count": 3
+    },
+    {
+      "code": "kz",
+      "count": 3
+    },
+    {
+      "code": "lu",
+      "count": 3
+    },
+    {
+      "code": "mt",
+      "count": 3
+    },
+    {
+      "code": "td",
+      "count": 2
+    },
+    {
+      "code": "fo",
+      "count": 2
+    },
+    {
+      "code": "gl",
+      "count": 2
+    },
+    {
+      "code": "mc",
+      "count": 2
+    },
+    {
+      "code": "kp",
+      "count": 2
+    },
+    {
+      "code": "py",
+      "count": 2
+    },
+    {
+      "code": "sm",
+      "count": 2
+    },
+    {
+      "code": "ad",
+      "count": 1
+    },
+    {
+      "code": "do",
+      "count": 1
+    },
+    {
+      "code": "xk",
+      "count": 1
+    },
+    {
+      "code": "si",
+      "count": 1
+    }
+  ],
+  "groups": [
+    {
+      "slug": "italy",
+      "title": "Italy",
+      "count": 443
+    },
+    {
+      "slug": "vod-italy",
+      "title": "VOD Italy",
+      "count": 155
+    },
+    {
+      "slug": "poland",
+      "title": "Poland",
+      "count": 139
+    },
+    {
+      "slug": "hungary",
+      "title": "Hungary",
+      "count": 84
+    },
+    {
+      "slug": "greece",
+      "title": "Greece",
+      "count": 61
+    },
+    {
+      "slug": "russia",
+      "title": "Russia",
+      "count": 59
+    },
+    {
+      "slug": "uk",
+      "title": "UK",
+      "count": 55
+    },
+    {
+      "slug": "spain",
+      "title": "Spain",
+      "count": 48
+    },
+    {
+      "slug": "ukraine",
+      "title": "Ukraine",
+      "count": 47
+    },
+    {
+      "slug": "mongolia",
+      "title": "Mongolia",
+      "count": 41
+    },
+    {
+      "slug": "news",
+      "title": "News",
+      "count": 38
+    },
+    {
+      "slug": "united-arab-emirates",
+      "title": "United Arab Emirates",
+      "count": 36
+    },
+    {
+      "slug": "germany",
+      "title": "Germany",
+      "count": 35
+    },
+    {
+      "slug": "france",
+      "title": "France",
+      "count": 33
+    },
+    {
+      "slug": "india",
+      "title": "India",
+      "count": 32
+    },
+    {
+      "slug": "north-macedonia",
+      "title": "North Macedonia",
+      "count": 31
+    },
+    {
+      "slug": "finland",
+      "title": "Finland",
+      "count": 29
+    },
+    {
+      "slug": "usa",
+      "title": "USA",
+      "count": 28
+    },
+    {
+      "slug": "czech-republic",
+      "title": "Czech Republic",
+      "count": 27
+    },
+    {
+      "slug": "argentina",
+      "title": "Argentina",
+      "count": 26
+    },
+    {
+      "slug": "australia",
+      "title": "Australia",
+      "count": 26
+    },
+    {
+      "slug": "chile",
+      "title": "Chile",
+      "count": 26
+    },
+    {
+      "slug": "croatia",
+      "title": "Croatia",
+      "count": 26
+    },
+    {
+      "slug": "iran",
+      "title": "Iran",
+      "count": 26
+    },
+    {
+      "slug": "vod-movies-en",
+      "title": "VOD Movies (EN)",
+      "count": 26
+    },
+    {
+      "slug": "korea",
+      "title": "Korea",
+      "count": 22
+    },
+    {
+      "slug": "china",
+      "title": "China",
+      "count": 21
+    },
+    {
+      "slug": "japan",
+      "title": "日本 / Japan",
+      "count": 21
+    },
+    {
+      "slug": "canada",
+      "title": "Canada",
+      "count": 20
+    },
+    {
+      "slug": "somalia",
+      "title": "Somalia",
+      "count": 19
+    },
+    {
+      "slug": "belarus",
+      "title": "Belarus",
+      "count": 18
+    },
+    {
+      "slug": "ireland",
+      "title": "Ireland",
+      "count": 18
+    },
+    {
+      "slug": "albania",
+      "title": "Albania",
+      "count": 17
+    },
+    {
+      "slug": "bosnia-and-herzegovina",
+      "title": "Bosnia and Herzegovina",
+      "count": 17
+    },
+    {
+      "slug": "turkey",
+      "title": "Turkey",
+      "count": 16
+    },
+    {
+      "slug": "lebanon",
+      "title": "Lebanon",
+      "count": 15
+    },
+    {
+      "slug": "portugal",
+      "title": "Portugal",
+      "count": 15
+    },
+    {
+      "slug": "romania",
+      "title": "Romania",
+      "count": 15
+    },
+    {
+      "slug": "iraq",
+      "title": "Iraq",
+      "count": 14
+    },
+    {
+      "slug": "mexico",
+      "title": "Mexico",
+      "count": 14
+    },
+    {
+      "slug": "saudi-arabia",
+      "title": "Saudi Arabia",
+      "count": 14
+    },
+    {
+      "slug": "sweden",
+      "title": "Sweden",
+      "count": 14
+    },
+    {
+      "slug": "netherlands",
+      "title": "Netherlands",
+      "count": 13
+    },
+    {
+      "slug": "taiwan",
+      "title": "Taiwan",
+      "count": 13
+    },
+    {
+      "slug": "denmark",
+      "title": "Denmark",
+      "count": 12
+    },
+    {
+      "slug": "egypt",
+      "title": "Egypt",
+      "count": 12
+    },
+    {
+      "slug": "nigeria",
+      "title": "Nigeria",
+      "count": 12
+    },
+    {
+      "slug": "qatar",
+      "title": "Qatar",
+      "count": 12
+    },
+    {
+      "slug": "azerbaijan",
+      "title": "Azerbaijan",
+      "count": 11
+    },
+    {
+      "slug": "brazil",
+      "title": "Brazil",
+      "count": 11
+    },
+    {
+      "slug": "georgia",
+      "title": "Georgia",
+      "count": 11
+    },
+    {
+      "slug": "belgium",
+      "title": "Belgium",
+      "count": 10
+    },
+    {
+      "slug": "lithuania",
+      "title": "Lithuania",
+      "count": 10
+    },
+    {
+      "slug": "austria",
+      "title": "Austria",
+      "count": 9
+    },
+    {
+      "slug": "serbia",
+      "title": "Serbia",
+      "count": 9
+    },
+    {
+      "slug": "venezuela",
+      "title": "Venezuela",
+      "count": 9
+    },
+    {
+      "slug": "news-ar",
+      "title": "News (AR)",
+      "count": 9
+    },
+    {
+      "slug": "business",
+      "title": "Business",
+      "count": 9
+    },
+    {
+      "slug": "estonia",
+      "title": "Estonia",
+      "count": 8
+    },
+    {
+      "slug": "israel",
+      "title": "Israel",
+      "count": 8
+    },
+    {
+      "slug": "slovakia",
+      "title": "Slovakia",
+      "count": 8
+    },
+    {
+      "slug": "turkmenistan",
+      "title": "Turkmenistan",
+      "count": 8
+    },
+    {
+      "slug": "bulgaria",
+      "title": "Bulgaria",
+      "count": 7
+    },
+    {
+      "slug": "costa-rica",
+      "title": "Costa Rica",
+      "count": 7
+    },
+    {
+      "slug": "cyprus",
+      "title": "Cyprus",
+      "count": 7
+    },
+    {
+      "slug": "peru",
+      "title": "Peru",
+      "count": 7
+    },
+    {
+      "slug": "moldova",
+      "title": "Moldova",
+      "count": 6
+    },
+    {
+      "slug": "norway",
+      "title": "Norway",
+      "count": 6
+    },
+    {
+      "slug": "switzerland",
+      "title": "Switzerland",
+      "count": 6
+    },
+    {
+      "slug": "trinidad",
+      "title": "Trinidad",
+      "count": 6
+    },
+    {
+      "slug": "weather",
+      "title": "Weather",
+      "count": 6
+    },
+    {
+      "slug": "news-es",
+      "title": "News (ES)",
+      "count": 6
+    },
+    {
+      "slug": "hong-kong",
+      "title": "Hong Kong",
+      "count": 5
+    },
+    {
+      "slug": "kenya",
+      "title": "Kenya",
+      "count": 5
+    },
+    {
+      "slug": "latvia",
+      "title": "Latvia",
+      "count": 5
+    },
+    {
+      "slug": "macau",
+      "title": "Macau",
+      "count": 5
+    },
+    {
+      "slug": "montenegro",
+      "title": "Montenegro",
+      "count": 4
+    },
+    {
+      "slug": "armenia",
+      "title": "Armenia",
+      "count": 3
+    },
+    {
+      "slug": "iceland",
+      "title": "Iceland",
+      "count": 3
+    },
+    {
+      "slug": "indonesia",
+      "title": "Indonesia",
+      "count": 3
+    },
+    {
+      "slug": "kazakhstan",
+      "title": "Kazakhstan",
+      "count": 3
+    },
+    {
+      "slug": "luxembourg",
+      "title": "Luxembourg",
+      "count": 3
+    },
+    {
+      "slug": "malta",
+      "title": "Malta",
+      "count": 3
+    },
+    {
+      "slug": "documentaries-en",
+      "title": "Documentaries (EN)",
+      "count": 3
+    },
+    {
+      "slug": "music-en",
+      "title": "Music (EN)",
+      "count": 3
+    },
+    {
+      "slug": "chad",
+      "title": "Chad",
+      "count": 2
+    },
+    {
+      "slug": "faroe-islands",
+      "title": "Faroe Islands",
+      "count": 2
+    },
+    {
+      "slug": "greenland",
+      "title": "Greenland",
+      "count": 2
+    },
+    {
+      "slug": "monaco",
+      "title": "Monaco",
+      "count": 2
+    },
+    {
+      "slug": "north-korea",
+      "title": "North Korea",
+      "count": 2
+    },
+    {
+      "slug": "paraguay",
+      "title": "Paraguay",
+      "count": 2
+    },
+    {
+      "slug": "san-marino",
+      "title": "San Marino",
+      "count": 2
+    },
+    {
+      "slug": "andorra",
+      "title": "Andorra",
+      "count": 1
+    },
+    {
+      "slug": "dominican-republic",
+      "title": "Dominican Republic",
+      "count": 1
+    },
+    {
+      "slug": "kosovo",
+      "title": "Kosovo",
+      "count": 1
+    },
+    {
+      "slug": "general",
+      "title": "General",
+      "count": 1
+    },
+    {
+      "slug": "slovenia",
+      "title": "Slovenia",
+      "count": 1
+    },
+    {
+      "slug": "documentaries-ar",
+      "title": "Documentaries (AR)",
+      "count": 1
+    }
+  ],
+  "playlists": {
+    "all": "/playlists/index.m3u8",
+    "raw": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8"
+  }
+}
