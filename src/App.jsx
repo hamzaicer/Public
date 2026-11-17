@@ -181,6 +181,23 @@ export default function App() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
+          <div className="quick-filters">
+            {['beIN', 'TRT Spor', 'S Sport', 'A Spor'].map((q) => (
+              <button
+                key={q}
+                type="button"
+                className={`chip${query.toLowerCase() === q.toLowerCase() ? ' active-chip' : ''}`}
+                onClick={() => {
+                  setMode('all')
+                  setSelected('all')
+                  setQuery(q)
+                  setVisibleCount(500)
+                }}
+              >
+                {q}
+              </button>
+            ))}
+          </div>
 
           <div className="filter-list">
             {mode === 'all' && (

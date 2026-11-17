@@ -540,6 +540,24 @@ img {
   vertical-align: middle;
 }
 
+.quick-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.quick-filters .chip {
+  cursor: pointer;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.quick-filters .chip:hover,
+.quick-filters .active-chip {
+  border-color: rgba(227, 160, 8, 0.55);
+  color: var(--amber);
+}
+
 @keyframes pulse {
   0% {
     box-shadow: 0 0 0 0 rgba(255, 107, 90, 0.5);

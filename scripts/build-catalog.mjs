@@ -7,10 +7,25 @@ const OUT = path.join(ROOT, 'public/catalog')
 
 const ATTR_RE = /([a-zA-Z0-9-]+)="([^"]*)"/g
 
+function splitExtinf(line) {
+  // Channel name starts after the last comma that is outside double quotes.
+  // Needed because http-user-agent values often contain commas.
+  let inQuotes = false
+  let lastComma = -1
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i]
+    if (ch === '"') inQuotes = !inQuotes
+    else if (ch === ',' && !inQuotes) lastComma = i
+  }
+  if (lastComma < 0) return { attrsPart: line, name: 'Unknown' }
+  return {
+    attrsPart: line.slice(0, lastComma),
+    name: line.slice(lastComma + 1).trim() || 'Unknown',
+  }
+}
+
 function parseExtinf(line) {
-  const comma = line.indexOf(',')
-  const attrsPart = comma >= 0 ? line.slice(0, comma) : line
-  const name = comma >= 0 ? line.slice(comma + 1).trim() : 'Unknown'
+  const { attrsPart, name } = splitExtinf(line)
   const attrs = {}
   for (const match of attrsPart.matchAll(ATTR_RE)) {
     attrs[match[1]] = match[2]
