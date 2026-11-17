@@ -1,10 +1,10 @@
 import { startTransition, useDeferredValue, useEffect, useState } from 'react'
 import Player from './components/Player.jsx'
 import {
-  categoryLabel,
   countryLabel,
-  loadCategory,
+  groupLabel,
   loadCountry,
+  loadGroup,
   loadMeta,
 } from './lib/catalog.js'
 
@@ -62,7 +62,7 @@ export default function App() {
     ;(async () => {
       try {
         const list =
-          mode === 'country' ? await loadCountry(selected) : await loadCategory(selected)
+          mode === 'country' ? await loadCountry(selected) : await loadGroup(selected)
         if (cancelled) return
         startTransition(() => {
           setChannels(list)
@@ -94,24 +94,24 @@ export default function App() {
 
   const playlistHref =
     mode === 'country'
-      ? `/playlists/countries/${selected}.m3u`
-      : `/playlists/categories/${selected}.m3u`
+      ? `./playlists/by-country/${selected}.m3u8`
+      : `./playlists/by-group/${selected}.m3u8`
 
   return (
     <div className="app">
       <header className="hero">
         <h1 className="brand">
-          Bea<span>con</span>
+          Free <span>TV</span>
         </h1>
         <p className="lede">
-          Dünyanın açık IPTV yayınlarını tek yerden keşfet. Kanal seç, tarayıcıda dene veya M3U
-          playlist’i indirip VLC’ye bağla.
+          Free-TV/IPTV ücretsiz kanallarını tarayıcıda aç. Ülke seç, yayını dene veya M3U
+          playlist’i VLC’ye bağla.
         </p>
         <div className="cta-row">
-          <a className="btn btn-primary" href="/playlists/index.m3u" download>
-            Tüm kanallar (.m3u)
+          <a className="btn btn-primary" href="./playlists/index.m3u8" download>
+            Tüm kanallar (.m3u8)
           </a>
-          <a className="btn btn-ghost" href="/playlists/countries/tr.m3u" download>
+          <a className="btn btn-ghost" href="./playlists/by-country/tr.m3u8" download>
             Türkiye playlist
           </a>
         </div>
@@ -126,8 +126,8 @@ export default function App() {
               ülke
             </div>
             <div>
-              <strong>{meta.categories.length}</strong>
-              kategori
+              <strong>{meta.groups.length}</strong>
+              grup
             </div>
           </div>
         )}
@@ -144,14 +144,18 @@ export default function App() {
               setMode(next)
               setQuery('')
               if (next === 'country') {
-                setSelected(meta?.countries.some((c) => c.code === 'tr') ? 'tr' : meta?.countries[0]?.code || '')
+                setSelected(
+                  meta?.countries.some((c) => c.code === 'tr')
+                    ? 'tr'
+                    : meta?.countries[0]?.code || '',
+                )
               } else {
-                setSelected(meta?.categories[0]?.slug || '')
+                setSelected(meta?.groups[0]?.slug || '')
               }
             }}
           >
             <option value="country">Ülkelere göre</option>
-            <option value="category">Kategoriye göre</option>
+            <option value="group">Gruplara göre</option>
           </select>
 
           <input
@@ -175,16 +179,16 @@ export default function App() {
                   <span>{c.count}</span>
                 </button>
               ))}
-            {mode === 'category' &&
-              meta?.categories.map((c) => (
+            {mode === 'group' &&
+              meta?.groups.map((g) => (
                 <button
-                  key={c.slug}
+                  key={g.slug}
                   type="button"
-                  className={`filter-item${selected === c.slug ? ' active' : ''}`}
-                  onClick={() => setSelected(c.slug)}
+                  className={`filter-item${selected === g.slug ? ' active' : ''}`}
+                  onClick={() => setSelected(g.slug)}
                 >
-                  {categoryLabel(c.slug)}
-                  <span>{c.count}</span>
+                  {g.title}
+                  <span>{g.count}</span>
                 </button>
               ))}
           </div>
@@ -197,7 +201,7 @@ export default function App() {
             <div className="toolbar">
               <div className="toolbar-left">
                 <span className="chip">
-                  {mode === 'country' ? countryLabel(selected) : categoryLabel(selected)}
+                  {mode === 'country' ? countryLabel(selected) : groupLabel(meta, selected)}
                 </span>
                 <span className="chip">{filtered.length} kanal</span>
               </div>
@@ -223,7 +227,10 @@ export default function App() {
                   <ChannelLogo name={ch.name} logo={ch.logo} />
                   <div>
                     <strong>{ch.name}</strong>
-                    <small>{ch.group}</small>
+                    <small>
+                      {ch.group}
+                      {ch.kind && ch.kind !== 'hls' ? ` · ${ch.kind}` : ''}
+                    </small>
                   </div>
                 </button>
               ))}
@@ -233,11 +240,19 @@ export default function App() {
       </div>
 
       <footer className="footer">
-        Kaynak: açık IPTV koleksiyonu (
-        <a href="https://github.com/iptv-org/iptv" target="_blank" rel="noreferrer">
-          iptv-org/iptv
+        Kaynak:{' '}
+        <a href="https://github.com/Free-TV/IPTV" target="_blank" rel="noreferrer">
+          Free-TV/IPTV
         </a>
-        ). Birçok yayın coğrafi kısıt veya CORS nedeniyle tarayıcıda açılmaz; VLC önerilir.
+        . Ham playlist:{' '}
+        <a
+          href="https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8"
+          target="_blank"
+          rel="noreferrer"
+        >
+          playlist.m3u8
+        </a>
+        . Bazı yayınlar CORS / geo-block nedeniyle tarayıcıda açılmaz; VLC önerilir.
       </footer>
     </div>
   )

@@ -24,17 +24,27 @@ export default function Player({ channel }) {
     if (!channel?.url) return undefined
 
     const url = channel.url
+    const kind = channel.kind || 'other'
     const onError = (message) => {
       setStatus('error')
       setError(message)
     }
 
-    if (url.includes('.mpd')) {
+    if (kind === 'youtube' || kind === 'twitch') {
+      onError(
+        kind === 'youtube'
+          ? 'Bu kanal YouTube live. Tarayıcı oynatıcısı yerine Kaynak URL ile açın.'
+          : 'Bu kanal Twitch live. Tarayıcı oynatıcısı yerine Kaynak URL ile açın.',
+      )
+      return undefined
+    }
+
+    if (kind === 'dash' || url.includes('.mpd')) {
       onError('Bu yayın DASH formatında; tarayıcıda açılamayabilir. VLC ile deneyin.')
       return undefined
     }
 
-    if (Hls.isSupported() && (url.includes('.m3u8') || url.includes('m3u8'))) {
+    if (Hls.isSupported() && (kind === 'hls' || url.includes('m3u8'))) {
       const hls = new Hls({
         enableWorker: true,
         lowLatencyMode: true,
@@ -84,7 +94,7 @@ export default function Player({ channel }) {
         {!channel && (
           <div className="player-empty">
             <strong>Bir kanal seç</strong>
-            <span>Soldan ülke veya kategori seç, listeden yayına tıkla.</span>
+            <span>Soldan ülke veya grup seç, listeden yayına tıkla.</span>
           </div>
         )}
         {channel && status === 'error' && (
@@ -96,8 +106,8 @@ export default function Player({ channel }) {
       </div>
       <div className="player-meta">
         <div>
-          <h3>{channel?.name || 'Beacon Player'}</h3>
-          <p>{channel ? channel.group : 'Açık IPTV yayınları'}</p>
+          <h3>{channel?.name || 'Free TV Player'}</h3>
+          <p>{channel ? channel.group : 'Free-TV/IPTV ücretsiz kanallar'}</p>
         </div>
         {channel && (
           <div className="cta-row">

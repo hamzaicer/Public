@@ -1,501 +1,238 @@
 {
-  "generatedAt": "2026-11-17T20:55:08.817Z",
-  "totalStreams": 13176,
+  "source": "https://github.com/Free-TV/IPTV",
+  "generatedAt": "2026-11-17T22:01:19.670Z",
+  "totalStreams": 2203,
   "countries": [
     {
-      "code": "us",
-      "count": 1498
-    },
-    {
-      "code": "int",
-      "count": 1093
-    },
-    {
-      "code": "in",
-      "count": 819
-    },
-    {
-      "code": "ru",
-      "count": 502
-    },
-    {
-      "code": "br",
-      "count": 397
-    },
-    {
       "code": "it",
-      "count": 363
-    },
-    {
-      "code": "es",
-      "count": 343
-    },
-    {
-      "code": "de",
-      "count": 309
-    },
-    {
-      "code": "uk",
-      "count": 308
-    },
-    {
-      "code": "ca",
-      "count": 265
-    },
-    {
-      "code": "do",
-      "count": 262
-    },
-    {
-      "code": "fr",
-      "count": 229
-    },
-    {
-      "code": "ar",
-      "count": 220
-    },
-    {
-      "code": "pe",
-      "count": 213
-    },
-    {
-      "code": "cl",
-      "count": 210
-    },
-    {
-      "code": "ro",
-      "count": 206
-    },
-    {
-      "code": "ua",
-      "count": 199
+      "count": 443
     },
     {
       "code": "pl",
-      "count": 184
-    },
-    {
-      "code": "ir",
-      "count": 183
-    },
-    {
-      "code": "tr",
-      "count": 178
-    },
-    {
-      "code": "nl",
-      "count": 177
-    },
-    {
-      "code": "mx",
-      "count": 176
-    },
-    {
-      "code": "id",
-      "count": 173
-    },
-    {
-      "code": "co",
-      "count": 165
+      "count": 139
     },
     {
       "code": "hu",
-      "count": 164
-    },
-    {
-      "code": "cn",
-      "count": 156
-    },
-    {
-      "code": "dk",
-      "count": 153
-    },
-    {
-      "code": "ch",
-      "count": 141
-    },
-    {
-      "code": "se",
-      "count": 138
-    },
-    {
-      "code": "at",
-      "count": 119
-    },
-    {
-      "code": "no",
-      "count": 117
-    },
-    {
-      "code": "ec",
-      "count": 112
-    },
-    {
-      "code": "cz",
-      "count": 109
-    },
-    {
-      "code": "py",
-      "count": 107
-    },
-    {
-      "code": "pk",
-      "count": 106
-    },
-    {
-      "code": "ve",
-      "count": 102
-    },
-    {
-      "code": "bo",
-      "count": 96
-    },
-    {
-      "code": "sk",
-      "count": 95
-    },
-    {
-      "code": "vn",
-      "count": 93
-    },
-    {
-      "code": "bg",
       "count": 84
     },
     {
-      "code": "au",
-      "count": 79
-    },
-    {
-      "code": "hn",
-      "count": 78
-    },
-    {
-      "code": "th",
-      "count": 73
-    },
-    {
-      "code": "kr",
-      "count": 72
-    },
-    {
-      "code": "pt",
-      "count": 71
-    },
-    {
       "code": "gr",
-      "count": 70
+      "count": 61
     },
     {
-      "code": "cr",
-      "count": 69
+      "code": "ru",
+      "count": 59
     },
     {
-      "code": "gt",
-      "count": 66
-    },
-    {
-      "code": "ie",
-      "count": 64
-    },
-    {
-      "code": "iq",
-      "count": 58
-    },
-    {
-      "code": "be",
-      "count": 57
-    },
-    {
-      "code": "ng",
+      "code": "gb",
       "count": 55
     },
     {
-      "code": "rs",
-      "count": 55
+      "code": "es",
+      "count": 48
     },
     {
-      "code": "sa",
-      "count": 55
-    },
-    {
-      "code": "uy",
-      "count": 51
-    },
-    {
-      "code": "kz",
-      "count": 49
-    },
-    {
-      "code": "bd",
-      "count": 43
-    },
-    {
-      "code": "ke",
-      "count": 39
-    },
-    {
-      "code": "sv",
-      "count": 39
+      "code": "ua",
+      "count": 47
     },
     {
       "code": "mn",
-      "count": 38
+      "count": 41
     },
     {
-      "code": "nz",
-      "count": 37
+      "code": "ae",
+      "count": 36
     },
     {
-      "code": "il",
+      "code": "de",
       "count": 35
     },
     {
-      "code": "tw",
-      "count": 34
+      "code": "fr",
+      "count": 33
     },
     {
-      "code": "uz",
-      "count": 34
-    },
-    {
-      "code": "lb",
-      "count": 31
+      "code": "in",
+      "count": 32
     },
     {
       "code": "mk",
       "count": 31
     },
     {
-      "code": "hr",
-      "count": 29
-    },
-    {
-      "code": "pr",
-      "count": 29
-    },
-    {
-      "code": "lt",
-      "count": 28
-    },
-    {
-      "code": "pa",
-      "count": 28
-    },
-    {
-      "code": "by",
-      "count": 27
-    },
-    {
-      "code": "ht",
-      "count": 27
-    },
-    {
-      "code": "kh",
-      "count": 26
-    },
-    {
-      "code": "md",
-      "count": 26
-    },
-    {
-      "code": "si",
-      "count": 26
-    },
-    {
-      "code": "af",
-      "count": 25
-    },
-    {
-      "code": "ee",
-      "count": 25
-    },
-    {
       "code": "fi",
-      "count": 25
+      "count": 29
     },
     {
-      "code": "lv",
-      "count": 24
+      "code": "us",
+      "count": 28
     },
     {
-      "code": "za",
-      "count": 23
+      "code": "cz",
+      "count": 27
     },
     {
-      "code": "ae",
+      "code": "ar",
+      "count": 26
+    },
+    {
+      "code": "au",
+      "count": 26
+    },
+    {
+      "code": "cl",
+      "count": 26
+    },
+    {
+      "code": "hr",
+      "count": 26
+    },
+    {
+      "code": "ir",
+      "count": 26
+    },
+    {
+      "code": "kr",
       "count": 22
     },
     {
-      "code": "al",
-      "count": 22
-    },
-    {
-      "code": "np",
-      "count": 22
-    },
-    {
-      "code": "eg",
+      "code": "cn",
       "count": 21
-    },
-    {
-      "code": "ge",
-      "count": 21
-    },
-    {
-      "code": "ug",
-      "count": 21
-    },
-    {
-      "code": "ba",
-      "count": 20
-    },
-    {
-      "code": "lu",
-      "count": 20
-    },
-    {
-      "code": "ni",
-      "count": 20
-    },
-    {
-      "code": "az",
-      "count": 19
-    },
-    {
-      "code": "ci",
-      "count": 19
-    },
-    {
-      "code": "jo",
-      "count": 19
-    },
-    {
-      "code": "lk",
-      "count": 19
-    },
-    {
-      "code": "ps",
-      "count": 19
-    },
-    {
-      "code": "cd",
-      "count": 18
-    },
-    {
-      "code": "cm",
-      "count": 18
-    },
-    {
-      "code": "cy",
-      "count": 18
-    },
-    {
-      "code": "hk",
-      "count": 18
     },
     {
       "code": "jp",
+      "count": 21
+    },
+    {
+      "code": "ca",
+      "count": 20
+    },
+    {
+      "code": "so",
+      "count": 19
+    },
+    {
+      "code": "by",
+      "count": 18
+    },
+    {
+      "code": "ie",
+      "count": 18
+    },
+    {
+      "code": "al",
       "count": 17
     },
     {
-      "code": "mm",
+      "code": "ba",
       "count": 17
     },
     {
-      "code": "ph",
-      "count": 17
+      "code": "tr",
+      "count": 16
     },
     {
-      "code": "sn",
+      "code": "lb",
       "count": 15
     },
     {
-      "code": "tj",
+      "code": "pt",
+      "count": 15
+    },
+    {
+      "code": "ro",
+      "count": 15
+    },
+    {
+      "code": "iq",
       "count": 14
     },
     {
-      "code": "aw",
+      "code": "mx",
+      "count": 14
+    },
+    {
+      "code": "sa",
+      "count": 14
+    },
+    {
+      "code": "se",
+      "count": 14
+    },
+    {
+      "code": "nl",
+      "count": 13
+    },
+    {
+      "code": "tw",
+      "count": 13
+    },
+    {
+      "code": "dk",
       "count": 12
     },
     {
-      "code": "kw",
+      "code": "eg",
       "count": 12
     },
     {
-      "code": "ma",
+      "code": "ng",
       "count": 12
-    },
-    {
-      "code": "bj",
-      "count": 11
-    },
-    {
-      "code": "gh",
-      "count": 11
-    },
-    {
-      "code": "la",
-      "count": 11
-    },
-    {
-      "code": "tg",
-      "count": 11
-    },
-    {
-      "code": "xk",
-      "count": 11
-    },
-    {
-      "code": "mv",
-      "count": 10
     },
     {
       "code": "qa",
+      "count": 12
+    },
+    {
+      "code": "az",
+      "count": 11
+    },
+    {
+      "code": "br",
+      "count": 11
+    },
+    {
+      "code": "ge",
+      "count": 11
+    },
+    {
+      "code": "be",
       "count": 10
     },
     {
-      "code": "sy",
+      "code": "lt",
       "count": 10
     },
     {
-      "code": "am",
+      "code": "at",
       "count": 9
     },
     {
-      "code": "sg",
+      "code": "rs",
       "count": 9
     },
     {
-      "code": "ad",
+      "code": "ve",
+      "count": 9
+    },
+    {
+      "code": "news-ar",
+      "count": 9
+    },
+    {
+      "code": "business",
+      "count": 9
+    },
+    {
+      "code": "ee",
       "count": 8
     },
     {
-      "code": "dz",
+      "code": "il",
       "count": 8
     },
     {
-      "code": "jm",
-      "count": 8
-    },
-    {
-      "code": "kg",
-      "count": 8
-    },
-    {
-      "code": "mc",
-      "count": 8
-    },
-    {
-      "code": "me",
-      "count": 8
-    },
-    {
-      "code": "mt",
-      "count": 8
-    },
-    {
-      "code": "rw",
+      "code": "sk",
       "count": 8
     },
     {
@@ -503,396 +240,640 @@
       "count": 8
     },
     {
-      "code": "tz",
-      "count": 8
-    },
-    {
-      "code": "gy",
+      "code": "bg",
       "count": 7
     },
     {
-      "code": "mo",
+      "code": "cr",
       "count": 7
     },
     {
-      "code": "so",
+      "code": "cy",
       "count": 7
+    },
+    {
+      "code": "pe",
+      "count": 7
+    },
+    {
+      "code": "md",
+      "count": 6
+    },
+    {
+      "code": "no",
+      "count": 6
+    },
+    {
+      "code": "ch",
+      "count": 6
     },
     {
       "code": "tt",
-      "count": 7
-    },
-    {
-      "code": "bf",
       "count": 6
     },
     {
-      "code": "bq",
+      "code": "weather",
       "count": 6
     },
     {
-      "code": "ly",
+      "code": "news-es",
       "count": 6
     },
     {
-      "code": "mq",
-      "count": 6
-    },
-    {
-      "code": "my",
-      "count": 6
-    },
-    {
-      "code": "ne",
-      "count": 6
-    },
-    {
-      "code": "om",
-      "count": 6
-    },
-    {
-      "code": "sx",
-      "count": 6
-    },
-    {
-      "code": "bh",
+      "code": "hk",
       "count": 5
     },
     {
-      "code": "cg",
+      "code": "ke",
       "count": 5
     },
     {
-      "code": "cu",
+      "code": "lv",
       "count": 5
     },
     {
-      "code": "cw",
+      "code": "mo",
       "count": 5
     },
     {
-      "code": "gn",
-      "count": 5
+      "code": "me",
+      "count": 4
     },
     {
-      "code": "gp",
-      "count": 5
+      "code": "document",
+      "count": 4
+    },
+    {
+      "code": "am",
+      "count": 3
     },
     {
       "code": "is",
-      "count": 5
-    },
-    {
-      "code": "li",
-      "count": 5
-    },
-    {
-      "code": "mz",
-      "count": 5
-    },
-    {
-      "code": "bs",
-      "count": 4
-    },
-    {
-      "code": "et",
-      "count": 4
-    },
-    {
-      "code": "kp",
-      "count": 4
-    },
-    {
-      "code": "ml",
-      "count": 4
-    },
-    {
-      "code": "sm",
-      "count": 4
-    },
-    {
-      "code": "tn",
-      "count": 4
-    },
-    {
-      "code": "va",
-      "count": 4
-    },
-    {
-      "code": "ye",
-      "count": 4
-    },
-    {
-      "code": "ao",
       "count": 3
     },
     {
-      "code": "kn",
+      "code": "id",
       "count": 3
     },
     {
-      "code": "sd",
+      "code": "kz",
       "count": 3
     },
     {
-      "code": "bi",
-      "count": 2
+      "code": "lu",
+      "count": 3
     },
     {
-      "code": "bn",
-      "count": 2
+      "code": "mt",
+      "count": 3
     },
     {
-      "code": "bz",
-      "count": 2
-    },
-    {
-      "code": "gq",
-      "count": 2
-    },
-    {
-      "code": "gu",
-      "count": 2
-    },
-    {
-      "code": "lc",
-      "count": 2
-    },
-    {
-      "code": "mr",
-      "count": 2
-    },
-    {
-      "code": "mu",
-      "count": 2
-    },
-    {
-      "code": "na",
-      "count": 2
-    },
-    {
-      "code": "pf",
-      "count": 2
-    },
-    {
-      "code": "sr",
-      "count": 2
-    },
-    {
-      "code": "vg",
-      "count": 2
-    },
-    {
-      "code": "ag",
-      "count": 1
-    },
-    {
-      "code": "bb",
-      "count": 1
-    },
-    {
-      "code": "bt",
-      "count": 1
-    },
-    {
-      "code": "cv",
-      "count": 1
-    },
-    {
-      "code": "eh",
-      "count": 1
-    },
-    {
-      "code": "er",
-      "count": 1
-    },
-    {
-      "code": "fj",
-      "count": 1
-    },
-    {
-      "code": "gf",
-      "count": 1
-    },
-    {
-      "code": "gg",
-      "count": 1
-    },
-    {
-      "code": "gm",
-      "count": 1
-    },
-    {
-      "code": "km",
-      "count": 1
-    },
-    {
-      "code": "mg",
-      "count": 1
-    },
-    {
-      "code": "nc",
-      "count": 1
-    },
-    {
-      "code": "pg",
-      "count": 1
-    },
-    {
-      "code": "re",
-      "count": 1
-    },
-    {
-      "code": "sl",
-      "count": 1
+      "code": "music-en",
+      "count": 3
     },
     {
       "code": "td",
+      "count": 2
+    },
+    {
+      "code": "fo",
+      "count": 2
+    },
+    {
+      "code": "gl",
+      "count": 2
+    },
+    {
+      "code": "mc",
+      "count": 2
+    },
+    {
+      "code": "kp",
+      "count": 2
+    },
+    {
+      "code": "py",
+      "count": 2
+    },
+    {
+      "code": "sm",
+      "count": 2
+    },
+    {
+      "code": "ad",
       "count": 1
     },
     {
-      "code": "vc",
+      "code": "do",
       "count": 1
     },
     {
-      "code": "ws",
+      "code": "xk",
       "count": 1
     },
     {
-      "code": "zw",
+      "code": "general",
       "count": 1
     },
     {
-      "code": "undefined",
-      "count": 0
+      "code": "si",
+      "count": 1
     }
   ],
-  "categories": [
+  "groups": [
     {
-      "slug": "general",
-      "count": 2768
+      "slug": "italy",
+      "title": "Italy",
+      "count": 443
     },
     {
-      "slug": "undefined",
-      "count": 1557
+      "slug": "vod-italy",
+      "title": "VOD Italy",
+      "count": 155
     },
     {
-      "slug": "news",
-      "count": 1068
+      "slug": "poland",
+      "title": "Poland",
+      "count": 139
     },
     {
-      "slug": "entertainment",
-      "count": 917
+      "slug": "hungary",
+      "title": "Hungary",
+      "count": 84
     },
     {
-      "slug": "religious",
-      "count": 820
+      "slug": "greece",
+      "title": "Greece",
+      "count": 61
     },
     {
-      "slug": "music",
-      "count": 781
-    },
-    {
-      "slug": "movies",
-      "count": 780
-    },
-    {
-      "slug": "sports",
-      "count": 529
-    },
-    {
-      "slug": "series",
-      "count": 527
-    },
-    {
-      "slug": "kids",
-      "count": 457
-    },
-    {
-      "slug": "documentary",
-      "count": 250
-    },
-    {
-      "slug": "comedy",
-      "count": 222
-    },
-    {
-      "slug": "education",
-      "count": 211
-    },
-    {
-      "slug": "culture",
-      "count": 196
-    },
-    {
-      "slug": "animation",
-      "count": 187
-    },
-    {
-      "slug": "legislative",
-      "count": 181
-    },
-    {
-      "slug": "lifestyle",
-      "count": 151
-    },
-    {
-      "slug": "classic",
-      "count": 106
-    },
-    {
-      "slug": "outdoor",
-      "count": 83
-    },
-    {
-      "slug": "shop",
-      "count": 81
-    },
-    {
-      "slug": "business",
-      "count": 79
-    },
-    {
-      "slug": "travel",
-      "count": 66
-    },
-    {
-      "slug": "family",
-      "count": 65
-    },
-    {
-      "slug": "cooking",
+      "slug": "russia",
+      "title": "Russia",
       "count": 59
     },
     {
-      "slug": "public",
-      "count": 39
+      "slug": "uk",
+      "title": "UK",
+      "count": 55
     },
     {
-      "slug": "auto",
+      "slug": "spain",
+      "title": "Spain",
+      "count": 48
+    },
+    {
+      "slug": "ukraine",
+      "title": "Ukraine",
+      "count": 47
+    },
+    {
+      "slug": "mongolia",
+      "title": "Mongolia",
+      "count": 41
+    },
+    {
+      "slug": "news",
+      "title": "News",
+      "count": 38
+    },
+    {
+      "slug": "united-arab-emirates",
+      "title": "United Arab Emirates",
+      "count": 36
+    },
+    {
+      "slug": "germany",
+      "title": "Germany",
+      "count": 35
+    },
+    {
+      "slug": "france",
+      "title": "France",
       "count": 33
     },
     {
-      "slug": "science",
-      "count": 23
+      "slug": "india",
+      "title": "India",
+      "count": 32
     },
     {
-      "slug": "weather",
+      "slug": "north-macedonia",
+      "title": "North Macedonia",
+      "count": 31
+    },
+    {
+      "slug": "finland",
+      "title": "Finland",
+      "count": 29
+    },
+    {
+      "slug": "usa",
+      "title": "USA",
+      "count": 28
+    },
+    {
+      "slug": "czech-republic",
+      "title": "Czech Republic",
+      "count": 27
+    },
+    {
+      "slug": "argentina",
+      "title": "Argentina",
+      "count": 26
+    },
+    {
+      "slug": "australia",
+      "title": "Australia",
+      "count": 26
+    },
+    {
+      "slug": "chile",
+      "title": "Chile",
+      "count": 26
+    },
+    {
+      "slug": "croatia",
+      "title": "Croatia",
+      "count": 26
+    },
+    {
+      "slug": "iran",
+      "title": "Iran",
+      "count": 26
+    },
+    {
+      "slug": "vod-movies-en",
+      "title": "VOD Movies (EN)",
+      "count": 26
+    },
+    {
+      "slug": "korea",
+      "title": "Korea",
+      "count": 22
+    },
+    {
+      "slug": "china",
+      "title": "China",
+      "count": 21
+    },
+    {
+      "slug": "japan",
+      "title": "日本 / Japan",
+      "count": 21
+    },
+    {
+      "slug": "canada",
+      "title": "Canada",
+      "count": 20
+    },
+    {
+      "slug": "somalia",
+      "title": "Somalia",
+      "count": 19
+    },
+    {
+      "slug": "belarus",
+      "title": "Belarus",
+      "count": 18
+    },
+    {
+      "slug": "ireland",
+      "title": "Ireland",
+      "count": 18
+    },
+    {
+      "slug": "albania",
+      "title": "Albania",
       "count": 17
     },
     {
-      "slug": "relax",
+      "slug": "bosnia-and-herzegovina",
+      "title": "Bosnia and Herzegovina",
+      "count": 17
+    },
+    {
+      "slug": "turkey",
+      "title": "Turkey",
+      "count": 16
+    },
+    {
+      "slug": "lebanon",
+      "title": "Lebanon",
+      "count": 15
+    },
+    {
+      "slug": "portugal",
+      "title": "Portugal",
+      "count": 15
+    },
+    {
+      "slug": "romania",
+      "title": "Romania",
+      "count": 15
+    },
+    {
+      "slug": "iraq",
+      "title": "Iraq",
+      "count": 14
+    },
+    {
+      "slug": "mexico",
+      "title": "Mexico",
+      "count": 14
+    },
+    {
+      "slug": "saudi-arabia",
+      "title": "Saudi Arabia",
+      "count": 14
+    },
+    {
+      "slug": "sweden",
+      "title": "Sweden",
+      "count": 14
+    },
+    {
+      "slug": "netherlands",
+      "title": "Netherlands",
+      "count": 13
+    },
+    {
+      "slug": "taiwan",
+      "title": "Taiwan",
+      "count": 13
+    },
+    {
+      "slug": "denmark",
+      "title": "Denmark",
+      "count": 12
+    },
+    {
+      "slug": "egypt",
+      "title": "Egypt",
+      "count": 12
+    },
+    {
+      "slug": "nigeria",
+      "title": "Nigeria",
+      "count": 12
+    },
+    {
+      "slug": "qatar",
+      "title": "Qatar",
+      "count": 12
+    },
+    {
+      "slug": "azerbaijan",
+      "title": "Azerbaijan",
+      "count": 11
+    },
+    {
+      "slug": "brazil",
+      "title": "Brazil",
+      "count": 11
+    },
+    {
+      "slug": "georgia",
+      "title": "Georgia",
+      "count": 11
+    },
+    {
+      "slug": "belgium",
+      "title": "Belgium",
       "count": 10
     },
     {
-      "slug": "interactive",
+      "slug": "lithuania",
+      "title": "Lithuania",
+      "count": 10
+    },
+    {
+      "slug": "austria",
+      "title": "Austria",
+      "count": 9
+    },
+    {
+      "slug": "serbia",
+      "title": "Serbia",
+      "count": 9
+    },
+    {
+      "slug": "venezuela",
+      "title": "Venezuela",
+      "count": 9
+    },
+    {
+      "slug": "news-ar",
+      "title": "News (AR)",
+      "count": 9
+    },
+    {
+      "slug": "business",
+      "title": "Business",
+      "count": 9
+    },
+    {
+      "slug": "estonia",
+      "title": "Estonia",
+      "count": 8
+    },
+    {
+      "slug": "israel",
+      "title": "Israel",
+      "count": 8
+    },
+    {
+      "slug": "slovakia",
+      "title": "Slovakia",
+      "count": 8
+    },
+    {
+      "slug": "turkmenistan",
+      "title": "Turkmenistan",
+      "count": 8
+    },
+    {
+      "slug": "bulgaria",
+      "title": "Bulgaria",
+      "count": 7
+    },
+    {
+      "slug": "costa-rica",
+      "title": "Costa Rica",
+      "count": 7
+    },
+    {
+      "slug": "cyprus",
+      "title": "Cyprus",
+      "count": 7
+    },
+    {
+      "slug": "peru",
+      "title": "Peru",
+      "count": 7
+    },
+    {
+      "slug": "moldova",
+      "title": "Moldova",
+      "count": 6
+    },
+    {
+      "slug": "norway",
+      "title": "Norway",
+      "count": 6
+    },
+    {
+      "slug": "switzerland",
+      "title": "Switzerland",
+      "count": 6
+    },
+    {
+      "slug": "trinidad",
+      "title": "Trinidad",
+      "count": 6
+    },
+    {
+      "slug": "weather",
+      "title": "Weather",
+      "count": 6
+    },
+    {
+      "slug": "news-es",
+      "title": "News (ES)",
+      "count": 6
+    },
+    {
+      "slug": "hong-kong",
+      "title": "Hong Kong",
+      "count": 5
+    },
+    {
+      "slug": "kenya",
+      "title": "Kenya",
+      "count": 5
+    },
+    {
+      "slug": "latvia",
+      "title": "Latvia",
+      "count": 5
+    },
+    {
+      "slug": "macau",
+      "title": "Macau",
+      "count": 5
+    },
+    {
+      "slug": "montenegro",
+      "title": "Montenegro",
+      "count": 4
+    },
+    {
+      "slug": "armenia",
+      "title": "Armenia",
+      "count": 3
+    },
+    {
+      "slug": "iceland",
+      "title": "Iceland",
+      "count": 3
+    },
+    {
+      "slug": "indonesia",
+      "title": "Indonesia",
+      "count": 3
+    },
+    {
+      "slug": "kazakhstan",
+      "title": "Kazakhstan",
+      "count": 3
+    },
+    {
+      "slug": "luxembourg",
+      "title": "Luxembourg",
+      "count": 3
+    },
+    {
+      "slug": "malta",
+      "title": "Malta",
+      "count": 3
+    },
+    {
+      "slug": "documentaries-en",
+      "title": "Documentaries (EN)",
+      "count": 3
+    },
+    {
+      "slug": "music-en",
+      "title": "Music (EN)",
+      "count": 3
+    },
+    {
+      "slug": "chad",
+      "title": "Chad",
       "count": 2
+    },
+    {
+      "slug": "faroe-islands",
+      "title": "Faroe Islands",
+      "count": 2
+    },
+    {
+      "slug": "greenland",
+      "title": "Greenland",
+      "count": 2
+    },
+    {
+      "slug": "monaco",
+      "title": "Monaco",
+      "count": 2
+    },
+    {
+      "slug": "north-korea",
+      "title": "North Korea",
+      "count": 2
+    },
+    {
+      "slug": "paraguay",
+      "title": "Paraguay",
+      "count": 2
+    },
+    {
+      "slug": "san-marino",
+      "title": "San Marino",
+      "count": 2
+    },
+    {
+      "slug": "andorra",
+      "title": "Andorra",
+      "count": 1
+    },
+    {
+      "slug": "dominican-republic",
+      "title": "Dominican Republic",
+      "count": 1
+    },
+    {
+      "slug": "kosovo",
+      "title": "Kosovo",
+      "count": 1
+    },
+    {
+      "slug": "general",
+      "title": "General",
+      "count": 1
+    },
+    {
+      "slug": "slovenia",
+      "title": "Slovenia",
+      "count": 1
+    },
+    {
+      "slug": "documentaries-ar",
+      "title": "Documentaries (AR)",
+      "count": 1
     }
   ],
   "playlists": {
-    "all": "/playlists/index.m3u",
-    "byCountry": "/playlists/index.country.m3u",
-    "byCategory": "/playlists/index.category.m3u",
-    "byLanguage": "/playlists/index.language.m3u"
+    "all": "/playlists/index.m3u8",
+    "raw": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8"
   }
 }

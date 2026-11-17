@@ -1,6 +1,6 @@
-# Beacon
+# Free TV
 
-Açık IPTV yayınlarını tarayıcıda keşfetmek için arayüz.
+[Free-TV/IPTV](https://github.com/Free-TV/IPTV) ücretsiz kanal listesini tarayıcıda oynatan arayüz.
 
 ## Çalıştırma
 
@@ -10,4 +10,12 @@ npm run catalog
 npm run dev
 ```
 
-Kaynak playlist’ler `public/playlists` altında; katalog `npm run catalog` ile üretilir.
+- Ham playlist: `public/playlists/index.m3u8`
+- Ülke / grup katalogları: `npm run catalog` ile üretilir
+- Resmi kaynak playlist: https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8
+
+## IPTV oynatıcıya bağlama
+
+VLC / IPTV Smarters gibi bir oynatıcıda playlist URL’si olarak şunu kullan:
+
+`https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8`

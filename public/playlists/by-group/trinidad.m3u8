@@ -1,0 +1,13 @@
+#EXTM3U
+#EXTINF:-1 tvg-id="CNC3.tt" tvg-logo="https://i.imgur.com/1E73l2j.png" tvg-country="TT" group-title="Trinidad",CNC3
+https://sktv-forwarders.7m.pl/get.php?x=CNC3
+#EXTINF:-1 tvg-id="gayelle-1743" tvg-logo="https://i.imgur.com/GhWdqLq.jpg" tvg-country="TT" group-title="Trinidad",gayelle
+https://sktv-forwarders.7m.pl/get.php?x=gayelle
+#EXTINF:-1 tvg-id="SynergyTV.tt" tvg-logo="https://i.imgur.com/ugAy0UG.jpg" tvg-country="TT" group-title="Trinidad",Synergy TV
+https://sktv-forwarders.7m.pl/get.php?x=Synergy_TV
+#EXTINF:-1 tvg-id="TTT.tt" tvg-logo="https://i.imgur.com/rxf4x8J.jpg" tvg-country="TT" group-title="Trinidad",TTT
+https://sktv-forwarders.7m.pl/get.php?x=TTT
+#EXTINF:-1 tvg-id="ibn-1746" tvg-logo="https://i.imgur.com/hSJGncF.jpg" tvg-country="TT" group-title="Trinidad",IBN
+https://sktv-forwarders.7m.pl/get.php?x=IBN
+#EXTINF:-1 tvg-id="trinity-tv-1747" tvg-logo="https://i.imgur.com/prgVynR.jpg" tvg-country="TT" group-title="Trinidad",Trinity TV
+https://sktv-forwarders.7m.pl/get.php?x=Trinity_TV

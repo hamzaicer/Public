@@ -1,8 +1,8 @@
-name: Deploy Beacon to GitHub Pages
+name: Deploy Free TV to GitHub Pages
 
 on:
   push:
-    branches: [cursor/beacon-iptv-2e69, main, gh-pages]
+    branches: [cursor/free-tv-iptv-b8d7, main, gh-pages]
   workflow_dispatch:
 
 permissions:

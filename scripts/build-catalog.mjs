@@ -2,10 +2,103 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const ROOT = path.resolve(import.meta.dirname, '..')
-const PLAYLISTS = path.join(ROOT, 'public/playlists')
+const PLAYLIST = path.join(ROOT, 'public/playlists/index.m3u8')
 const OUT = path.join(ROOT, 'public/catalog')
+const COUNTRY_M3U = path.join(ROOT, 'public/playlists/by-country')
+const GROUP_M3U = path.join(ROOT, 'public/playlists/by-group')
 
 const ATTR_RE = /([a-zA-Z0-9-]+)="([^"]*)"/g
+
+const GROUP_TO_CODE = {
+  albania: 'al',
+  andorra: 'ad',
+  argentina: 'ar',
+  armenia: 'am',
+  australia: 'au',
+  austria: 'at',
+  azerbaijan: 'az',
+  belarus: 'by',
+  belgium: 'be',
+  'bosnia and herzegovina': 'ba',
+  brazil: 'br',
+  bulgaria: 'bg',
+  canada: 'ca',
+  chad: 'td',
+  chile: 'cl',
+  china: 'cn',
+  'costa rica': 'cr',
+  croatia: 'hr',
+  cyprus: 'cy',
+  'czech republic': 'cz',
+  denmark: 'dk',
+  'dominican republic': 'do',
+  egypt: 'eg',
+  estonia: 'ee',
+  'faroe islands': 'fo',
+  finland: 'fi',
+  france: 'fr',
+  georgia: 'ge',
+  germany: 'de',
+  greece: 'gr',
+  greenland: 'gl',
+  'hong kong': 'hk',
+  hungary: 'hu',
+  iceland: 'is',
+  india: 'in',
+  indonesia: 'id',
+  iran: 'ir',
+  iraq: 'iq',
+  ireland: 'ie',
+  israel: 'il',
+  italy: 'it',
+  japan: 'jp',
+  '日本 / japan': 'jp',
+  kazakhstan: 'kz',
+  kenya: 'ke',
+  korea: 'kr',
+  kosovo: 'xk',
+  latvia: 'lv',
+  lebanon: 'lb',
+  lithuania: 'lt',
+  luxembourg: 'lu',
+  macau: 'mo',
+  malta: 'mt',
+  mexico: 'mx',
+  moldova: 'md',
+  monaco: 'mc',
+  mongolia: 'mn',
+  montenegro: 'me',
+  netherlands: 'nl',
+  nigeria: 'ng',
+  'north korea': 'kp',
+  'north macedonia': 'mk',
+  norway: 'no',
+  paraguay: 'py',
+  peru: 'pe',
+  poland: 'pl',
+  portugal: 'pt',
+  qatar: 'qa',
+  romania: 'ro',
+  russia: 'ru',
+  'san marino': 'sm',
+  'saudi arabia': 'sa',
+  serbia: 'rs',
+  slovakia: 'sk',
+  slovenia: 'si',
+  somalia: 'so',
+  spain: 'es',
+  sweden: 'se',
+  switzerland: 'ch',
+  taiwan: 'tw',
+  trinidad: 'tt',
+  turkey: 'tr',
+  turkmenistan: 'tm',
+  uk: 'uk',
+  ukraine: 'ua',
+  'united arab emirates': 'ae',
+  usa: 'us',
+  venezuela: 've',
+}
 
 function parseExtinf(line) {
   const comma = line.indexOf(',')
@@ -16,6 +109,29 @@ function parseExtinf(line) {
     attrs[match[1]] = match[2]
   }
   return { name, attrs }
+}
+
+function slugify(value) {
+  return value
+    .normalize('NFKD')
+    .replace(/[^\w\s-]/g, '')
+    .trim()
+    .toLowerCase()
+    .replace(/[\s_]+/g, '-')
+    .replace(/-+/g, '-')
+}
+
+function resolveCountry(attrs, group) {
+  const raw = (attrs['tvg-country'] || '').trim().toLowerCase()
+  if (raw && /^[a-z]{2}$/.test(raw)) return raw
+  if (raw.includes(',')) {
+    const first = raw.split(',')[0].trim().toLowerCase()
+    if (/^[a-z]{2}$/.test(first)) return first
+  }
+  const fromGroup = GROUP_TO_CODE[group.toLowerCase()]
+  if (fromGroup) return fromGroup
+  if (group.toLowerCase().startsWith('vod') || group.toLowerCase() === 'news') return null
+  return slugify(group).slice(0, 8) || 'xx'
 }
 
 function parseM3u(filePath) {
@@ -36,13 +152,24 @@ function parseM3u(filePath) {
     }
     if (!url) continue
     const group = attrs['group-title'] || 'General'
-    if (group.toLowerCase() === 'xxx') continue
+    const country = resolveCountry(attrs, group)
+    const kind = /youtube\.com|youtu\.be/i.test(url)
+      ? 'youtube'
+      : /twitch\.tv/i.test(url)
+        ? 'twitch'
+        : /\.mpd(\?|$)/i.test(url)
+          ? 'dash'
+          : /\.m3u8(\?|$)/i.test(url) || url.includes('m3u8')
+            ? 'hls'
+            : 'other'
     channels.push({
-      id: attrs['tvg-id'] || `${name}-${channels.length}`,
+      id: attrs['tvg-id'] || `${slugify(name)}-${channels.length}`,
       name,
       logo: attrs['tvg-logo'] || '',
       group,
+      country: country || '',
       url,
+      kind,
     })
   }
   return channels
@@ -52,45 +179,69 @@ function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true })
 }
 
-ensureDir(OUT)
-ensureDir(path.join(OUT, 'countries'))
-ensureDir(path.join(OUT, 'categories'))
-
-const countryDir = path.join(PLAYLISTS, 'countries')
-const categoryDir = path.join(PLAYLISTS, 'categories')
-
-const countries = []
-const categories = []
-let total = 0
-
-for (const file of fs.readdirSync(countryDir).filter((f) => f.endsWith('.m3u')).sort()) {
-  const code = file.replace(/\.m3u$/, '')
-  const channels = parseM3u(path.join(countryDir, file))
-  fs.writeFileSync(path.join(OUT, 'countries', `${code}.json`), JSON.stringify(channels))
-  countries.push({ code, count: channels.length })
-  total += channels.length
+function writeM3u(filePath, channels) {
+  const body = ['#EXTM3U']
+  for (const ch of channels) {
+    const logo = ch.logo ? ` tvg-logo="${ch.logo}"` : ''
+    const id = ch.id ? ` tvg-id="${ch.id}"` : ''
+    const country = ch.country ? ` tvg-country="${ch.country.toUpperCase()}"` : ''
+    body.push(`#EXTINF:-1${id}${logo}${country} group-title="${ch.group}",${ch.name}`)
+    body.push(ch.url)
+  }
+  fs.writeFileSync(filePath, `${body.join('\n')}\n`)
 }
 
-for (const file of fs.readdirSync(categoryDir).filter((f) => f.endsWith('.m3u')).sort()) {
-  const slug = file.replace(/\.m3u$/, '')
-  if (slug === 'xxx') continue
-  const channels = parseM3u(path.join(categoryDir, file))
-  fs.writeFileSync(path.join(OUT, 'categories', `${slug}.json`), JSON.stringify(channels))
-  categories.push({ slug, count: channels.length })
+ensureDir(OUT)
+ensureDir(path.join(OUT, 'countries'))
+ensureDir(path.join(OUT, 'groups'))
+ensureDir(COUNTRY_M3U)
+ensureDir(GROUP_M3U)
+
+const all = parseM3u(PLAYLIST)
+const byCountry = new Map()
+const byGroup = new Map()
+
+for (const ch of all) {
+  if (ch.country) {
+    if (!byCountry.has(ch.country)) byCountry.set(ch.country, [])
+    byCountry.get(ch.country).push(ch)
+  }
+  const gslug = slugify(ch.group)
+  if (!byGroup.has(gslug)) byGroup.set(gslug, { title: ch.group, channels: [] })
+  byGroup.get(gslug).channels.push(ch)
+}
+
+const countries = []
+for (const [code, channels] of [...byCountry.entries()].sort((a, b) => b[1].length - a[1].length)) {
+  fs.writeFileSync(path.join(OUT, 'countries', `${code}.json`), JSON.stringify(channels))
+  writeM3u(path.join(COUNTRY_M3U, `${code}.m3u8`), channels)
+  countries.push({ code, count: channels.length })
+}
+
+const groups = []
+for (const [slug, { title, channels }] of [...byGroup.entries()].sort(
+  (a, b) => b[1].channels.length - a[1].channels.length,
+)) {
+  fs.writeFileSync(path.join(OUT, 'groups', `${slug}.json`), JSON.stringify(channels))
+  writeM3u(path.join(GROUP_M3U, `${slug}.m3u8`), channels)
+  groups.push({ slug, title, count: channels.length })
 }
 
 const meta = {
+  source: 'https://github.com/Free-TV/IPTV',
   generatedAt: new Date().toISOString(),
-  totalStreams: total,
-  countries: countries.sort((a, b) => b.count - a.count),
-  categories: categories.sort((a, b) => b.count - a.count),
+  totalStreams: all.length,
+  countries,
+  groups,
   playlists: {
-    all: '/playlists/index.m3u',
-    byCountry: '/playlists/index.country.m3u',
-    byCategory: '/playlists/index.category.m3u',
-    byLanguage: '/playlists/index.language.m3u',
+    all: '/playlists/index.m3u8',
+    raw: 'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8',
   },
 }
 
 fs.writeFileSync(path.join(OUT, 'meta.json'), JSON.stringify(meta, null, 2))
-console.log(`Catalog ready: ${total} streams, ${countries.length} countries, ${categories.length} categories`)
+fs.writeFileSync(path.join(OUT, 'all.json'), JSON.stringify(all))
+
+console.log(
+  `Free-TV catalog ready: ${all.length} streams, ${countries.length} countries, ${groups.length} groups`,
+)

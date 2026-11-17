@@ -1,0 +1,5 @@
+#EXTM3U
+#EXTINF:-1 tvg-id="Unicanal.py" tvg-logo="https://i.imgur.com/brlepuX.png" tvg-country="PY" group-title="Paraguay",Unicanal Ⓨ
+https://www.youtube.com/@unicanalpy/live
+#EXTINF:-1 tvg-id="ABCTV.py" tvg-logo="https://i.imgur.com/tBdgllD.png" tvg-country="PY" group-title="Paraguay",ABC TV Ⓨ
+https://www.youtube.com/user/canalabctv/live
