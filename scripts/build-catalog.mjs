@@ -188,6 +188,10 @@ function writeM3u(filePath, channels) {
   fs.writeFileSync(filePath, `${body.join('\n')}\n`)
 }
 
+fs.rmSync(path.join(OUT, 'countries'), { recursive: true, force: true })
+fs.rmSync(path.join(OUT, 'groups'), { recursive: true, force: true })
+fs.rmSync(COUNTRY_M3U, { recursive: true, force: true })
+fs.rmSync(GROUP_M3U, { recursive: true, force: true })
 ensureDir(OUT)
 ensureDir(path.join(OUT, 'countries'))
 ensureDir(path.join(OUT, 'groups'))
