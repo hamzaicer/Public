@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-17T20:55:08.817Z",
-  "totalStreams": 13176,
+  "generatedAt": "2026-11-17T21:16:50.168Z",
+  "totalStreams": 13180,
   "countries": [
     {
       "code": "us",
@@ -12,7 +12,7 @@
     },
     {
       "code": "in",
-      "count": 819
+      "count": 823
     },
     {
       "code": "ru",
@@ -774,11 +774,11 @@
     },
     {
       "slug": "undefined",
-      "count": 1557
+      "count": 1558
     },
     {
       "slug": "news",
-      "count": 1068
+      "count": 1069
     },
     {
       "slug": "entertainment",
@@ -786,7 +786,7 @@
     },
     {
       "slug": "religious",
-      "count": 820
+      "count": 822
     },
     {
       "slug": "music",

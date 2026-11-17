@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import Hls from 'hls.js'
 
+function proxied(url) {
+  return `/api/proxy?url=${encodeURIComponent(url)}`
+}
+
 export default function Player({ channel }) {
   const videoRef = useRef(null)
   const hlsRef = useRef(null)
@@ -23,21 +27,26 @@ export default function Player({ channel }) {
 
     if (!channel?.url) return undefined
 
-    const url = channel.url
+    const sourceUrl = channel.url
     const onError = (message) => {
       setStatus('error')
       setError(message)
     }
 
-    if (url.includes('.mpd')) {
+    if (sourceUrl.includes('.mpd')) {
       onError('Bu yayın DASH formatında; tarayıcıda açılamayabilir. VLC ile deneyin.')
       return undefined
     }
 
-    if (Hls.isSupported() && (url.includes('.m3u8') || url.includes('m3u8'))) {
+    const playViaHls = (url) => {
       const hls = new Hls({
         enableWorker: true,
         lowLatencyMode: true,
+        xhrSetup(xhr, requestUrl) {
+          if (!requestUrl.includes('/api/proxy?url=')) {
+            xhr.open('GET', proxied(requestUrl), true)
+          }
+        },
       })
       hlsRef.current = hls
       hls.loadSource(url)
@@ -48,12 +57,17 @@ export default function Player({ channel }) {
       })
       hls.on(Hls.Events.ERROR, (_event, data) => {
         if (!data.fatal) return
-        onError('Yayın tarayıcıda açılamadı (CORS / geo-block / kaynak kapalı). VLC ile deneyin.')
+        onError('Yayın açılamadı (kaynak kapalı / geo-block). Başka kanal deneyin veya VLC kullanın.')
         hls.destroy()
         hlsRef.current = null
       })
+    }
+
+    if (Hls.isSupported() && (sourceUrl.includes('.m3u8') || sourceUrl.includes('m3u8') || sourceUrl.includes('.m3u'))) {
+      // Always go through local proxy so CORS-blocked public streams can still play.
+      playViaHls(proxied(sourceUrl))
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = url
+      video.src = proxied(sourceUrl)
       video.addEventListener(
         'loadedmetadata',
         () => {
@@ -64,7 +78,7 @@ export default function Player({ channel }) {
       )
       video.addEventListener('error', () => onError('Yayın yüklenemedi.'), { once: true })
     } else {
-      video.src = url
+      video.src = sourceUrl
       video.play().catch(() => onError('Bu format tarayıcıda desteklenmiyor.'))
       setStatus('playing')
     }
@@ -80,11 +94,17 @@ export default function Player({ channel }) {
   return (
     <section className="panel player">
       <div className="player-stage">
-        <video ref={videoRef} controls playsInline />
+        <video ref={videoRef} controls playsInline autoPlay muted />
         {!channel && (
           <div className="player-empty">
             <strong>Bir kanal seç</strong>
             <span>Soldan ülke veya kategori seç, listeden yayına tıkla.</span>
+          </div>
+        )}
+        {channel && status === 'loading' && (
+          <div className="player-empty">
+            <strong>Bağlanıyor…</strong>
+            <span>{channel.name}</span>
           </div>
         )}
         {channel && status === 'error' && (
@@ -97,7 +117,7 @@ export default function Player({ channel }) {
       <div className="player-meta">
         <div>
           <h3>{channel?.name || 'Beacon Player'}</h3>
-          <p>{channel ? channel.group : 'Açık IPTV yayınları'}</p>
+          <p>{channel ? channel.group : 'iptv-org açık yayınları'}</p>
         </div>
         {channel && (
           <div className="cta-row">

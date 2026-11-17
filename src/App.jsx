@@ -104,8 +104,7 @@ export default function App() {
           Bea<span>con</span>
         </h1>
         <p className="lede">
-          Dünyanın açık IPTV yayınlarını tek yerden keşfet. Kanal seç, tarayıcıda dene veya M3U
-          playlist’i indirip VLC’ye bağla.
+          iptv-org’un güncel açık yayınları — kanal seç, tarayıcıda izle veya M3U’yu VLC’ye aktar.
         </p>
         <div className="cta-row">
           <a className="btn btn-primary" href="/playlists/index.m3u" download>

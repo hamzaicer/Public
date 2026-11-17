@@ -1,13 +1,20 @@
 # Beacon
 
-Açık IPTV yayınlarını tarayıcıda keşfetmek için arayüz.
+[iptv-org/iptv](https://github.com/iptv-org/iptv) açık yayın koleksiyonunu tarayıcıda keşfetmek için arayüz.
 
 ## Çalıştırma
 
 ```bash
 npm install
-npm run catalog
+npm run refresh   # iptv-org'dan güncel M3U + katalog
 npm run dev
 ```
 
-Kaynak playlist’ler `public/playlists` altında; katalog `npm run catalog` ile üretilir.
+Üretim:
+
+```bash
+npm run build
+npm start
+```
+
+Kaynak playlist’ler `public/playlists` altında; `npm run sync` iptv-org’dan yeniler.
