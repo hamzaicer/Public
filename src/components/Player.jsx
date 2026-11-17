@@ -1,17 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
 import Hls from 'hls.js'
 
-function proxied(url) {
-  return `/api/proxy?url=${encodeURIComponent(url)}`
+function proxied(url, userAgent) {
+  const ua = userAgent ? `&ua=${encodeURIComponent(userAgent)}` : ''
+  return `/api/proxy?url=${encodeURIComponent(url)}${ua}`
 }
 
-async function resolvePlayUrl(sourceUrl) {
-  // Prefer local CORS proxy when the server exposes it (npm start / vite dev).
+async function resolvePlayUrl(sourceUrl, userAgent) {
   try {
-    const probe = await fetch(proxied(sourceUrl), { method: 'GET' })
-    if (probe.ok) return proxied(sourceUrl)
+    const probe = await fetch(proxied(sourceUrl, userAgent), { method: 'GET' })
+    if (probe.ok) return proxied(sourceUrl, userAgent)
   } catch {
-    // fall through to direct
+    // fall through
   }
   return sourceUrl
 }
@@ -40,6 +40,7 @@ export default function Player({ channel }) {
     if (!channel?.url) return undefined
 
     const sourceUrl = channel.url
+    const userAgent = channel.userAgent || ''
     const onError = (message) => {
       if (cancelled) return
       setStatus('error')
@@ -52,7 +53,7 @@ export default function Player({ channel }) {
     }
 
     ;(async () => {
-      const playUrl = await resolvePlayUrl(sourceUrl)
+      const playUrl = await resolvePlayUrl(sourceUrl, userAgent)
       if (cancelled) return
       const usingProxy = playUrl.includes('/api/proxy?url=')
 
@@ -62,7 +63,7 @@ export default function Player({ channel }) {
           lowLatencyMode: true,
           xhrSetup(xhr, requestUrl) {
             if (usingProxy && !requestUrl.includes('/api/proxy?url=')) {
-              xhr.open('GET', proxied(requestUrl), true)
+              xhr.open('GET', proxied(requestUrl, userAgent), true)
             }
           },
         })
@@ -100,7 +101,7 @@ export default function Player({ channel }) {
         )
         video.addEventListener('error', () => onError('Yayın yüklenemedi.'), { once: true })
       } else {
-        video.src = sourceUrl
+        video.src = usingProxy ? playUrl : sourceUrl
         video.play().catch(() => onError('Bu format tarayıcıda desteklenmiyor.'))
         setStatus('playing')
       }

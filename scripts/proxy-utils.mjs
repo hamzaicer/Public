@@ -1,7 +1,17 @@
 import net from 'node:net'
+import { Agent, fetch as undiciFetch } from 'undici'
 import { URL } from 'node:url'
 
 const BLOCKED_HOSTS = new Set(['localhost', 'metadata.google.internal'])
+
+const insecureAgent = new Agent({
+  connect: {
+    rejectUnauthorized: false,
+    timeout: 20_000,
+  },
+  headersTimeout: 20_000,
+  bodyTimeout: 60_000,
+})
 
 function isPrivateIp(ip) {
   if (!net.isIP(ip)) return false
@@ -34,26 +44,25 @@ export function assertSafeProxyUrl(raw) {
   return parsed
 }
 
-export function rewriteM3u(body, baseUrl, proxyPrefix) {
+export function rewriteM3u(body, baseUrl, proxyPrefix, ua) {
   const base = new URL(baseUrl)
+  const uaQ = ua ? `&ua=${encodeURIComponent(ua)}` : ''
+  const wrap = (abs) => `${proxyPrefix}${encodeURIComponent(abs)}${uaQ}`
   return body
     .split(/\r?\n/)
     .map((line) => {
       const trimmed = line.trim()
       if (!trimmed || trimmed.startsWith('#')) {
-        // Rewrite URI="..." inside tags
         return line.replace(/URI="([^"]+)"/g, (_m, uri) => {
           try {
-            const abs = new URL(uri, base).toString()
-            return `URI="${proxyPrefix}${encodeURIComponent(abs)}"`
+            return `URI="${wrap(new URL(uri, base).toString())}"`
           } catch {
             return _m
           }
         })
       }
       try {
-        const abs = new URL(trimmed, base).toString()
-        return `${proxyPrefix}${encodeURIComponent(abs)}`
+        return wrap(new URL(trimmed, base).toString())
       } catch {
         return line
       }
@@ -61,20 +70,23 @@ export function rewriteM3u(body, baseUrl, proxyPrefix) {
     .join('\n')
 }
 
-export async function proxyFetch(targetUrl, reqHeaders = {}) {
+export async function proxyFetch(targetUrl, reqHeaders = {}, opts = {}) {
   const parsed = assertSafeProxyUrl(targetUrl)
   const headers = {
     'user-agent':
+      opts.userAgent ||
+      reqHeaders['x-stream-ua'] ||
       reqHeaders['user-agent'] ||
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
     accept: reqHeaders.accept || '*/*',
   }
   if (reqHeaders.referer) headers.referer = reqHeaders.referer
-  if (reqHeaders.origin) headers.origin = reqHeaders.origin
+  if (opts.referer) headers.referer = opts.referer
 
-  const res = await fetch(parsed.toString(), {
+  const res = await undiciFetch(parsed.toString(), {
     headers,
     redirect: 'follow',
+    dispatcher: insecureAgent,
   })
   return { res, parsed }
 }

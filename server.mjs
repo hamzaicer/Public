@@ -15,7 +15,8 @@ app.get('/api/proxy', async (req, res) => {
       res.status(400).send('Missing url')
       return
     }
-    const { res: upstream, parsed } = await proxyFetch(target, req.headers)
+    const userAgent = typeof req.query.ua === 'string' ? req.query.ua : undefined
+    const { res: upstream, parsed } = await proxyFetch(target, req.headers, { userAgent })
     if (!upstream.ok) {
       res.status(upstream.status).set('access-control-allow-origin', '*').send(`Upstream ${upstream.status}`)
       return
@@ -32,7 +33,7 @@ app.get('/api/proxy', async (req, res) => {
       parsed.pathname.endsWith('.m3u')
 
     if (isManifest) {
-      const rewritten = rewriteM3u(buf.toString('utf8'), parsed.toString(), '/api/proxy?url=')
+      const rewritten = rewriteM3u(buf.toString('utf8'), parsed.toString(), '/api/proxy?url=', userAgent)
       res.type('application/vnd.apple.mpegurl').send(rewritten)
       return
     }

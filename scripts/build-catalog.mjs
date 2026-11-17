@@ -27,22 +27,29 @@ function parseM3u(filePath) {
     if (!line.startsWith('#EXTINF:')) continue
     const { name, attrs } = parseExtinf(line)
     let url = ''
+    let userAgent = attrs['http-user-agent'] || ''
     for (let j = i + 1; j < lines.length; j++) {
       const next = lines[j].trim()
-      if (!next || next.startsWith('#')) continue
+      if (!next) continue
+      if (next.startsWith('#EXTVLCOPT:http-user-agent=')) {
+        userAgent = next.slice('#EXTVLCOPT:http-user-agent='.length)
+        continue
+      }
+      if (next.startsWith('#EXTVLCOPT:http-referrer=')) continue
+      if (next.startsWith('#')) continue
       url = next
       i = j
       break
     }
     if (!url) continue
     const group = attrs['group-title'] || 'General'
-    if (group.toLowerCase() === 'xxx') continue
     channels.push({
       id: attrs['tvg-id'] || `${name}-${channels.length}`,
       name,
       logo: attrs['tvg-logo'] || '',
       group,
       url,
+      userAgent: userAgent || undefined,
     })
   }
   return channels
@@ -58,6 +65,7 @@ ensureDir(path.join(OUT, 'categories'))
 
 const countryDir = path.join(PLAYLISTS, 'countries')
 const categoryDir = path.join(PLAYLISTS, 'categories')
+const indexFile = path.join(PLAYLISTS, 'index.m3u')
 
 const countries = []
 const categories = []
@@ -73,15 +81,18 @@ for (const file of fs.readdirSync(countryDir).filter((f) => f.endsWith('.m3u')).
 
 for (const file of fs.readdirSync(categoryDir).filter((f) => f.endsWith('.m3u')).sort()) {
   const slug = file.replace(/\.m3u$/, '')
-  if (slug === 'xxx') continue
   const channels = parseM3u(path.join(categoryDir, file))
   fs.writeFileSync(path.join(OUT, 'categories', `${slug}.json`), JSON.stringify(channels))
   categories.push({ slug, count: channels.length })
 }
 
+const allChannels = fs.existsSync(indexFile) ? parseM3u(indexFile) : []
+fs.writeFileSync(path.join(OUT, 'all.json'), JSON.stringify(allChannels))
+
 const meta = {
   generatedAt: new Date().toISOString(),
-  totalStreams: total,
+  totalStreams: allChannels.length || total,
+  allCount: allChannels.length,
   countries: countries.sort((a, b) => b.count - a.count),
   categories: categories.sort((a, b) => b.count - a.count),
   playlists: {
@@ -93,4 +104,6 @@ const meta = {
 }
 
 fs.writeFileSync(path.join(OUT, 'meta.json'), JSON.stringify(meta, null, 2))
-console.log(`Catalog ready: ${total} streams, ${countries.length} countries, ${categories.length} categories`)
+console.log(
+  `Catalog ready: ${meta.totalStreams} in index, ${countries.length} countries, ${categories.length} categories`,
+)

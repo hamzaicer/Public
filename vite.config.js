@@ -11,12 +11,13 @@ function streamProxyPlugin() {
         try {
           const incoming = new URL(req.url, 'http://127.0.0.1')
           const target = incoming.searchParams.get('url')
+          const userAgent = incoming.searchParams.get('ua') || undefined
           if (!target) {
             res.statusCode = 400
             res.end('Missing url')
             return
           }
-          const { res: upstream, parsed } = await proxyFetch(target, req.headers)
+          const { res: upstream, parsed } = await proxyFetch(target, req.headers, { userAgent })
           if (!upstream.ok) {
             res.statusCode = upstream.status
             res.setHeader('access-control-allow-origin', '*')
@@ -38,7 +39,7 @@ function streamProxyPlugin() {
 
           if (isManifest) {
             const text = buf.toString('utf8')
-            const rewritten = rewriteM3u(text, parsed.toString(), '/api/proxy?url=')
+            const rewritten = rewriteM3u(text, parsed.toString(), '/api/proxy?url=', userAgent)
             res.setHeader('content-type', 'application/vnd.apple.mpegurl')
             res.end(rewritten)
             return

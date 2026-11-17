@@ -223,3 +223,9 @@ export async function loadCategory(slug) {
   if (!res.ok) throw new Error('Kategori listesi yüklenemedi')
   return res.json()
 }
+
+export async function loadAllChannels() {
+  const res = await fetch('/catalog/all.json')
+  if (!res.ok) throw new Error('Tüm kanal listesi yüklenemedi')
+  return res.json()
+}
