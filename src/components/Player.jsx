@@ -5,6 +5,17 @@ function proxied(url) {
   return `/api/proxy?url=${encodeURIComponent(url)}`
 }
 
+async function resolvePlayUrl(sourceUrl) {
+  // Prefer local CORS proxy when the server exposes it (npm start / vite dev).
+  try {
+    const probe = await fetch(proxied(sourceUrl), { method: 'GET' })
+    if (probe.ok) return proxied(sourceUrl)
+  } catch {
+    // fall through to direct
+  }
+  return sourceUrl
+}
+
 export default function Player({ channel }) {
   const videoRef = useRef(null)
   const hlsRef = useRef(null)
@@ -15,6 +26,7 @@ export default function Player({ channel }) {
     const video = videoRef.current
     if (!video) return undefined
 
+    let cancelled = false
     setError('')
     setStatus(channel ? 'loading' : 'idle')
 
@@ -29,6 +41,7 @@ export default function Player({ channel }) {
 
     const sourceUrl = channel.url
     const onError = (message) => {
+      if (cancelled) return
       setStatus('error')
       setError(message)
     }
@@ -38,52 +51,63 @@ export default function Player({ channel }) {
       return undefined
     }
 
-    const playViaHls = (url) => {
-      const hls = new Hls({
-        enableWorker: true,
-        lowLatencyMode: true,
-        xhrSetup(xhr, requestUrl) {
-          if (!requestUrl.includes('/api/proxy?url=')) {
-            xhr.open('GET', proxied(requestUrl), true)
-          }
-        },
-      })
-      hlsRef.current = hls
-      hls.loadSource(url)
-      hls.attachMedia(video)
-      hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        setStatus('playing')
-        video.play().catch(() => {})
-      })
-      hls.on(Hls.Events.ERROR, (_event, data) => {
-        if (!data.fatal) return
-        onError('Yayın açılamadı (kaynak kapalı / geo-block). Başka kanal deneyin veya VLC kullanın.')
-        hls.destroy()
-        hlsRef.current = null
-      })
-    }
+    ;(async () => {
+      const playUrl = await resolvePlayUrl(sourceUrl)
+      if (cancelled) return
+      const usingProxy = playUrl.includes('/api/proxy?url=')
 
-    if (Hls.isSupported() && (sourceUrl.includes('.m3u8') || sourceUrl.includes('m3u8') || sourceUrl.includes('.m3u'))) {
-      // Always go through local proxy so CORS-blocked public streams can still play.
-      playViaHls(proxied(sourceUrl))
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = proxied(sourceUrl)
-      video.addEventListener(
-        'loadedmetadata',
-        () => {
+      const playViaHls = (url) => {
+        const hls = new Hls({
+          enableWorker: true,
+          lowLatencyMode: true,
+          xhrSetup(xhr, requestUrl) {
+            if (usingProxy && !requestUrl.includes('/api/proxy?url=')) {
+              xhr.open('GET', proxied(requestUrl), true)
+            }
+          },
+        })
+        hlsRef.current = hls
+        hls.loadSource(url)
+        hls.attachMedia(video)
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          if (cancelled) return
           setStatus('playing')
           video.play().catch(() => {})
-        },
-        { once: true },
-      )
-      video.addEventListener('error', () => onError('Yayın yüklenemedi.'), { once: true })
-    } else {
-      video.src = sourceUrl
-      video.play().catch(() => onError('Bu format tarayıcıda desteklenmiyor.'))
-      setStatus('playing')
-    }
+        })
+        hls.on(Hls.Events.ERROR, (_event, data) => {
+          if (!data.fatal || cancelled) return
+          onError('Yayın açılamadı (kaynak kapalı / geo-block / CORS). Başka kanal deneyin veya VLC kullanın.')
+          hls.destroy()
+          hlsRef.current = null
+        })
+      }
+
+      if (
+        Hls.isSupported() &&
+        (sourceUrl.includes('.m3u8') || sourceUrl.includes('m3u8') || sourceUrl.includes('.m3u'))
+      ) {
+        playViaHls(playUrl)
+      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = playUrl
+        video.addEventListener(
+          'loadedmetadata',
+          () => {
+            if (cancelled) return
+            setStatus('playing')
+            video.play().catch(() => {})
+          },
+          { once: true },
+        )
+        video.addEventListener('error', () => onError('Yayın yüklenemedi.'), { once: true })
+      } else {
+        video.src = sourceUrl
+        video.play().catch(() => onError('Bu format tarayıcıda desteklenmiyor.'))
+        setStatus('playing')
+      }
+    })()
 
     return () => {
+      cancelled = true
       if (hlsRef.current) {
         hlsRef.current.destroy()
         hlsRef.current = null
