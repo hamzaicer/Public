@@ -243,11 +243,17 @@ export default function App() {
       </div>
 
       <footer className="footer">
-        Yayın: <a href="https://github.com/iptv-org/iptv" target="_blank" rel="noreferrer">iptv-org/iptv</a>
+        Yayın:{' '}
+        <a href="https://github.com/iptv-org/iptv" target="_blank" rel="noreferrer">
+          iptv-org/iptv
+        </a>
         {' · '}
-        Rehber: <a href="https://github.com/iptv-org/epg" target="_blank" rel="noreferrer">iptv-org/epg</a>
-        {' '}(tvplus / digiturk / dsmart / turksat). Bazı yayınlar CORS veya geo-block yüzünden
-        tarayıcıda açılmaz; VLC önerilir.
+        Rehber:{' '}
+        <a href="https://github.com/iptv-org/epg" target="_blank" rel="noreferrer">
+          iptv-org/epg
+        </a>
+        {' '}
+        (tvplus / digiturk / dsmart / turksat)
       </footer>
     </div>
   )

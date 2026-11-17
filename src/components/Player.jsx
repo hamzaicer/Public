@@ -47,7 +47,7 @@ export default function Player({ channel }) {
     }
 
     if (sourceUrl.includes('.mpd')) {
-      onError('Bu yayın DASH formatında; tarayıcıda açılamayabilir. VLC ile deneyin.')
+      onError('Bu yayın DASH formatında; bu tarayıcıda açılamıyor.')
       return undefined
     }
 
@@ -76,7 +76,7 @@ export default function Player({ channel }) {
         })
         hls.on(Hls.Events.ERROR, (_event, data) => {
           if (!data.fatal || cancelled) return
-          onError('Yayın açılamadı (kaynak kapalı / geo-block / CORS). Başka kanal deneyin veya VLC kullanın.')
+          onError('Yayın açılamadı. Başka bir kanal dene.')
           hls.destroy()
           hlsRef.current = null
         })
