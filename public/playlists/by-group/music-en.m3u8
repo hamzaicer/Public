@@ -1,7 +1,7 @@
 #EXTM3U
-#EXTINF:-1 tvg-id="now-70s-1977" tvg-country="MUSIC-EN" group-title="Music (EN)",Now 70's
+#EXTINF:-1 tvg-id="now-70s-1977" group-title="Music (EN)",Now 70's
 https://lightning-now70s-samsungnz.amagi.tv/playlist.m3u8
-#EXTINF:-1 tvg-id="now-80s-1978" tvg-country="MUSIC-EN" group-title="Music (EN)",Now 80's
+#EXTINF:-1 tvg-id="now-80s-1978" group-title="Music (EN)",Now 80's
 https://lightning-now80s-samsungnz.amagi.tv/playlist.m3u8
-#EXTINF:-1 tvg-id="now-rock-1979" tvg-country="MUSIC-EN" group-title="Music (EN)",NOW Rock
+#EXTINF:-1 tvg-id="now-rock-1979" group-title="Music (EN)",NOW Rock
 https://lightning-now90s-samsungnz.amagi.tv/playlist.m3u8
