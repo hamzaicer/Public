@@ -128,10 +128,7 @@ function resolveCountry(attrs, group) {
     const first = raw.split(',')[0].trim().toLowerCase()
     if (/^[a-z]{2}$/.test(first)) return first
   }
-  const fromGroup = GROUP_TO_CODE[group.toLowerCase()]
-  if (fromGroup) return fromGroup
-  if (group.toLowerCase().startsWith('vod') || group.toLowerCase() === 'news') return null
-  return slugify(group).slice(0, 8) || 'xx'
+  return GROUP_TO_CODE[group.toLowerCase()] || null
 }
 
 function parseM3u(filePath) {
