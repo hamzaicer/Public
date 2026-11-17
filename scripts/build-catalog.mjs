@@ -1,0 +1,96 @@
+import fs from 'node:fs'
+import path from 'node:path'
+
+const ROOT = path.resolve(import.meta.dirname, '..')
+const PLAYLISTS = path.join(ROOT, 'public/playlists')
+const OUT = path.join(ROOT, 'public/catalog')
+
+const ATTR_RE = /([a-zA-Z0-9-]+)="([^"]*)"/g
+
+function parseExtinf(line) {
+  const comma = line.indexOf(',')
+  const attrsPart = comma >= 0 ? line.slice(0, comma) : line
+  const name = comma >= 0 ? line.slice(comma + 1).trim() : 'Unknown'
+  const attrs = {}
+  for (const match of attrsPart.matchAll(ATTR_RE)) {
+    attrs[match[1]] = match[2]
+  }
+  return { name, attrs }
+}
+
+function parseM3u(filePath) {
+  const text = fs.readFileSync(filePath, 'utf8')
+  const lines = text.split(/\r?\n/)
+  const channels = []
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim()
+    if (!line.startsWith('#EXTINF:')) continue
+    const { name, attrs } = parseExtinf(line)
+    let url = ''
+    for (let j = i + 1; j < lines.length; j++) {
+      const next = lines[j].trim()
+      if (!next || next.startsWith('#')) continue
+      url = next
+      i = j
+      break
+    }
+    if (!url) continue
+    const group = attrs['group-title'] || 'General'
+    if (group.toLowerCase() === 'xxx') continue
+    channels.push({
+      id: attrs['tvg-id'] || `${name}-${channels.length}`,
+      name,
+      logo: attrs['tvg-logo'] || '',
+      group,
+      url,
+    })
+  }
+  return channels
+}
+
+function ensureDir(dir) {
+  fs.mkdirSync(dir, { recursive: true })
+}
+
+ensureDir(OUT)
+ensureDir(path.join(OUT, 'countries'))
+ensureDir(path.join(OUT, 'categories'))
+
+const countryDir = path.join(PLAYLISTS, 'countries')
+const categoryDir = path.join(PLAYLISTS, 'categories')
+
+const countries = []
+const categories = []
+let total = 0
+
+for (const file of fs.readdirSync(countryDir).filter((f) => f.endsWith('.m3u')).sort()) {
+  const code = file.replace(/\.m3u$/, '')
+  const channels = parseM3u(path.join(countryDir, file))
+  fs.writeFileSync(path.join(OUT, 'countries', `${code}.json`), JSON.stringify(channels))
+  countries.push({ code, count: channels.length })
+  total += channels.length
+}
+
+for (const file of fs.readdirSync(categoryDir).filter((f) => f.endsWith('.m3u')).sort()) {
+  const slug = file.replace(/\.m3u$/, '')
+  if (slug === 'xxx') continue
+  const channels = parseM3u(path.join(categoryDir, file))
+  fs.writeFileSync(path.join(OUT, 'categories', `${slug}.json`), JSON.stringify(channels))
+  categories.push({ slug, count: channels.length })
+}
+
+const meta = {
+  generatedAt: new Date().toISOString(),
+  totalStreams: total,
+  countries: countries.sort((a, b) => b.count - a.count),
+  categories: categories.sort((a, b) => b.count - a.count),
+  playlists: {
+    all: '/playlists/index.m3u',
+    byCountry: '/playlists/index.country.m3u',
+    byCategory: '/playlists/index.category.m3u',
+    byLanguage: '/playlists/index.language.m3u',
+  },
+}
+
+fs.writeFileSync(path.join(OUT, 'meta.json'), JSON.stringify(meta, null, 2))
+console.log(`Catalog ready: ${total} streams, ${countries.length} countries, ${categories.length} categories`)

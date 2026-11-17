@@ -1,0 +1,898 @@
+{
+  "generatedAt": "2026-11-17T20:49:37.910Z",
+  "totalStreams": 13176,
+  "countries": [
+    {
+      "code": "us",
+      "count": 1498
+    },
+    {
+      "code": "int",
+      "count": 1093
+    },
+    {
+      "code": "in",
+      "count": 819
+    },
+    {
+      "code": "ru",
+      "count": 502
+    },
+    {
+      "code": "br",
+      "count": 397
+    },
+    {
+      "code": "it",
+      "count": 363
+    },
+    {
+      "code": "es",
+      "count": 343
+    },
+    {
+      "code": "de",
+      "count": 309
+    },
+    {
+      "code": "uk",
+      "count": 308
+    },
+    {
+      "code": "ca",
+      "count": 265
+    },
+    {
+      "code": "do",
+      "count": 262
+    },
+    {
+      "code": "fr",
+      "count": 229
+    },
+    {
+      "code": "ar",
+      "count": 220
+    },
+    {
+      "code": "pe",
+      "count": 213
+    },
+    {
+      "code": "cl",
+      "count": 210
+    },
+    {
+      "code": "ro",
+      "count": 206
+    },
+    {
+      "code": "ua",
+      "count": 199
+    },
+    {
+      "code": "pl",
+      "count": 184
+    },
+    {
+      "code": "ir",
+      "count": 183
+    },
+    {
+      "code": "tr",
+      "count": 178
+    },
+    {
+      "code": "nl",
+      "count": 177
+    },
+    {
+      "code": "mx",
+      "count": 176
+    },
+    {
+      "code": "id",
+      "count": 173
+    },
+    {
+      "code": "co",
+      "count": 165
+    },
+    {
+      "code": "hu",
+      "count": 164
+    },
+    {
+      "code": "cn",
+      "count": 156
+    },
+    {
+      "code": "dk",
+      "count": 153
+    },
+    {
+      "code": "ch",
+      "count": 141
+    },
+    {
+      "code": "se",
+      "count": 138
+    },
+    {
+      "code": "at",
+      "count": 119
+    },
+    {
+      "code": "no",
+      "count": 117
+    },
+    {
+      "code": "ec",
+      "count": 112
+    },
+    {
+      "code": "cz",
+      "count": 109
+    },
+    {
+      "code": "py",
+      "count": 107
+    },
+    {
+      "code": "pk",
+      "count": 106
+    },
+    {
+      "code": "ve",
+      "count": 102
+    },
+    {
+      "code": "bo",
+      "count": 96
+    },
+    {
+      "code": "sk",
+      "count": 95
+    },
+    {
+      "code": "vn",
+      "count": 93
+    },
+    {
+      "code": "bg",
+      "count": 84
+    },
+    {
+      "code": "au",
+      "count": 79
+    },
+    {
+      "code": "hn",
+      "count": 78
+    },
+    {
+      "code": "th",
+      "count": 73
+    },
+    {
+      "code": "kr",
+      "count": 72
+    },
+    {
+      "code": "pt",
+      "count": 71
+    },
+    {
+      "code": "gr",
+      "count": 70
+    },
+    {
+      "code": "cr",
+      "count": 69
+    },
+    {
+      "code": "gt",
+      "count": 66
+    },
+    {
+      "code": "ie",
+      "count": 64
+    },
+    {
+      "code": "iq",
+      "count": 58
+    },
+    {
+      "code": "be",
+      "count": 57
+    },
+    {
+      "code": "ng",
+      "count": 55
+    },
+    {
+      "code": "rs",
+      "count": 55
+    },
+    {
+      "code": "sa",
+      "count": 55
+    },
+    {
+      "code": "uy",
+      "count": 51
+    },
+    {
+      "code": "kz",
+      "count": 49
+    },
+    {
+      "code": "bd",
+      "count": 43
+    },
+    {
+      "code": "ke",
+      "count": 39
+    },
+    {
+      "code": "sv",
+      "count": 39
+    },
+    {
+      "code": "mn",
+      "count": 38
+    },
+    {
+      "code": "nz",
+      "count": 37
+    },
+    {
+      "code": "il",
+      "count": 35
+    },
+    {
+      "code": "tw",
+      "count": 34
+    },
+    {
+      "code": "uz",
+      "count": 34
+    },
+    {
+      "code": "lb",
+      "count": 31
+    },
+    {
+      "code": "mk",
+      "count": 31
+    },
+    {
+      "code": "hr",
+      "count": 29
+    },
+    {
+      "code": "pr",
+      "count": 29
+    },
+    {
+      "code": "lt",
+      "count": 28
+    },
+    {
+      "code": "pa",
+      "count": 28
+    },
+    {
+      "code": "by",
+      "count": 27
+    },
+    {
+      "code": "ht",
+      "count": 27
+    },
+    {
+      "code": "kh",
+      "count": 26
+    },
+    {
+      "code": "md",
+      "count": 26
+    },
+    {
+      "code": "si",
+      "count": 26
+    },
+    {
+      "code": "af",
+      "count": 25
+    },
+    {
+      "code": "ee",
+      "count": 25
+    },
+    {
+      "code": "fi",
+      "count": 25
+    },
+    {
+      "code": "lv",
+      "count": 24
+    },
+    {
+      "code": "za",
+      "count": 23
+    },
+    {
+      "code": "ae",
+      "count": 22
+    },
+    {
+      "code": "al",
+      "count": 22
+    },
+    {
+      "code": "np",
+      "count": 22
+    },
+    {
+      "code": "eg",
+      "count": 21
+    },
+    {
+      "code": "ge",
+      "count": 21
+    },
+    {
+      "code": "ug",
+      "count": 21
+    },
+    {
+      "code": "ba",
+      "count": 20
+    },
+    {
+      "code": "lu",
+      "count": 20
+    },
+    {
+      "code": "ni",
+      "count": 20
+    },
+    {
+      "code": "az",
+      "count": 19
+    },
+    {
+      "code": "ci",
+      "count": 19
+    },
+    {
+      "code": "jo",
+      "count": 19
+    },
+    {
+      "code": "lk",
+      "count": 19
+    },
+    {
+      "code": "ps",
+      "count": 19
+    },
+    {
+      "code": "cd",
+      "count": 18
+    },
+    {
+      "code": "cm",
+      "count": 18
+    },
+    {
+      "code": "cy",
+      "count": 18
+    },
+    {
+      "code": "hk",
+      "count": 18
+    },
+    {
+      "code": "jp",
+      "count": 17
+    },
+    {
+      "code": "mm",
+      "count": 17
+    },
+    {
+      "code": "ph",
+      "count": 17
+    },
+    {
+      "code": "sn",
+      "count": 15
+    },
+    {
+      "code": "tj",
+      "count": 14
+    },
+    {
+      "code": "aw",
+      "count": 12
+    },
+    {
+      "code": "kw",
+      "count": 12
+    },
+    {
+      "code": "ma",
+      "count": 12
+    },
+    {
+      "code": "bj",
+      "count": 11
+    },
+    {
+      "code": "gh",
+      "count": 11
+    },
+    {
+      "code": "la",
+      "count": 11
+    },
+    {
+      "code": "tg",
+      "count": 11
+    },
+    {
+      "code": "xk",
+      "count": 11
+    },
+    {
+      "code": "mv",
+      "count": 10
+    },
+    {
+      "code": "qa",
+      "count": 10
+    },
+    {
+      "code": "sy",
+      "count": 10
+    },
+    {
+      "code": "am",
+      "count": 9
+    },
+    {
+      "code": "sg",
+      "count": 9
+    },
+    {
+      "code": "ad",
+      "count": 8
+    },
+    {
+      "code": "dz",
+      "count": 8
+    },
+    {
+      "code": "jm",
+      "count": 8
+    },
+    {
+      "code": "kg",
+      "count": 8
+    },
+    {
+      "code": "mc",
+      "count": 8
+    },
+    {
+      "code": "me",
+      "count": 8
+    },
+    {
+      "code": "mt",
+      "count": 8
+    },
+    {
+      "code": "rw",
+      "count": 8
+    },
+    {
+      "code": "tm",
+      "count": 8
+    },
+    {
+      "code": "tz",
+      "count": 8
+    },
+    {
+      "code": "gy",
+      "count": 7
+    },
+    {
+      "code": "mo",
+      "count": 7
+    },
+    {
+      "code": "so",
+      "count": 7
+    },
+    {
+      "code": "tt",
+      "count": 7
+    },
+    {
+      "code": "bf",
+      "count": 6
+    },
+    {
+      "code": "bq",
+      "count": 6
+    },
+    {
+      "code": "ly",
+      "count": 6
+    },
+    {
+      "code": "mq",
+      "count": 6
+    },
+    {
+      "code": "my",
+      "count": 6
+    },
+    {
+      "code": "ne",
+      "count": 6
+    },
+    {
+      "code": "om",
+      "count": 6
+    },
+    {
+      "code": "sx",
+      "count": 6
+    },
+    {
+      "code": "bh",
+      "count": 5
+    },
+    {
+      "code": "cg",
+      "count": 5
+    },
+    {
+      "code": "cu",
+      "count": 5
+    },
+    {
+      "code": "cw",
+      "count": 5
+    },
+    {
+      "code": "gn",
+      "count": 5
+    },
+    {
+      "code": "gp",
+      "count": 5
+    },
+    {
+      "code": "is",
+      "count": 5
+    },
+    {
+      "code": "li",
+      "count": 5
+    },
+    {
+      "code": "mz",
+      "count": 5
+    },
+    {
+      "code": "bs",
+      "count": 4
+    },
+    {
+      "code": "et",
+      "count": 4
+    },
+    {
+      "code": "kp",
+      "count": 4
+    },
+    {
+      "code": "ml",
+      "count": 4
+    },
+    {
+      "code": "sm",
+      "count": 4
+    },
+    {
+      "code": "tn",
+      "count": 4
+    },
+    {
+      "code": "va",
+      "count": 4
+    },
+    {
+      "code": "ye",
+      "count": 4
+    },
+    {
+      "code": "ao",
+      "count": 3
+    },
+    {
+      "code": "kn",
+      "count": 3
+    },
+    {
+      "code": "sd",
+      "count": 3
+    },
+    {
+      "code": "bi",
+      "count": 2
+    },
+    {
+      "code": "bn",
+      "count": 2
+    },
+    {
+      "code": "bz",
+      "count": 2
+    },
+    {
+      "code": "gq",
+      "count": 2
+    },
+    {
+      "code": "gu",
+      "count": 2
+    },
+    {
+      "code": "lc",
+      "count": 2
+    },
+    {
+      "code": "mr",
+      "count": 2
+    },
+    {
+      "code": "mu",
+      "count": 2
+    },
+    {
+      "code": "na",
+      "count": 2
+    },
+    {
+      "code": "pf",
+      "count": 2
+    },
+    {
+      "code": "sr",
+      "count": 2
+    },
+    {
+      "code": "vg",
+      "count": 2
+    },
+    {
+      "code": "ag",
+      "count": 1
+    },
+    {
+      "code": "bb",
+      "count": 1
+    },
+    {
+      "code": "bt",
+      "count": 1
+    },
+    {
+      "code": "cv",
+      "count": 1
+    },
+    {
+      "code": "eh",
+      "count": 1
+    },
+    {
+      "code": "er",
+      "count": 1
+    },
+    {
+      "code": "fj",
+      "count": 1
+    },
+    {
+      "code": "gf",
+      "count": 1
+    },
+    {
+      "code": "gg",
+      "count": 1
+    },
+    {
+      "code": "gm",
+      "count": 1
+    },
+    {
+      "code": "km",
+      "count": 1
+    },
+    {
+      "code": "mg",
+      "count": 1
+    },
+    {
+      "code": "nc",
+      "count": 1
+    },
+    {
+      "code": "pg",
+      "count": 1
+    },
+    {
+      "code": "re",
+      "count": 1
+    },
+    {
+      "code": "sl",
+      "count": 1
+    },
+    {
+      "code": "td",
+      "count": 1
+    },
+    {
+      "code": "vc",
+      "count": 1
+    },
+    {
+      "code": "ws",
+      "count": 1
+    },
+    {
+      "code": "zw",
+      "count": 1
+    },
+    {
+      "code": "undefined",
+      "count": 0
+    }
+  ],
+  "categories": [
+    {
+      "slug": "general",
+      "count": 2768
+    },
+    {
+      "slug": "undefined",
+      "count": 1557
+    },
+    {
+      "slug": "news",
+      "count": 1068
+    },
+    {
+      "slug": "entertainment",
+      "count": 917
+    },
+    {
+      "slug": "religious",
+      "count": 820
+    },
+    {
+      "slug": "music",
+      "count": 781
+    },
+    {
+      "slug": "movies",
+      "count": 780
+    },
+    {
+      "slug": "sports",
+      "count": 529
+    },
+    {
+      "slug": "series",
+      "count": 527
+    },
+    {
+      "slug": "kids",
+      "count": 457
+    },
+    {
+      "slug": "documentary",
+      "count": 250
+    },
+    {
+      "slug": "comedy",
+      "count": 222
+    },
+    {
+      "slug": "education",
+      "count": 211
+    },
+    {
+      "slug": "culture",
+      "count": 196
+    },
+    {
+      "slug": "animation",
+      "count": 187
+    },
+    {
+      "slug": "legislative",
+      "count": 181
+    },
+    {
+      "slug": "lifestyle",
+      "count": 151
+    },
+    {
+      "slug": "classic",
+      "count": 106
+    },
+    {
+      "slug": "outdoor",
+      "count": 83
+    },
+    {
+      "slug": "shop",
+      "count": 81
+    },
+    {
+      "slug": "business",
+      "count": 79
+    },
+    {
+      "slug": "travel",
+      "count": 66
+    },
+    {
+      "slug": "family",
+      "count": 65
+    },
+    {
+      "slug": "cooking",
+      "count": 59
+    },
+    {
+      "slug": "public",
+      "count": 39
+    },
+    {
+      "slug": "auto",
+      "count": 33
+    },
+    {
+      "slug": "science",
+      "count": 23
+    },
+    {
+      "slug": "weather",
+      "count": 17
+    },
+    {
+      "slug": "relax",
+      "count": 10
+    },
+    {
+      "slug": "interactive",
+      "count": 2
+    }
+  ],
+  "playlists": {
+    "all": "/playlists/index.m3u",
+    "byCountry": "/playlists/index.country.m3u",
+    "byCategory": "/playlists/index.category.m3u",
+    "byLanguage": "/playlists/index.language.m3u"
+  }
+}
