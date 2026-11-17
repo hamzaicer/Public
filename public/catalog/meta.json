@@ -1,6 +1,6 @@
 {
   "source": "https://github.com/Free-TV/IPTV",
-  "generatedAt": "2026-11-17T22:01:19.670Z",
+  "generatedAt": "2026-11-17T22:05:01.204Z",
   "totalStreams": 2203,
   "countries": [
     {
@@ -216,14 +216,6 @@
       "count": 9
     },
     {
-      "code": "news-ar",
-      "count": 9
-    },
-    {
-      "code": "business",
-      "count": 9
-    },
-    {
       "code": "ee",
       "count": 8
     },
@@ -272,14 +264,6 @@
       "count": 6
     },
     {
-      "code": "weather",
-      "count": 6
-    },
-    {
-      "code": "news-es",
-      "count": 6
-    },
-    {
       "code": "hk",
       "count": 5
     },
@@ -297,10 +281,6 @@
     },
     {
       "code": "me",
-      "count": 4
-    },
-    {
-      "code": "document",
       "count": 4
     },
     {
@@ -325,10 +305,6 @@
     },
     {
       "code": "mt",
-      "count": 3
-    },
-    {
-      "code": "music-en",
       "count": 3
     },
     {
@@ -369,10 +345,6 @@
     },
     {
       "code": "xk",
-      "count": 1
-    },
-    {
-      "code": "general",
       "count": 1
     },
     {
