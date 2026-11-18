@@ -196,6 +196,7 @@ const categoryNames = {
   travel: 'Seyahat',
   undefined: 'Diğer',
   weather: 'Hava',
+  'free-tv': 'Free-TV',
 }
 
 export function countryLabel(code) {

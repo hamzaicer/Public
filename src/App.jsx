@@ -116,7 +116,7 @@ export default function App() {
           Bea<span>con</span>
         </h1>
         <p className="lede">
-          iptv-org yayınları + EPG rehberi — kanal seç, şimdi/sonra programını gör, M3U veya XMLTV indir.
+          iptv-org + Free-TV yayınları ve EPG rehberi — kanal seç, şimdi/sonra programını gör, M3U indir.
         </p>
         <div className="cta-row">
           <a className="btn btn-primary" href="/playlists/index.m3u" download>
@@ -182,6 +182,18 @@ export default function App() {
             onChange={(e) => setQuery(e.target.value)}
           />
           <div className="quick-filters">
+            <button
+              type="button"
+              className={`chip${mode === 'category' && selected === 'free-tv' ? ' active-chip' : ''}`}
+              onClick={() => {
+                setMode('category')
+                setSelected('free-tv')
+                setQuery('')
+                setVisibleCount(500)
+              }}
+            >
+              Free-TV
+            </button>
             {['beIN', 'TRT Spor', 'S Sport', 'A Spor'].map((q) => (
               <button
                 key={q}

@@ -12,6 +12,14 @@ const INDEXES = {
   byLanguage: `${BASE}/index.language.m3u`,
 }
 
+const EXTRA_SOURCES = [
+  {
+    name: 'free-tv',
+    url: 'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8',
+    file: 'free-tv.m3u8',
+  },
+]
+
 function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true })
 }
@@ -111,9 +119,22 @@ async function downloadIndexes() {
   }
 }
 
+async function downloadExtraSources() {
+  ensureDir(PLAYLISTS)
+  for (const src of EXTRA_SOURCES) {
+    process.stdout.write(`source ${src.name}… `)
+    const text = await fetchText(src.url)
+    fs.writeFileSync(path.join(PLAYLISTS, src.file), text)
+    const n = text.split(/\r?\n/).filter((l) => l.startsWith('#EXTINF:')).length
+    console.log(`ok (${n} channels)`)
+  }
+}
+
 async function main() {
   console.log('Syncing playlists from iptv-org…')
   await downloadIndexes()
+  console.log('Syncing extra sources…')
+  await downloadExtraSources()
 
   for (const kind of ['countries', 'categories']) {
     const codes = await listRemoteFiles(kind)

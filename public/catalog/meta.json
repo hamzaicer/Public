@@ -1,11 +1,13 @@
 {
-  "generatedAt": "2026-11-17T22:09:05.138Z",
-  "totalStreams": 11558,
-  "allCount": 11558,
+  "generatedAt": "2026-11-18T05:32:57.720Z",
+  "totalStreams": 12933,
+  "allCount": 12933,
+  "freeTvCount": 2203,
+  "freeTvAdded": 1375,
   "countries": [
     {
       "code": "us",
-      "count": 1498
+      "count": 1519
     },
     {
       "code": "int",
@@ -13,27 +15,27 @@
     },
     {
       "code": "in",
-      "count": 823
-    },
-    {
-      "code": "ru",
-      "count": 502
-    },
-    {
-      "code": "br",
-      "count": 397
+      "count": 854
     },
     {
       "code": "it",
-      "count": 363
+      "count": 680
+    },
+    {
+      "code": "ru",
+      "count": 547
+    },
+    {
+      "code": "br",
+      "count": 405
     },
     {
       "code": "es",
-      "count": 343
+      "count": 383
     },
     {
       "code": "de",
-      "count": 309
+      "count": 326
     },
     {
       "code": "uk",
@@ -41,7 +43,7 @@
     },
     {
       "code": "ca",
-      "count": 265
+      "count": 277
     },
     {
       "code": "do",
@@ -49,95 +51,99 @@
     },
     {
       "code": "fr",
-      "count": 229
+      "count": 256
     },
     {
       "code": "ar",
+      "count": 240
+    },
+    {
+      "code": "ua",
+      "count": 226
+    },
+    {
+      "code": "cl",
+      "count": 225
+    },
+    {
+      "code": "hu",
       "count": 220
     },
     {
       "code": "pe",
-      "count": 213
-    },
-    {
-      "code": "cl",
-      "count": 210
+      "count": 215
     },
     {
       "code": "ro",
-      "count": 206
-    },
-    {
-      "code": "ua",
-      "count": 199
+      "count": 210
     },
     {
       "code": "pl",
-      "count": 184
+      "count": 197
     },
     {
       "code": "ir",
-      "count": 183
-    },
-    {
-      "code": "tr",
-      "count": 178
-    },
-    {
-      "code": "nl",
-      "count": 177
+      "count": 187
     },
     {
       "code": "mx",
-      "count": 176
+      "count": 185
+    },
+    {
+      "code": "nl",
+      "count": 184
+    },
+    {
+      "code": "tr",
+      "count": 183
     },
     {
       "code": "id",
-      "count": 173
+      "count": 176
     },
     {
       "code": "co",
       "count": 165
     },
     {
-      "code": "hu",
-      "count": 164
-    },
-    {
       "code": "cn",
-      "count": 156
+      "count": 163
     },
     {
       "code": "dk",
-      "count": 153
-    },
-    {
-      "code": "ch",
-      "count": 141
+      "count": 162
     },
     {
       "code": "se",
-      "count": 138
+      "count": 148
+    },
+    {
+      "code": "ch",
+      "count": 147
+    },
+    {
+      "code": "cz",
+      "count": 130
     },
     {
       "code": "at",
-      "count": 119
+      "count": 123
     },
     {
       "code": "no",
-      "count": 117
+      "count": 119
     },
     {
       "code": "ec",
       "count": 112
     },
     {
-      "code": "cz",
-      "count": 109
+      "code": "gr",
+      "count": 111
     },
     {
       "code": "py",
-      "count": 107
+      "count": 109
     },
     {
       "code": "pk",
@@ -145,15 +151,19 @@
     },
     {
       "code": "ve",
+      "count": 106
+    },
+    {
+      "code": "sk",
       "count": 102
+    },
+    {
+      "code": "au",
+      "count": 98
     },
     {
       "code": "bo",
       "count": 96
-    },
-    {
-      "code": "sk",
-      "count": 95
     },
     {
       "code": "vn",
@@ -161,10 +171,18 @@
     },
     {
       "code": "bg",
-      "count": 84
+      "count": 86
     },
     {
-      "code": "au",
+      "code": "kr",
+      "count": 83
+    },
+    {
+      "code": "ie",
+      "count": 80
+    },
+    {
+      "code": "pt",
       "count": 79
     },
     {
@@ -172,60 +190,68 @@
       "count": 78
     },
     {
+      "code": "mn",
+      "count": 77
+    },
+    {
       "code": "th",
       "count": 73
     },
     {
-      "code": "kr",
-      "count": 72
-    },
-    {
-      "code": "pt",
+      "code": "cr",
       "count": 71
     },
     {
-      "code": "gr",
-      "count": 70
-    },
-    {
-      "code": "cr",
-      "count": 69
+      "code": "iq",
+      "count": 68
     },
     {
       "code": "gt",
       "count": 66
     },
     {
-      "code": "ie",
-      "count": 64
-    },
-    {
-      "code": "iq",
-      "count": 58
-    },
-    {
       "code": "be",
-      "count": 57
-    },
-    {
-      "code": "ng",
-      "count": 55
+      "count": 65
     },
     {
       "code": "rs",
-      "count": 55
+      "count": 64
+    },
+    {
+      "code": "ng",
+      "count": 59
     },
     {
       "code": "sa",
+      "count": 57
+    },
+    {
+      "code": "gb",
       "count": 55
+    },
+    {
+      "code": "ae",
+      "count": 53
     },
     {
       "code": "uy",
       "count": 51
     },
     {
+      "code": "fi",
+      "count": 50
+    },
+    {
       "code": "kz",
+      "count": 50
+    },
+    {
+      "code": "mk",
       "count": 49
+    },
+    {
+      "code": "tw",
+      "count": 45
     },
     {
       "code": "bd",
@@ -233,14 +259,22 @@
     },
     {
       "code": "ke",
-      "count": 39
+      "count": 43
+    },
+    {
+      "code": "by",
+      "count": 42
+    },
+    {
+      "code": "hr",
+      "count": 41
     },
     {
       "code": "sv",
       "count": 39
     },
     {
-      "code": "mn",
+      "code": "il",
       "count": 38
     },
     {
@@ -248,32 +282,28 @@
       "count": 37
     },
     {
-      "code": "il",
-      "count": 35
-    },
-    {
-      "code": "tw",
-      "count": 34
-    },
-    {
       "code": "uz",
       "count": 34
+    },
+    {
+      "code": "al",
+      "count": 31
+    },
+    {
+      "code": "ee",
+      "count": 31
     },
     {
       "code": "lb",
       "count": 31
     },
     {
-      "code": "mk",
-      "count": 31
-    },
-    {
-      "code": "hr",
-      "count": 29
-    },
-    {
       "code": "pr",
       "count": 29
+    },
+    {
+      "code": "ba",
+      "count": 28
     },
     {
       "code": "lt",
@@ -284,19 +314,23 @@
       "count": 28
     },
     {
-      "code": "by",
-      "count": 27
-    },
-    {
       "code": "ht",
       "count": 27
     },
     {
-      "code": "kh",
-      "count": 26
+      "code": "jp",
+      "count": 27
+    },
+    {
+      "code": "lv",
+      "count": 27
     },
     {
       "code": "md",
+      "count": 27
+    },
+    {
+      "code": "kh",
       "count": 26
     },
     {
@@ -308,39 +342,35 @@
       "count": 25
     },
     {
-      "code": "ee",
-      "count": 25
-    },
-    {
-      "code": "fi",
-      "count": 25
-    },
-    {
-      "code": "lv",
+      "code": "eg",
       "count": 24
+    },
+    {
+      "code": "ge",
+      "count": 24
+    },
+    {
+      "code": "so",
+      "count": 24
+    },
+    {
+      "code": "az",
+      "count": 23
     },
     {
       "code": "za",
       "count": 23
     },
     {
-      "code": "ae",
-      "count": 22
-    },
-    {
-      "code": "al",
-      "count": 22
-    },
-    {
       "code": "np",
       "count": 22
     },
     {
-      "code": "eg",
+      "code": "hk",
       "count": 21
     },
     {
-      "code": "ge",
+      "code": "lu",
       "count": 21
     },
     {
@@ -348,11 +378,7 @@
       "count": 21
     },
     {
-      "code": "ba",
-      "count": 20
-    },
-    {
-      "code": "lu",
+      "code": "cy",
       "count": 20
     },
     {
@@ -360,8 +386,8 @@
       "count": 20
     },
     {
-      "code": "az",
-      "count": 19
+      "code": "qa",
+      "count": 20
     },
     {
       "code": "ci",
@@ -388,18 +414,6 @@
       "count": 18
     },
     {
-      "code": "cy",
-      "count": 18
-    },
-    {
-      "code": "hk",
-      "count": 18
-    },
-    {
-      "code": "jp",
-      "count": 17
-    },
-    {
       "code": "mm",
       "count": 17
     },
@@ -414,6 +428,10 @@
     {
       "code": "tj",
       "count": 14
+    },
+    {
+      "code": "tt",
+      "count": 13
     },
     {
       "code": "aw",
@@ -448,11 +466,11 @@
       "count": 11
     },
     {
-      "code": "mv",
+      "code": "mt",
       "count": 10
     },
     {
-      "code": "qa",
+      "code": "mv",
       "count": 10
     },
     {
@@ -492,10 +510,6 @@
       "count": 8
     },
     {
-      "code": "mt",
-      "count": 8
-    },
-    {
       "code": "rw",
       "count": 8
     },
@@ -516,19 +530,19 @@
       "count": 7
     },
     {
-      "code": "so",
-      "count": 7
-    },
-    {
-      "code": "tt",
-      "count": 7
-    },
-    {
       "code": "bf",
       "count": 6
     },
     {
       "code": "bq",
+      "count": 6
+    },
+    {
+      "code": "is",
+      "count": 6
+    },
+    {
+      "code": "kp",
       "count": 6
     },
     {
@@ -580,10 +594,6 @@
       "count": 5
     },
     {
-      "code": "is",
-      "count": 5
-    },
-    {
       "code": "li",
       "count": 5
     },
@@ -597,10 +607,6 @@
     },
     {
       "code": "et",
-      "count": 4
-    },
-    {
-      "code": "kp",
       "count": 4
     },
     {
@@ -680,7 +686,19 @@
       "count": 2
     },
     {
+      "code": "td",
+      "count": 2
+    },
+    {
       "code": "vg",
+      "count": 2
+    },
+    {
+      "code": "fo",
+      "count": 2
+    },
+    {
+      "code": "gl",
       "count": 2
     },
     {
@@ -748,10 +766,6 @@
       "count": 1
     },
     {
-      "code": "td",
-      "count": 1
-    },
-    {
       "code": "vc",
       "count": 1
     },
@@ -772,6 +786,10 @@
     {
       "slug": "general",
       "count": 2768
+    },
+    {
+      "slug": "free-tv",
+      "count": 2203
     },
     {
       "slug": "undefined",
@@ -898,6 +916,19 @@
     "all": "/playlists/index.m3u",
     "byCountry": "/playlists/index.country.m3u",
     "byCategory": "/playlists/index.category.m3u",
-    "byLanguage": "/playlists/index.language.m3u"
-  }
+    "byLanguage": "/playlists/index.language.m3u",
+    "freeTv": "/playlists/free-tv.m3u8"
+  },
+  "sources": [
+    {
+      "id": "iptv-org",
+      "label": "iptv-org",
+      "count": 11558
+    },
+    {
+      "id": "free-tv",
+      "label": "Free-TV/IPTV",
+      "count": 2203
+    }
+  ]
 }
