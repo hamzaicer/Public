@@ -107,49 +107,42 @@ export default function App() {
       ? '/playlists/index.m3u'
       : mode === 'country'
         ? `/playlists/countries/${selected}.m3u`
-        : `/playlists/categories/${selected}.m3u`
+        : selected === 'free-tv'
+          ? '/playlists/free-tv.m3u8'
+          : `/playlists/categories/${selected}.m3u`
+
+  const scrollToBrowse = () => {
+    document.getElementById('browse')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
 
   return (
     <div className="app">
       <header className="hero">
-        <h1 className="brand">
-          Bea<span>con</span>
-        </h1>
-        <p className="lede">
-          iptv-org + Free-TV yayınları ve EPG rehberi — kanal seç, şimdi/sonra programını gör, M3U indir.
-        </p>
-        <div className="cta-row">
-          <a className="btn btn-primary" href="/playlists/index.m3u" download>
-            Tüm kanallar (.m3u)
-          </a>
-          <a className="btn btn-ghost" href="/playlists/countries/tr.m3u" download>
-            Türkiye playlist
-          </a>
-          <a className="btn btn-ghost" href="/epg/tr.xml" download>
-            Türkiye EPG (.xml)
-          </a>
+        <div className="hero-media" aria-hidden="true">
+          <img
+            src="https://images.unsplash.com/photo-1461151304267-38535e780c79?auto=format&fit=crop&w=2400&q=80"
+            alt=""
+          />
         </div>
-        {meta && (
-          <div className="stats">
-            <div>
-              <strong>{meta.totalStreams.toLocaleString('tr-TR')}</strong>
-              yayın
-            </div>
-            <div>
-              <strong>{meta.countries.length}</strong>
-              ülke
-            </div>
-            <div>
-              <strong>{meta.categories.length}</strong>
-              kategori
-            </div>
+        <div className="hero-veil" aria-hidden="true" />
+        <div className="hero-copy">
+          <p className="brand">Beacon</p>
+          <h1 className="hero-title">Açık yayınları izle</h1>
+          <p className="lede">iptv-org ve Free-TV listelerinden kanal seç, EPG’ye bak, M3U indir.</p>
+          <div className="cta-row">
+            <button type="button" className="btn btn-primary" onClick={scrollToBrowse}>
+              İzlemeye başla
+            </button>
+            <a className="btn btn-ghost" href="/playlists/index.m3u" download>
+              Tüm kanallar (.m3u)
+            </a>
           </div>
-        )}
+        </div>
       </header>
 
-      <div className="shell">
-        <aside className="panel sidebar">
-          <h2>Gezinme</h2>
+      <div className="shell" id="browse">
+        <aside className="sidebar">
+          <h2>Keşfet</h2>
           <select
             className="field"
             value={mode}
@@ -169,7 +162,7 @@ export default function App() {
               }
             }}
           >
-            <option value="all">Tüm kanallar (dosya)</option>
+            <option value="all">Tüm kanallar</option>
             <option value="country">Ülkelere göre</option>
             <option value="category">Kategoriye göre</option>
           </select>
@@ -214,7 +207,7 @@ export default function App() {
           <div className="filter-list">
             {mode === 'all' && (
               <button type="button" className="filter-item active">
-                index.m3u
+                Tüm liste
                 <span>{meta?.allCount ?? meta?.totalStreams ?? '…'}</span>
               </button>
             )}
@@ -249,17 +242,17 @@ export default function App() {
           <Player channel={active} />
           <EpgPanel channelId={active?.id} />
 
-          <section className="panel">
+          <section className="channels">
             <div className="toolbar">
               <div className="toolbar-left">
-                <span className="chip">
+                <h2 className="section-title">
                   {mode === 'all'
                     ? 'Tüm kanallar'
                     : mode === 'country'
                       ? countryLabel(selected)
                       : categoryLabel(selected)}
-                </span>
-                <span className="chip">{filtered.length} kanal</span>
+                </h2>
+                <span className="count">{filtered.length} kanal</span>
               </div>
               <a className="btn btn-ghost" href={playlistHref} download>
                 Bu listeyi indir
@@ -294,8 +287,7 @@ export default function App() {
             {visible.length < filtered.length && (
               <button
                 type="button"
-                className="btn btn-ghost"
-                style={{ marginTop: '0.75rem', width: '100%' }}
+                className="btn btn-ghost more-btn"
                 onClick={() => setVisibleCount((n) => n + 400)}
               >
                 Daha fazla göster ({filtered.length - visible.length} kaldı)
@@ -311,12 +303,14 @@ export default function App() {
           iptv-org/iptv
         </a>
         {' · '}
+        <a href="https://github.com/Free-TV/IPTV" target="_blank" rel="noreferrer">
+          Free-TV/IPTV
+        </a>
+        {' · '}
         Rehber:{' '}
         <a href="https://github.com/iptv-org/epg" target="_blank" rel="noreferrer">
           iptv-org/epg
         </a>
-        {' '}
-        (tvplus / digiturk / dsmart / turksat)
       </footer>
     </div>
   )
