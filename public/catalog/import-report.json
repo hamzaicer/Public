@@ -1,0 +1,101 @@
+{
+  "generatedAt": "2026-11-18T06:26:56.646Z",
+  "totals": {
+    "found": 71076,
+    "allowed": 20701,
+    "review": 23,
+    "blocked": 0,
+    "duplicate": 50352,
+    "invalid": 0
+  },
+  "sources": [
+    {
+      "id": "iptv-org",
+      "label": "iptv-org",
+      "found": 11557,
+      "added": 11542,
+      "duplicate": 0,
+      "review": 15,
+      "blocked": 0,
+      "invalid": 0,
+      "rejectReasons": {
+        "non-http-stream": 15
+      }
+    },
+    {
+      "id": "free-tv",
+      "label": "Free-TV/IPTV",
+      "found": 2203,
+      "added": 1378,
+      "duplicate": 821,
+      "review": 4,
+      "blocked": 0,
+      "invalid": 0,
+      "rejectReasons": {
+        "duplicate-url": 821,
+        "non-http-stream": 4
+      }
+    },
+    {
+      "id": "nexus",
+      "label": "IPTV Nexus",
+      "found": 15920,
+      "added": 4413,
+      "duplicate": 11505,
+      "review": 2,
+      "blocked": 0,
+      "invalid": 0,
+      "rejectReasons": {
+        "duplicate-url": 11505,
+        "non-http-stream": 2
+      }
+    },
+    {
+      "id": "nexus-online",
+      "label": "Nexus Online",
+      "found": 8534,
+      "added": 0,
+      "duplicate": 8534,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0,
+      "rejectReasons": {
+        "duplicate-url": 8534
+      }
+    },
+    {
+      "id": "world-iptv",
+      "label": "World IPTV",
+      "found": 14097,
+      "added": 741,
+      "duplicate": 13356,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0,
+      "rejectReasons": {
+        "duplicate-url": 13356
+      }
+    },
+    {
+      "id": "iptv-org-streams",
+      "label": "iptv-org streams API",
+      "found": 18765,
+      "added": 2627,
+      "duplicate": 16136,
+      "review": 2,
+      "blocked": 0,
+      "invalid": 0,
+      "rejectReasons": {
+        "duplicate-url": 16136,
+        "non-http-stream": 2
+      }
+    }
+  ],
+  "notes": [
+    "licenseStatus=allowed → normal channel list",
+    "licenseStatus=review → İnceleme Bekliyor (not auto-deleted)",
+    "licenseStatus=blocked → not published; reason listed",
+    "Technical playback errors are separate from licenseStatus",
+    "No DRM or access-control bypass is performed"
+  ]
+}

@@ -201,6 +201,8 @@ const categoryNames = {
   'nexus-online': 'Nexus Online',
   'world-iptv': 'World IPTV',
   'iptv-org-streams': 'iptv-org Streams',
+  review: 'İnceleme Bekliyor',
+  blocked: 'Reddedilen',
 }
 
 export function countryLabel(code) {
@@ -232,5 +234,11 @@ export async function loadCategory(slug) {
 export async function loadAllChannels() {
   const res = await fetch('/catalog/all.json')
   if (!res.ok) throw new Error('Tüm kanal listesi yüklenemedi')
+  return res.json()
+}
+
+export async function loadImportReport() {
+  const res = await fetch('/catalog/import-report.json')
+  if (!res.ok) throw new Error('İçe aktarma raporu yüklenemedi')
   return res.json()
 }

@@ -1,22 +1,27 @@
 {
-  "generatedAt": "2026-11-18T05:45:43.181Z",
-  "totalStreams": 20724,
-  "allCount": 20724,
+  "generatedAt": "2026-11-18T06:26:57.334Z",
+  "totalStreams": 20701,
+  "allCount": 20701,
+  "reviewCount": 23,
+  "blockedCount": 0,
+  "duplicateCount": 50352,
+  "invalidCount": 0,
   "addedBySource": {
-    "free-tv": 1382,
-    "nexus": 4415,
+    "iptv-org": 11542,
+    "free-tv": 1378,
+    "nexus": 4413,
     "nexus-online": 0,
     "world-iptv": 741,
-    "iptv-org-streams": 2629
+    "iptv-org-streams": 2627
   },
   "countries": [
     {
       "code": "us",
-      "count": 2978
+      "count": 2406
     },
     {
       "code": "in",
-      "count": 1987
+      "count": 1964
     },
     {
       "code": "int",
@@ -24,99 +29,95 @@
     },
     {
       "code": "ru",
-      "count": 1013
+      "count": 981
     },
     {
       "code": "it",
-      "count": 737
+      "count": 728
     },
     {
       "code": "uk",
-      "count": 595
-    },
-    {
-      "code": "de",
-      "count": 552
+      "count": 529
     },
     {
       "code": "br",
-      "count": 523
+      "count": 519
     },
     {
       "code": "es",
-      "count": 472
+      "count": 428
+    },
+    {
+      "code": "de",
+      "count": 392
     },
     {
       "code": "fr",
-      "count": 424
-    },
-    {
-      "code": "se",
-      "count": 400
-    },
-    {
-      "code": "ca",
       "count": 351
     },
     {
-      "code": "cn",
-      "count": 311
+      "code": "ca",
+      "count": 334
     },
     {
       "code": "pe",
       "count": 302
     },
     {
-      "code": "ar",
-      "count": 293
+      "code": "cn",
+      "count": 288
     },
     {
       "code": "co",
-      "count": 289
+      "count": 288
+    },
+    {
+      "code": "ar",
+      "count": 283
     },
     {
       "code": "do",
-      "count": 279
-    },
-    {
-      "code": "mx",
-      "count": 262
+      "count": 278
     },
     {
       "code": "cl",
-      "count": 260
+      "count": 254
     },
     {
       "code": "ua",
-      "count": 257
+      "count": 249
     },
     {
-      "code": "tr",
-      "count": 253
+      "code": "mx",
+      "count": 245
     },
     {
       "code": "nl",
-      "count": 252
-    },
-    {
-      "code": "pl",
-      "count": 247
+      "count": 231
     },
     {
       "code": "hu",
-      "count": 235
+      "count": 227
     },
     {
       "code": "ro",
-      "count": 228
+      "count": 226
+    },
+    {
+      "code": "tr",
+      "count": 221
+    },
+    {
+      "code": "pl",
+      "count": 219
     },
     {
       "code": "id",
-      "count": 207
+      "count": 206
     },
     {
       "code": "ir",
-      "count": 200
+      "count": 196
     },
     {
       "code": "dk",
@@ -124,31 +125,35 @@
     },
     {
       "code": "ch",
-      "count": 152
+      "count": 151
+    },
+    {
+      "code": "se",
+      "count": 150
     },
     {
       "code": "cz",
-      "count": 140
-    },
-    {
-      "code": "at",
-      "count": 136
+      "count": 137
     },
     {
       "code": "ec",
       "count": 133
     },
     {
-      "code": "bo",
-      "count": 130
+      "code": "at",
+      "count": 131
     },
     {
       "code": "py",
       "count": 130
     },
     {
-      "code": "pk",
+      "code": "bo",
       "count": 129
+    },
+    {
+      "code": "pk",
+      "count": 128
     },
     {
       "code": "no",
@@ -156,7 +161,7 @@
     },
     {
       "code": "ve",
-      "count": 124
+      "count": 119
     },
     {
       "code": "vn",
@@ -164,26 +169,22 @@
     },
     {
       "code": "gr",
-      "count": 116
+      "count": 113
     },
     {
       "code": "sk",
-      "count": 116
+      "count": 113
     },
     {
       "code": "au",
-      "count": 103
+      "count": 101
     },
     {
       "code": "cr",
-      "count": 102
+      "count": 101
     },
     {
       "code": "th",
-      "count": 98
-    },
-    {
-      "code": "kr",
       "count": 97
     },
     {
@@ -191,20 +192,24 @@
       "count": 95
     },
     {
+      "code": "kr",
+      "count": 95
+    },
+    {
       "code": "hn",
       "count": 90
     },
     {
-      "code": "pt",
-      "count": 89
+      "code": "mn",
+      "count": 87
     },
     {
       "code": "be",
-      "count": 87
+      "count": 85
     },
     {
-      "code": "mn",
-      "count": 87
+      "code": "pt",
+      "count": 84
     },
     {
       "code": "gt",
@@ -212,46 +217,38 @@
     },
     {
       "code": "ie",
-      "count": 81
-    },
-    {
-      "code": "iq",
       "count": 80
     },
     {
-      "code": "ae",
-      "count": 77
+      "code": "iq",
+      "count": 79
     },
     {
       "code": "sa",
-      "count": 77
+      "count": 73
     },
     {
       "code": "kz",
-      "count": 68
-    },
-    {
-      "code": "rs",
       "count": 67
     },
     {
       "code": "ng",
-      "count": 64
-    },
-    {
-      "code": "fi",
       "count": 63
     },
     {
-      "code": "gb",
-      "count": 55
+      "code": "fi",
+      "count": 61
     },
     {
-      "code": "bd",
+      "code": "rs",
+      "count": 61
+    },
+    {
+      "code": "ae",
       "count": 53
     },
     {
-      "code": "uy",
+      "code": "bd",
       "count": 53
     },
     {
@@ -259,31 +256,27 @@
       "count": 52
     },
     {
-      "code": "mk",
-      "count": 51
+      "code": "uy",
+      "count": 52
     },
     {
-      "code": "qa",
-      "count": 51
+      "code": "mk",
+      "count": 50
     },
     {
       "code": "sv",
       "count": 50
     },
     {
-      "code": "tw",
-      "count": 48
+      "code": "il",
+      "count": 46
     },
     {
-      "code": "il",
-      "count": 47
+      "code": "tw",
+      "count": 45
     },
     {
       "code": "ke",
-      "count": 44
-    },
-    {
-      "code": "sg",
       "count": 44
     },
     {
@@ -291,28 +284,24 @@
       "count": 42
     },
     {
-      "code": "ee",
+      "code": "gb",
       "count": 41
+    },
+    {
+      "code": "qa",
+      "count": 40
     },
     {
       "code": "nz",
       "count": 39
     },
     {
-      "code": "jp",
-      "count": 38
-    },
-    {
       "code": "uz",
       "count": 38
     },
     {
-      "code": "hk",
-      "count": 36
-    },
-    {
-      "code": "lb",
-      "count": 36
+      "code": "ee",
+      "count": 35
     },
     {
       "code": "pr",
@@ -323,24 +312,24 @@
       "count": 34
     },
     {
+      "code": "jp",
+      "count": 34
+    },
+    {
       "code": "kh",
       "count": 34
     },
     {
-      "code": "za",
+      "code": "lb",
       "count": 34
     },
     {
-      "code": "ba",
-      "count": 32
+      "code": "hk",
+      "count": 33
     },
     {
       "code": "md",
-      "count": 32
-    },
-    {
-      "code": "pa",
-      "count": 32
+      "count": 31
     },
     {
       "code": "lt",
@@ -355,7 +344,19 @@
       "count": 30
     },
     {
+      "code": "za",
+      "count": 30
+    },
+    {
+      "code": "pa",
+      "count": 29
+    },
+    {
       "code": "az",
+      "count": 28
+    },
+    {
+      "code": "ba",
       "count": 28
     },
     {
@@ -375,16 +376,12 @@
       "count": 25
     },
     {
-      "code": "eg",
-      "count": 24
-    },
-    {
       "code": "np",
       "count": 24
     },
     {
-      "code": "so",
-      "count": 24
+      "code": "eg",
+      "count": 23
     },
     {
       "code": "ni",
@@ -392,6 +389,10 @@
     },
     {
       "code": "ps",
+      "count": 23
+    },
+    {
+      "code": "so",
       "count": 23
     },
     {
@@ -419,15 +420,19 @@
       "count": 19
     },
     {
-      "code": "mm",
-      "count": 19
-    },
-    {
       "code": "cd",
       "count": 18
     },
     {
+      "code": "mm",
+      "count": 18
+    },
+    {
       "code": "ph",
+      "count": 17
+    },
+    {
+      "code": "sg",
       "count": 17
     },
     {
@@ -459,20 +464,12 @@
       "count": 15
     },
     {
-      "code": "kg",
-      "count": 14
-    },
-    {
       "code": "mv",
       "count": 14
     },
     {
       "code": "tt",
       "count": 14
-    },
-    {
-      "code": "am",
-      "count": 13
     },
     {
       "code": "gh",
@@ -485,6 +482,10 @@
     {
       "code": "mt",
       "count": 12
+    },
+    {
+      "code": "am",
+      "count": 11
     },
     {
       "code": "la",
@@ -515,11 +516,11 @@
       "count": 9
     },
     {
-      "code": "kp",
+      "code": "kg",
       "count": 9
     },
     {
-      "code": "mc",
+      "code": "kp",
       "count": 9
     },
     {
@@ -535,15 +536,11 @@
       "count": 8
     },
     {
+      "code": "mc",
+      "count": 8
+    },
+    {
       "code": "me",
-      "count": 8
-    },
-    {
-      "code": "my",
-      "count": 8
-    },
-    {
-      "code": "mz",
       "count": 8
     },
     {
@@ -555,15 +552,15 @@
       "count": 7
     },
     {
-      "code": "tn",
+      "code": "my",
+      "count": 7
+    },
+    {
+      "code": "mz",
       "count": 7
     },
     {
       "code": "bf",
-      "count": 6
-    },
-    {
-      "code": "bh",
       "count": 6
     },
     {
@@ -593,6 +590,14 @@
     {
       "code": "sx",
       "count": 6
+    },
+    {
+      "code": "tn",
+      "count": 6
+    },
+    {
+      "code": "bh",
+      "count": 5
     },
     {
       "code": "cu",
@@ -790,11 +795,11 @@
   "categories": [
     {
       "slug": "iptv-org-streams",
-      "count": 18765
+      "count": 18746
     },
     {
       "slug": "nexus",
-      "count": 15920
+      "count": 15906
     },
     {
       "slug": "world-iptv",
@@ -806,19 +811,19 @@
     },
     {
       "slug": "general",
-      "count": 2765
+      "count": 2762
     },
     {
       "slug": "free-tv",
-      "count": 2203
+      "count": 2193
     },
     {
       "slug": "undefined",
-      "count": 1558
+      "count": 1553
     },
     {
       "slug": "news",
-      "count": 1067
+      "count": 1065
     },
     {
       "slug": "entertainment",
@@ -829,16 +834,16 @@
       "count": 820
     },
     {
-      "slug": "music",
-      "count": 781
-    },
-    {
       "slug": "movies",
       "count": 780
     },
     {
+      "slug": "music",
+      "count": 780
+    },
+    {
       "slug": "sports",
-      "count": 534
+      "count": 533
     },
     {
       "slug": "series",
@@ -846,7 +851,7 @@
     },
     {
       "slug": "kids",
-      "count": 457
+      "count": 456
     },
     {
       "slug": "documentary",
@@ -858,7 +863,7 @@
     },
     {
       "slug": "education",
-      "count": 211
+      "count": 210
     },
     {
       "slug": "culture",
@@ -890,7 +895,7 @@
     },
     {
       "slug": "business",
-      "count": 79
+      "count": 78
     },
     {
       "slug": "travel",
@@ -917,6 +922,10 @@
       "count": 23
     },
     {
+      "slug": "review",
+      "count": 23
+    },
+    {
       "slug": "weather",
       "count": 17
     },
@@ -927,10 +936,6 @@
     {
       "slug": "interactive",
       "count": 2
-    },
-    {
-      "slug": "xxx",
-      "count": 0
     }
   ],
   "playlists": {
@@ -948,37 +953,63 @@
     {
       "id": "iptv-org",
       "label": "iptv-org",
-      "count": 11557
+      "found": 11557,
+      "added": 11542,
+      "duplicate": 0,
+      "review": 15,
+      "blocked": 0,
+      "invalid": 0
     },
     {
       "id": "free-tv",
       "label": "Free-TV/IPTV",
-      "count": 2203,
-      "added": 1382
+      "found": 2203,
+      "added": 1378,
+      "duplicate": 821,
+      "review": 4,
+      "blocked": 0,
+      "invalid": 0
     },
     {
       "id": "nexus",
       "label": "IPTV Nexus",
-      "count": 15920,
-      "added": 4415
+      "found": 15920,
+      "added": 4413,
+      "duplicate": 11505,
+      "review": 2,
+      "blocked": 0,
+      "invalid": 0
     },
     {
       "id": "nexus-online",
       "label": "Nexus Online",
-      "count": 8534,
-      "added": 0
+      "found": 8534,
+      "added": 0,
+      "duplicate": 8534,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0
     },
     {
       "id": "world-iptv",
       "label": "World IPTV",
-      "count": 14097,
-      "added": 741
+      "found": 14097,
+      "added": 741,
+      "duplicate": 13356,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0
     },
     {
       "id": "iptv-org-streams",
       "label": "iptv-org streams API",
-      "count": 18765,
-      "added": 2629
+      "found": 18765,
+      "added": 2627,
+      "duplicate": 16136,
+      "review": 2,
+      "blocked": 0,
+      "invalid": 0
     }
-  ]
+  ],
+  "importReport": "/catalog/import-report.json"
 }

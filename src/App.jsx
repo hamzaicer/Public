@@ -7,6 +7,7 @@ import {
   loadAllChannels,
   loadCategory,
   loadCountry,
+  loadImportReport,
   loadMeta,
 } from './lib/catalog.js'
 import { loadEpgMeta } from './lib/epg.js'
@@ -39,15 +40,22 @@ export default function App() {
   const [error, setError] = useState('')
   const [epgIds, setEpgIds] = useState(() => new Set())
   const [visibleCount, setVisibleCount] = useState(300)
+  const [importReport, setImportReport] = useState(null)
+  const [showReport, setShowReport] = useState(false)
   const deferredQuery = useDeferredValue(query)
 
   useEffect(() => {
     let cancelled = false
     ;(async () => {
       try {
-        const [data, epg] = await Promise.all([loadMeta(), loadEpgMeta()])
+        const [data, epg, report] = await Promise.all([
+          loadMeta(),
+          loadEpgMeta(),
+          loadImportReport().catch(() => null),
+        ])
         if (cancelled) return
         setMeta(data)
+        setImportReport(report)
         if (epg?.ids) setEpgIds(new Set(epg.ids))
         setMode('all')
         setSelected('all')
@@ -183,6 +191,18 @@ export default function App() {
             onChange={(e) => setQuery(e.target.value)}
           />
           <div className="quick-filters">
+            <button
+              type="button"
+              className={`chip${mode === 'category' && selected === 'review' ? ' active-chip' : ''}`}
+              onClick={() => {
+                setMode('category')
+                setSelected('review')
+                setQuery('')
+                setVisibleCount(500)
+              }}
+            >
+              İnceleme Bekliyor
+            </button>
             {[
               { id: 'free-tv', label: 'Free-TV' },
               { id: 'nexus', label: 'Nexus' },
@@ -219,6 +239,49 @@ export default function App() {
               </button>
             ))}
           </div>
+
+          {importReport && (
+            <div className="import-report">
+              <button
+                type="button"
+                className="chip"
+                onClick={() => setShowReport((v) => !v)}
+              >
+                İçe aktarma raporu
+              </button>
+              {showReport && (
+                <div className="import-report-body">
+                  <p>
+                    Bulunan {importReport.totals.found.toLocaleString('tr-TR')} · Eklenen{' '}
+                    {importReport.totals.allowed.toLocaleString('tr-TR')} · Tekrar{' '}
+                    {importReport.totals.duplicate.toLocaleString('tr-TR')} · İnceleme{' '}
+                    {importReport.totals.review.toLocaleString('tr-TR')} · Red{' '}
+                    {importReport.totals.blocked.toLocaleString('tr-TR')} · Hatalı{' '}
+                    {importReport.totals.invalid.toLocaleString('tr-TR')}
+                  </p>
+                  <ul>
+                    {importReport.sources.map((s) => (
+                      <li key={s.id}>
+                        <strong>{s.label}</strong>
+                        <span>
+                          {s.found} bulunan · {s.added} eklenen · {s.duplicate} tekrar · {s.review}{' '}
+                          inceleme
+                        </span>
+                        {s.rejectReasons && Object.keys(s.rejectReasons).length > 0 && (
+                          <small>
+                            Nedenler:{' '}
+                            {Object.entries(s.rejectReasons)
+                              .map(([reason, count]) => `${reason} (${count})`)
+                              .join(', ')}
+                          </small>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
 
           <div className="filter-list">
             {mode === 'all' && (
@@ -294,8 +357,14 @@ export default function App() {
                     <strong>
                       {ch.name}
                       {epgIds.has(ch.id) && <span className="epg-badge">EPG</span>}
+                      {ch.licenseStatus === 'review' && (
+                        <span className="epg-badge review-badge">İNCELEME</span>
+                      )}
                     </strong>
-                    <small>{ch.group}</small>
+                    <small>
+                      {ch.group}
+                      {ch.rejectReason ? ` · ${ch.rejectReason}` : ''}
+                    </small>
                   </div>
                 </button>
               ))}

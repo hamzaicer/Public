@@ -649,6 +649,51 @@ img {
   gap: 0.35rem;
 }
 
+.import-report {
+  margin: 0.75rem 0 0.35rem;
+}
+
+.import-report-body {
+  margin-top: 0.55rem;
+  padding: 0.65rem 0;
+  border-top: 1px solid var(--line);
+  color: var(--mist);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.import-report-body p {
+  margin: 0 0 0.55rem;
+  color: var(--ink);
+}
+
+.import-report-body ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.45rem;
+  max-height: 28vh;
+  overflow: auto;
+}
+
+.import-report-body li {
+  display: grid;
+  gap: 0.15rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.import-report-body small {
+  color: var(--mist);
+  word-break: break-word;
+}
+
+.review-badge {
+  color: var(--signal-deep) !important;
+  border-color: rgba(227, 93, 42, 0.45) !important;
+}
+
 .quick-filters .chip:hover,
 .quick-filters .active-chip {
   border-color: var(--signal);

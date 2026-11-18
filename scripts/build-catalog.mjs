@@ -15,8 +15,14 @@ const EXTRA_PLAYLISTS = [
     label: 'iptv-org streams API',
     file: 'iptv-org-streams.m3u',
     categorySlug: 'iptv-org-streams',
+    defaultLicense: 'allowed',
   },
 ]
+
+const ALLOWED_SOURCES = new Set([
+  'iptv-org',
+  ...EXTRA_PLAYLISTS.map((s) => s.name),
+])
 
 function splitExtinf(line) {
   let inQuotes = false
@@ -42,16 +48,52 @@ function parseExtinf(line) {
   return { name, attrs }
 }
 
-function parseM3u(filePath, { source } = {}) {
+function isHttpUrl(url) {
+  return /^https?:\/\//i.test(url)
+}
+
+function classifyLicense(channel, source, defaultLicense = 'allowed') {
+  const explicit = (channel.licenseStatus || '').toLowerCase()
+  if (explicit === 'blocked') {
+    return { licenseStatus: 'blocked', rejectReason: channel.rejectReason || 'explicit-blocked' }
+  }
+  if (explicit === 'review') {
+    return {
+      licenseStatus: 'review',
+      rejectReason: channel.rejectReason || 'license-unverified',
+    }
+  }
+
+  const blob = `${channel.name} ${channel.group} ${channel.id || ''}`.toLowerCase()
+  if (source === 'xxx' || channel.group?.toLowerCase() === 'xxx') {
+    return { licenseStatus: 'review', rejectReason: 'adult-category' }
+  }
+  if (/\b(nsfw|xxx)\b/.test(blob)) {
+    return { licenseStatus: 'review', rejectReason: 'adult-or-nsfw-marker' }
+  }
+
+  if (ALLOWED_SOURCES.has(source) || defaultLicense === 'allowed') {
+    return { licenseStatus: 'allowed', rejectReason: null }
+  }
+
+  // Unknown source → review, never silent-delete.
+  return { licenseStatus: 'review', rejectReason: 'license-unknown' }
+}
+
+function parseM3u(filePath, { source, defaultLicense = 'allowed' } = {}) {
   const text = fs.readFileSync(filePath, 'utf8')
   const lines = text.split(/\r?\n/)
   const channels = []
+  const invalid = []
+
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim()
     if (!line.startsWith('#EXTINF:')) continue
     const { name, attrs } = parseExtinf(line)
     let url = ''
     let userAgent = attrs['http-user-agent'] || ''
+    let referrer = ''
+
     for (let j = i + 1; j < lines.length; j++) {
       const next = lines[j].trim()
       if (!next) continue
@@ -59,27 +101,60 @@ function parseM3u(filePath, { source } = {}) {
         userAgent = next.slice('#EXTVLCOPT:http-user-agent='.length)
         continue
       }
-      if (next.startsWith('#EXTVLCOPT:http-referrer=')) continue
+      if (next.startsWith('#EXTVLCOPT:http-referrer=')) {
+        referrer = next.slice('#EXTVLCOPT:http-referrer='.length)
+        continue
+      }
       if (next.startsWith('#')) continue
       url = next
       i = j
       break
     }
-    if (!url) continue
-    const group = attrs['group-title'] || 'General'
+
+    if (!url) {
+      invalid.push({ name, reason: 'missing-url', source })
+      continue
+    }
+    if (!isHttpUrl(url)) {
+      // Keep non-http (youtube/twitch/etc.) in review — technically listed, not DRM bypass.
+      const channel = {
+        id: attrs['tvg-id'] || `${name}-${channels.length}`,
+        name,
+        logo: attrs['tvg-logo'] || '',
+        group: attrs['group-title'] || 'General',
+        url,
+        userAgent: userAgent || undefined,
+        referrer: referrer || undefined,
+        country: (attrs['tvg-country'] || '').toLowerCase() || undefined,
+        source,
+        licenseStatus: 'review',
+        rejectReason: 'non-http-stream',
+      }
+      channels.push(channel)
+      continue
+    }
+
     const channel = {
       id: attrs['tvg-id'] || `${name}-${channels.length}`,
       name,
       logo: attrs['tvg-logo'] || '',
-      group,
+      group: attrs['group-title'] || 'General',
       url,
       userAgent: userAgent || undefined,
+      referrer: referrer || undefined,
       country: (attrs['tvg-country'] || '').toLowerCase() || undefined,
+      source,
+      licenseStatus: attrs['beacon-license'] || undefined,
+      rejectReason: attrs['beacon-reason'] || undefined,
     }
-    if (source) channel.source = source
+
+    const classified = classifyLicense(channel, source, defaultLicense)
+    channel.licenseStatus = classified.licenseStatus
+    channel.rejectReason = classified.rejectReason || undefined
     channels.push(channel)
   }
-  return channels
+
+  return { channels, invalid }
 }
 
 function normalizeUrl(url) {
@@ -88,7 +163,7 @@ function normalizeUrl(url) {
     u.hash = ''
     return u.toString().replace(/\/$/, '')
   } catch {
-    return url.trim()
+    return String(url || '').trim()
   }
 }
 
@@ -96,16 +171,23 @@ function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true })
 }
 
-function mergeUnique(base, extras) {
-  const seen = new Set(base.map((c) => normalizeUrl(c.url)))
-  const added = []
-  for (const ch of extras) {
-    const key = normalizeUrl(ch.url)
-    if (seen.has(key)) continue
-    seen.add(key)
-    added.push(ch)
+function bumpReason(map, reason) {
+  const key = reason || 'unspecified'
+  map[key] = (map[key] || 0) + 1
+}
+
+function emptySourceStats(id, label) {
+  return {
+    id,
+    label,
+    found: 0,
+    added: 0,
+    duplicate: 0,
+    review: 0,
+    blocked: 0,
+    invalid: 0,
+    rejectReasons: {},
   }
-  return { merged: [...base, ...added], added }
 }
 
 ensureDir(OUT)
@@ -116,72 +198,213 @@ const countryDir = path.join(PLAYLISTS, 'countries')
 const categoryDir = path.join(PLAYLISTS, 'categories')
 const indexFile = path.join(PLAYLISTS, 'index.m3u')
 
+const report = {
+  generatedAt: new Date().toISOString(),
+  totals: {
+    found: 0,
+    allowed: 0,
+    review: 0,
+    blocked: 0,
+    duplicate: 0,
+    invalid: 0,
+  },
+  sources: [],
+  notes: [
+    'licenseStatus=allowed → normal channel list',
+    'licenseStatus=review → İnceleme Bekliyor (not auto-deleted)',
+    'licenseStatus=blocked → not published; reason listed',
+    'Technical playback errors are separate from licenseStatus',
+    'No DRM or access-control bypass is performed',
+  ],
+}
+
+const sourceStats = new Map()
+function statsFor(id, label) {
+  if (!sourceStats.has(id)) sourceStats.set(id, emptySourceStats(id, label))
+  return sourceStats.get(id)
+}
+
+const seenUrls = new Set()
+const allowedChannels = []
+const reviewChannels = []
+const blockedChannels = []
+
+function ingest(channels, invalid, sourceId, sourceLabel) {
+  const st = statsFor(sourceId, sourceLabel)
+  st.found += channels.length + invalid.length
+  report.totals.found += channels.length + invalid.length
+  st.invalid += invalid.length
+  report.totals.invalid += invalid.length
+  for (const row of invalid) bumpReason(st.rejectReasons, row.reason)
+
+  for (const ch of channels) {
+    const key = normalizeUrl(ch.url)
+    if (seenUrls.has(key)) {
+      st.duplicate += 1
+      report.totals.duplicate += 1
+      bumpReason(st.rejectReasons, 'duplicate-url')
+      continue
+    }
+    seenUrls.add(key)
+
+    if (ch.licenseStatus === 'blocked') {
+      st.blocked += 1
+      report.totals.blocked += 1
+      bumpReason(st.rejectReasons, ch.rejectReason || 'blocked')
+      blockedChannels.push(ch)
+      continue
+    }
+
+    if (ch.licenseStatus === 'review') {
+      st.review += 1
+      report.totals.review += 1
+      bumpReason(st.rejectReasons, ch.rejectReason || 'review')
+      reviewChannels.push(ch)
+      continue
+    }
+
+    st.added += 1
+    report.totals.allowed += 1
+    allowedChannels.push(ch)
+  }
+}
+
+// Base iptv-org index
+if (fs.existsSync(indexFile)) {
+  const { channels, invalid } = parseM3u(indexFile, {
+    source: 'iptv-org',
+    defaultLicense: 'allowed',
+  })
+  ingest(channels, invalid, 'iptv-org', 'iptv-org')
+}
+
+// Extra playlists
 const extraBundles = []
 for (const src of EXTRA_PLAYLISTS) {
   const filePath = path.join(PLAYLISTS, src.file)
   if (!fs.existsSync(filePath)) continue
-  const channels = parseM3u(filePath, { source: src.name })
+  const { channels, invalid } = parseM3u(filePath, {
+    source: src.name,
+    defaultLicense: src.defaultLicense || 'allowed',
+  })
   extraBundles.push({ ...src, channels })
+  ingest(channels, invalid, src.name, src.label)
+  fs.writeFileSync(
+    path.join(OUT, 'categories', `${src.categorySlug}.json`),
+    JSON.stringify(channels.filter((c) => c.licenseStatus === 'allowed')),
+  )
 }
 
-const allExtraChannels = extraBundles.flatMap((b) => b.channels)
-
+// Country files (iptv-org) + merge allowed extras with matching country
 const countries = []
-const categories = []
-let total = 0
+const allExtraAllowed = allowedChannels.filter((c) => c.source && c.source !== 'iptv-org')
 
 for (const file of fs.readdirSync(countryDir).filter((f) => f.endsWith('.m3u')).sort()) {
   const code = file.replace(/\.m3u$/, '')
-  const local = parseM3u(path.join(countryDir, file))
-  const fromExtras = allExtraChannels.filter((c) => c.country === code)
-  const { merged } = mergeUnique(local, fromExtras)
+  const { channels } = parseM3u(path.join(countryDir, file), {
+    source: 'iptv-org',
+    defaultLicense: code === 'xxx' ? 'review' : 'allowed',
+  })
+  // Country snapshots are views: keep allowed-only for public country browse.
+  const localAllowed = channels.filter((c) => c.licenseStatus === 'allowed')
+  const fromExtras = allExtraAllowed.filter((c) => c.country === code)
+  const seen = new Set(localAllowed.map((c) => normalizeUrl(c.url)))
+  const merged = [...localAllowed]
+  for (const ch of fromExtras) {
+    const key = normalizeUrl(ch.url)
+    if (seen.has(key)) continue
+    seen.add(key)
+    merged.push(ch)
+  }
   fs.writeFileSync(path.join(OUT, 'countries', `${code}.json`), JSON.stringify(merged))
   countries.push({ code, count: merged.length })
-  total += merged.length
 }
 
+// Orphan countries from extras
 const knownCountryCodes = new Set(countries.map((c) => c.code))
 const orphanByCountry = new Map()
-for (const ch of allExtraChannels) {
+for (const ch of allExtraAllowed) {
   if (!ch.country || knownCountryCodes.has(ch.country)) continue
   if (!orphanByCountry.has(ch.country)) orphanByCountry.set(ch.country, [])
   orphanByCountry.get(ch.country).push(ch)
 }
 for (const [code, list] of [...orphanByCountry.entries()].sort((a, b) => a[0].localeCompare(b[0]))) {
-  const unique = mergeUnique([], list).merged
+  const seen = new Set()
+  const unique = []
+  for (const ch of list) {
+    const key = normalizeUrl(ch.url)
+    if (seen.has(key)) continue
+    seen.add(key)
+    unique.push(ch)
+  }
   fs.writeFileSync(path.join(OUT, 'countries', `${code}.json`), JSON.stringify(unique))
   countries.push({ code, count: unique.length })
-  total += unique.length
 }
 
+// Standard iptv-org categories (allowed only in public category files)
+const categories = []
 for (const file of fs.readdirSync(categoryDir).filter((f) => f.endsWith('.m3u')).sort()) {
   const slug = file.replace(/\.m3u$/, '')
-  const channels = parseM3u(path.join(categoryDir, file))
-  fs.writeFileSync(path.join(OUT, 'categories', `${slug}.json`), JSON.stringify(channels))
-  categories.push({ slug, count: channels.length })
+  const { channels } = parseM3u(path.join(categoryDir, file), {
+    source: slug === 'xxx' ? 'xxx' : 'iptv-org',
+    defaultLicense: slug === 'xxx' ? 'review' : 'allowed',
+  })
+
+  if (slug === 'xxx') {
+    // Adult category → review queue only (do not publish as normal category).
+    for (const ch of channels) {
+      if (ch.licenseStatus !== 'review') {
+        ch.licenseStatus = 'review'
+        ch.rejectReason = ch.rejectReason || 'adult-category'
+      }
+    }
+    // Already counted via index/extras; append unique review rows only.
+    for (const ch of channels) {
+      const key = normalizeUrl(ch.url)
+      if (seenUrls.has(key)) continue
+      seenUrls.add(key)
+      reviewChannels.push(ch)
+      report.totals.found += 1
+      report.totals.review += 1
+      const st = statsFor('xxx', 'iptv-org xxx')
+      st.found += 1
+      st.review += 1
+      bumpReason(st.rejectReasons, 'adult-category')
+    }
+    continue
+  }
+
+  const allowed = channels.filter((c) => c.licenseStatus === 'allowed')
+  fs.writeFileSync(path.join(OUT, 'categories', `${slug}.json`), JSON.stringify(allowed))
+  categories.push({ slug, count: allowed.length })
 }
 
-const orgAll = fs.existsSync(indexFile) ? parseM3u(indexFile) : []
-let allChannels = orgAll
-const addedBySource = {}
-for (const bundle of extraBundles) {
-  const { merged, added } = mergeUnique(allChannels, bundle.channels)
-  allChannels = merged
-  addedBySource[bundle.name] = added.length
-  fs.writeFileSync(
-    path.join(OUT, 'categories', `${bundle.categorySlug}.json`),
-    JSON.stringify(bundle.channels),
-  )
-  categories.push({ slug: bundle.categorySlug, count: bundle.channels.length })
+for (const src of EXTRA_PLAYLISTS) {
+  const allowedPath = path.join(OUT, 'categories', `${src.categorySlug}.json`)
+  if (!fs.existsSync(allowedPath)) continue
+  const list = JSON.parse(fs.readFileSync(allowedPath, 'utf8'))
+  categories.push({ slug: src.categorySlug, count: list.length })
 }
 
-fs.writeFileSync(path.join(OUT, 'all.json'), JSON.stringify(allChannels))
+fs.writeFileSync(path.join(OUT, 'all.json'), JSON.stringify(allowedChannels))
+fs.writeFileSync(path.join(OUT, 'categories', 'review.json'), JSON.stringify(reviewChannels))
+fs.writeFileSync(path.join(OUT, 'categories', 'blocked.json'), JSON.stringify(blockedChannels))
+categories.push({ slug: 'review', count: reviewChannels.length })
+if (blockedChannels.length) categories.push({ slug: 'blocked', count: blockedChannels.length })
+
+report.sources = [...sourceStats.values()]
 
 const meta = {
   generatedAt: new Date().toISOString(),
-  totalStreams: allChannels.length || total,
-  allCount: allChannels.length,
-  addedBySource,
+  totalStreams: allowedChannels.length,
+  allCount: allowedChannels.length,
+  reviewCount: reviewChannels.length,
+  blockedCount: blockedChannels.length,
+  duplicateCount: report.totals.duplicate,
+  invalidCount: report.totals.invalid,
+  addedBySource: Object.fromEntries(
+    report.sources.map((s) => [s.id, s.added]),
+  ),
   countries: countries.sort((a, b) => b.count - a.count),
   categories: categories.sort((a, b) => b.count - a.count),
   playlists: {
@@ -195,19 +418,22 @@ const meta = {
     worldIptv: '/playlists/world-iptv.m3u',
     iptvOrgStreams: '/playlists/iptv-org-streams.m3u',
   },
-  sources: [
-    { id: 'iptv-org', label: 'iptv-org', count: orgAll.length },
-    ...extraBundles.map((b) => ({
-      id: b.name,
-      label: b.label,
-      count: b.channels.length,
-      added: addedBySource[b.name] || 0,
-    })),
-  ],
+  sources: report.sources.map((s) => ({
+    id: s.id,
+    label: s.label,
+    found: s.found,
+    added: s.added,
+    duplicate: s.duplicate,
+    review: s.review,
+    blocked: s.blocked,
+    invalid: s.invalid,
+  })),
+  importReport: '/catalog/import-report.json',
 }
 
 fs.writeFileSync(path.join(OUT, 'meta.json'), JSON.stringify(meta, null, 2))
+fs.writeFileSync(path.join(OUT, 'import-report.json'), JSON.stringify(report, null, 2))
+
 console.log(
-  `Catalog ready: ${meta.totalStreams} unique streams, ${countries.length} countries, ${categories.length} categories`,
+  `Catalog ready: allowed=${allowedChannels.length}, review=${reviewChannels.length}, blocked=${blockedChannels.length}, duplicates=${report.totals.duplicate}, invalid=${report.totals.invalid}`,
 )
-console.log('Added by source:', addedBySource)

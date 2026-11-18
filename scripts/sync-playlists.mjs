@@ -13,7 +13,7 @@ const INDEXES = {
   byLanguage: `${BASE}/index.language.m3u`,
 }
 
-/** Public open playlists only — no paid/DRM bypass sources. */
+/** Public open playlists — license assumed allowed unless markers say otherwise. */
 export const EXTRA_SOURCES = [
   {
     name: 'free-tv',
@@ -21,6 +21,7 @@ export const EXTRA_SOURCES = [
     url: 'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8',
     file: 'free-tv.m3u8',
     categorySlug: 'free-tv',
+    defaultLicense: 'allowed',
   },
   {
     name: 'nexus',
@@ -28,6 +29,7 @@ export const EXTRA_SOURCES = [
     url: 'https://dearbulut.github.io/iptv/playlists/index.m3u',
     file: 'nexus.m3u',
     categorySlug: 'nexus',
+    defaultLicense: 'allowed',
   },
   {
     name: 'nexus-online',
@@ -35,6 +37,7 @@ export const EXTRA_SOURCES = [
     url: 'https://dearbulut.github.io/iptv/playlists/online.m3u',
     file: 'nexus-online.m3u',
     categorySlug: 'nexus-online',
+    defaultLicense: 'allowed',
   },
   {
     name: 'world-iptv',
@@ -42,6 +45,7 @@ export const EXTRA_SOURCES = [
     url: 'https://romaxa55.github.io/world_ip_tv/output/index.m3u',
     file: 'world-iptv.m3u',
     categorySlug: 'world-iptv',
+    defaultLicense: 'allowed',
   },
 ]
 
@@ -59,7 +63,10 @@ async function fetchText(url) {
 
 async function listRemoteFiles(kind) {
   const known = fs.existsSync(path.join(PLAYLISTS, kind))
-    ? fs.readdirSync(path.join(PLAYLISTS, kind)).filter((f) => f.endsWith('.m3u')).map((f) => f.replace(/\.m3u$/, ''))
+    ? fs
+        .readdirSync(path.join(PLAYLISTS, kind))
+        .filter((f) => f.endsWith('.m3u'))
+        .map((f) => f.replace(/\.m3u$/, ''))
     : []
 
   const extras =
@@ -76,6 +83,7 @@ async function listRemoteFiles(kind) {
           'documentary',
           'religious',
           'series',
+          'xxx',
         ]
 
   return [...new Set([...known, ...extras])].sort()
@@ -112,6 +120,17 @@ function escapeAttr(value) {
   return String(value || '').replace(/"/g, "'")
 }
 
+function licenseHintFromLabels(labels) {
+  const normalized = labels.map((l) => String(l).toLowerCase())
+  if (normalized.some((l) => l.includes('nsfw') || l.includes('adult') || l === 'xxx')) {
+    return {
+      status: 'review',
+      reason: 'adult-or-nsfw-label',
+    }
+  }
+  return { status: 'allowed', reason: '' }
+}
+
 async function downloadIptvOrgStreamsApi() {
   process.stdout.write('source iptv-org-streams… ')
   const res = await fetch('https://iptv-org.github.io/api/streams.json', {
@@ -121,17 +140,20 @@ async function downloadIptvOrgStreamsApi() {
   const streams = await res.json()
   const lines = ['#EXTM3U']
   let kept = 0
+  let review = 0
   for (const s of streams) {
     if (!s?.url) continue
-    const labels = Array.isArray(s.labels) ? s.labels.map((x) => String(x).toLowerCase()) : []
-    // Keep public index policy: skip adult / NSFW labelled feeds.
-    if (labels.some((l) => l.includes('nsfw') || l.includes('adult') || l === 'xxx')) continue
+    const labels = Array.isArray(s.labels) ? s.labels : []
+    // Do NOT drop unverified/adult-labelled rows: mark for review instead of deleting.
+    const hint = licenseHintFromLabels(labels)
+    if (hint.status === 'review') review += 1
     const title = s.title || s.channel || 'Stream'
     const quality = s.quality ? ` (${s.quality})` : ''
     const ua = s.user_agent ? ` http-user-agent="${escapeAttr(s.user_agent)}"` : ''
-    const logo = ''
+    const statusAttr = ` beacon-license="${hint.status}"`
+    const reasonAttr = hint.reason ? ` beacon-reason="${escapeAttr(hint.reason)}"` : ''
     lines.push(
-      `#EXTINF:-1 tvg-id="${escapeAttr(s.channel || '')}" tvg-logo="${logo}"${ua} group-title="iptv-org-streams",${title}${quality}`,
+      `#EXTINF:-1 tvg-id="${escapeAttr(s.channel || '')}" tvg-logo=""${ua}${statusAttr}${reasonAttr} group-title="iptv-org-streams",${title}${quality}`,
     )
     if (s.referrer) lines.push(`#EXTVLCOPT:http-referrer=${s.referrer}`)
     if (s.user_agent) lines.push(`#EXTVLCOPT:http-user-agent=${s.user_agent}`)
@@ -139,7 +161,7 @@ async function downloadIptvOrgStreamsApi() {
     kept += 1
   }
   fs.writeFileSync(path.join(PLAYLISTS, 'iptv-org-streams.m3u'), `${lines.join('\n')}\n`)
-  console.log(`ok (${kept} channels)`)
+  console.log(`ok (${kept} channels, ${review} marked review)`)
   return kept
 }
 
@@ -170,7 +192,6 @@ async function main() {
     let ok = 0
     let fail = 0
     for (const code of codes) {
-      if (code === 'xxx') continue
       try {
         const n = await downloadPlaylist(kind, code)
         ok += 1

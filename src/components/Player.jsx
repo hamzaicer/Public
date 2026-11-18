@@ -38,7 +38,7 @@ function describeHlsError(data) {
   if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
     const code = httpCodeFromHls(data)
     if (code === 403 || code === 401) {
-      return `Kaynak erişimi reddetti (HTTP ${code}). Yetkisiz veya korumalı yayın; erişim aşılmadı.`
+      return `Teknik erişim reddi (HTTP ${code}). Geo-block, oturum veya kaynak kısıtı olabilir; bu otomatik telif kararı değildir. DRM aşılmadı.`
     }
     if (code === 404) return 'Yayın adresi bulunamadı (HTTP 404).'
     if (code) return `Ağ hatası (HTTP ${code}).`
