@@ -185,7 +185,10 @@ async function main() {
   console.log('Playlist sync complete.')
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+const isDirectRun =
+  Boolean(process.argv[1]) && import.meta.url === pathToFileURL(process.argv[1]).href
+
+if (isDirectRun) {
   main().catch((err) => {
     console.error(err)
     process.exit(1)
