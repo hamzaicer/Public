@@ -150,7 +150,7 @@ export default function Player({ channel }) {
           if (cancelled) return
           clearTimers()
           setStatus('playing')
-          setDetail(useProxy ? 'Proxy üzerinden' : 'Doğrudan kaynak')
+          setDetail('Canlı yayın')
           video.play().catch(() => {})
         }
         const onErr = () => {
@@ -193,7 +193,7 @@ export default function Player({ channel }) {
           if (cancelled) return
           clearTimers()
           setStatus('playing')
-          setDetail(useProxy ? 'HLS · proxy' : 'HLS · doğrudan')
+          setDetail('Canlı yayın')
           video.play().catch(() => {})
         })
 
