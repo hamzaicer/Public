@@ -1,344 +1,377 @@
 {
-  "generatedAt": "2026-11-18T05:32:57.720Z",
-  "totalStreams": 12933,
-  "allCount": 12933,
-  "freeTvCount": 2203,
-  "freeTvAdded": 1375,
+  "generatedAt": "2026-11-18T05:45:43.181Z",
+  "totalStreams": 20724,
+  "allCount": 20724,
+  "addedBySource": {
+    "free-tv": 1382,
+    "nexus": 4415,
+    "nexus-online": 0,
+    "world-iptv": 741,
+    "iptv-org-streams": 2629
+  },
   "countries": [
     {
       "code": "us",
-      "count": 1519
+      "count": 2978
+    },
+    {
+      "code": "in",
+      "count": 1987
     },
     {
       "code": "int",
       "count": 1093
     },
     {
-      "code": "in",
-      "count": 854
+      "code": "ru",
+      "count": 1013
     },
     {
       "code": "it",
-      "count": 680
-    },
-    {
-      "code": "ru",
-      "count": 547
-    },
-    {
-      "code": "br",
-      "count": 405
-    },
-    {
-      "code": "es",
-      "count": 383
-    },
-    {
-      "code": "de",
-      "count": 326
+      "count": 737
     },
     {
       "code": "uk",
-      "count": 308
+      "count": 595
     },
     {
-      "code": "ca",
-      "count": 277
+      "code": "de",
+      "count": 552
     },
     {
-      "code": "do",
-      "count": 262
+      "code": "br",
+      "count": 523
+    },
+    {
+      "code": "es",
+      "count": 472
     },
     {
       "code": "fr",
-      "count": 256
-    },
-    {
-      "code": "ar",
-      "count": 240
-    },
-    {
-      "code": "ua",
-      "count": 226
-    },
-    {
-      "code": "cl",
-      "count": 225
-    },
-    {
-      "code": "hu",
-      "count": 220
-    },
-    {
-      "code": "pe",
-      "count": 215
-    },
-    {
-      "code": "ro",
-      "count": 210
-    },
-    {
-      "code": "pl",
-      "count": 197
-    },
-    {
-      "code": "ir",
-      "count": 187
-    },
-    {
-      "code": "mx",
-      "count": 185
-    },
-    {
-      "code": "nl",
-      "count": 184
-    },
-    {
-      "code": "tr",
-      "count": 183
-    },
-    {
-      "code": "id",
-      "count": 176
-    },
-    {
-      "code": "co",
-      "count": 165
-    },
-    {
-      "code": "cn",
-      "count": 163
-    },
-    {
-      "code": "dk",
-      "count": 162
+      "count": 424
     },
     {
       "code": "se",
-      "count": 148
+      "count": 400
+    },
+    {
+      "code": "ca",
+      "count": 351
+    },
+    {
+      "code": "cn",
+      "count": 311
+    },
+    {
+      "code": "pe",
+      "count": 302
+    },
+    {
+      "code": "ar",
+      "count": 293
+    },
+    {
+      "code": "co",
+      "count": 289
+    },
+    {
+      "code": "do",
+      "count": 279
+    },
+    {
+      "code": "mx",
+      "count": 262
+    },
+    {
+      "code": "cl",
+      "count": 260
+    },
+    {
+      "code": "ua",
+      "count": 257
+    },
+    {
+      "code": "tr",
+      "count": 253
+    },
+    {
+      "code": "nl",
+      "count": 252
+    },
+    {
+      "code": "pl",
+      "count": 247
+    },
+    {
+      "code": "hu",
+      "count": 235
+    },
+    {
+      "code": "ro",
+      "count": 228
+    },
+    {
+      "code": "id",
+      "count": 207
+    },
+    {
+      "code": "ir",
+      "count": 200
+    },
+    {
+      "code": "dk",
+      "count": 163
     },
     {
       "code": "ch",
-      "count": 147
+      "count": 152
     },
     {
       "code": "cz",
-      "count": 130
+      "count": 140
     },
     {
       "code": "at",
-      "count": 123
-    },
-    {
-      "code": "no",
-      "count": 119
+      "count": 136
     },
     {
       "code": "ec",
-      "count": 112
-    },
-    {
-      "code": "gr",
-      "count": 111
-    },
-    {
-      "code": "py",
-      "count": 109
-    },
-    {
-      "code": "pk",
-      "count": 106
-    },
-    {
-      "code": "ve",
-      "count": 106
-    },
-    {
-      "code": "sk",
-      "count": 102
-    },
-    {
-      "code": "au",
-      "count": 98
+      "count": 133
     },
     {
       "code": "bo",
-      "count": 96
+      "count": 130
+    },
+    {
+      "code": "py",
+      "count": 130
+    },
+    {
+      "code": "pk",
+      "count": 129
+    },
+    {
+      "code": "no",
+      "count": 127
+    },
+    {
+      "code": "ve",
+      "count": 124
     },
     {
       "code": "vn",
-      "count": 93
+      "count": 117
     },
     {
-      "code": "bg",
-      "count": 86
+      "code": "gr",
+      "count": 116
     },
     {
-      "code": "kr",
-      "count": 83
+      "code": "sk",
+      "count": 116
     },
     {
-      "code": "ie",
-      "count": 80
-    },
-    {
-      "code": "pt",
-      "count": 79
-    },
-    {
-      "code": "hn",
-      "count": 78
-    },
-    {
-      "code": "mn",
-      "count": 77
-    },
-    {
-      "code": "th",
-      "count": 73
+      "code": "au",
+      "count": 103
     },
     {
       "code": "cr",
-      "count": 71
+      "count": 102
     },
     {
-      "code": "iq",
-      "count": 68
+      "code": "th",
+      "count": 98
     },
     {
-      "code": "gt",
-      "count": 66
+      "code": "kr",
+      "count": 97
+    },
+    {
+      "code": "bg",
+      "count": 95
+    },
+    {
+      "code": "hn",
+      "count": 90
+    },
+    {
+      "code": "pt",
+      "count": 89
     },
     {
       "code": "be",
-      "count": 65
+      "count": 87
     },
     {
-      "code": "rs",
-      "count": 64
+      "code": "mn",
+      "count": 87
     },
     {
-      "code": "ng",
-      "count": 59
+      "code": "gt",
+      "count": 81
+    },
+    {
+      "code": "ie",
+      "count": 81
+    },
+    {
+      "code": "iq",
+      "count": 80
+    },
+    {
+      "code": "ae",
+      "count": 77
     },
     {
       "code": "sa",
-      "count": 57
+      "count": 77
+    },
+    {
+      "code": "kz",
+      "count": 68
+    },
+    {
+      "code": "rs",
+      "count": 67
+    },
+    {
+      "code": "ng",
+      "count": 64
+    },
+    {
+      "code": "fi",
+      "count": 63
     },
     {
       "code": "gb",
       "count": 55
     },
     {
-      "code": "ae",
+      "code": "bd",
       "count": 53
     },
     {
       "code": "uy",
-      "count": 51
-    },
-    {
-      "code": "fi",
-      "count": 50
-    },
-    {
-      "code": "kz",
-      "count": 50
-    },
-    {
-      "code": "mk",
-      "count": 49
-    },
-    {
-      "code": "tw",
-      "count": 45
-    },
-    {
-      "code": "bd",
-      "count": 43
-    },
-    {
-      "code": "ke",
-      "count": 43
+      "count": 53
     },
     {
       "code": "by",
-      "count": 42
+      "count": 52
     },
     {
-      "code": "hr",
-      "count": 41
+      "code": "mk",
+      "count": 51
+    },
+    {
+      "code": "qa",
+      "count": 51
     },
     {
       "code": "sv",
-      "count": 39
+      "count": 50
+    },
+    {
+      "code": "tw",
+      "count": 48
     },
     {
       "code": "il",
-      "count": 38
+      "count": 47
     },
     {
-      "code": "nz",
-      "count": 37
+      "code": "ke",
+      "count": 44
     },
     {
-      "code": "uz",
-      "count": 34
+      "code": "sg",
+      "count": 44
     },
     {
-      "code": "al",
-      "count": 31
+      "code": "hr",
+      "count": 42
     },
     {
       "code": "ee",
-      "count": 31
+      "count": 41
+    },
+    {
+      "code": "nz",
+      "count": 39
+    },
+    {
+      "code": "jp",
+      "count": 38
+    },
+    {
+      "code": "uz",
+      "count": 38
+    },
+    {
+      "code": "hk",
+      "count": 36
     },
     {
       "code": "lb",
-      "count": 31
+      "count": 36
     },
     {
       "code": "pr",
-      "count": 29
+      "count": 35
+    },
+    {
+      "code": "al",
+      "count": 34
+    },
+    {
+      "code": "kh",
+      "count": 34
+    },
+    {
+      "code": "za",
+      "count": 34
     },
     {
       "code": "ba",
-      "count": 28
+      "count": 32
     },
     {
-      "code": "lt",
-      "count": 28
+      "code": "md",
+      "count": 32
     },
     {
       "code": "pa",
+      "count": 32
+    },
+    {
+      "code": "lt",
+      "count": 30
+    },
+    {
+      "code": "lv",
+      "count": 30
+    },
+    {
+      "code": "si",
+      "count": 30
+    },
+    {
+      "code": "az",
+      "count": 28
+    },
+    {
+      "code": "ge",
       "count": 28
     },
     {
       "code": "ht",
-      "count": 27
-    },
-    {
-      "code": "jp",
-      "count": 27
-    },
-    {
-      "code": "lv",
-      "count": 27
-    },
-    {
-      "code": "md",
-      "count": 27
-    },
-    {
-      "code": "kh",
-      "count": 26
-    },
-    {
-      "code": "si",
-      "count": 26
+      "count": 28
     },
     {
       "code": "af",
+      "count": 25
+    },
+    {
+      "code": "cy",
       "count": 25
     },
     {
@@ -346,7 +379,7 @@
       "count": 24
     },
     {
-      "code": "ge",
+      "code": "np",
       "count": 24
     },
     {
@@ -354,55 +387,39 @@
       "count": 24
     },
     {
-      "code": "az",
-      "count": 23
-    },
-    {
-      "code": "za",
-      "count": 23
-    },
-    {
-      "code": "np",
-      "count": 22
-    },
-    {
-      "code": "hk",
-      "count": 21
-    },
-    {
-      "code": "lu",
-      "count": 21
-    },
-    {
-      "code": "ug",
-      "count": 21
-    },
-    {
-      "code": "cy",
-      "count": 20
-    },
-    {
       "code": "ni",
-      "count": 20
-    },
-    {
-      "code": "qa",
-      "count": 20
-    },
-    {
-      "code": "ci",
-      "count": 19
-    },
-    {
-      "code": "jo",
-      "count": 19
-    },
-    {
-      "code": "lk",
-      "count": 19
+      "count": 23
     },
     {
       "code": "ps",
+      "count": 23
+    },
+    {
+      "code": "ug",
+      "count": 23
+    },
+    {
+      "code": "lk",
+      "count": 22
+    },
+    {
+      "code": "lu",
+      "count": 22
+    },
+    {
+      "code": "ci",
+      "count": 21
+    },
+    {
+      "code": "jo",
+      "count": 20
+    },
+    {
+      "code": "cm",
+      "count": 19
+    },
+    {
+      "code": "mm",
       "count": 19
     },
     {
@@ -410,48 +427,64 @@
       "count": 18
     },
     {
-      "code": "cm",
-      "count": 18
-    },
-    {
-      "code": "mm",
-      "count": 17
-    },
-    {
       "code": "ph",
       "count": 17
+    },
+    {
+      "code": "tj",
+      "count": 17
+    },
+    {
+      "code": "aw",
+      "count": 16
+    },
+    {
+      "code": "ma",
+      "count": 16
+    },
+    {
+      "code": "tm",
+      "count": 16
+    },
+    {
+      "code": "kw",
+      "count": 15
     },
     {
       "code": "sn",
       "count": 15
     },
     {
-      "code": "tj",
+      "code": "sy",
+      "count": 15
+    },
+    {
+      "code": "kg",
+      "count": 14
+    },
+    {
+      "code": "mv",
       "count": 14
     },
     {
       "code": "tt",
+      "count": 14
+    },
+    {
+      "code": "am",
       "count": 13
     },
     {
-      "code": "aw",
-      "count": 12
-    },
-    {
-      "code": "kw",
-      "count": 12
-    },
-    {
-      "code": "ma",
-      "count": 12
+      "code": "gh",
+      "count": 13
     },
     {
       "code": "bj",
-      "count": 11
+      "count": 12
     },
     {
-      "code": "gh",
-      "count": 11
+      "code": "mt",
+      "count": 12
     },
     {
       "code": "la",
@@ -466,23 +499,31 @@
       "count": 11
     },
     {
-      "code": "mt",
+      "code": "rw",
       "count": 10
     },
     {
-      "code": "mv",
+      "code": "tz",
       "count": 10
     },
     {
-      "code": "sy",
-      "count": 10
-    },
-    {
-      "code": "am",
+      "code": "dz",
       "count": 9
     },
     {
-      "code": "sg",
+      "code": "jm",
+      "count": 9
+    },
+    {
+      "code": "kp",
+      "count": 9
+    },
+    {
+      "code": "mc",
+      "count": 9
+    },
+    {
+      "code": "mo",
       "count": 9
     },
     {
@@ -490,19 +531,7 @@
       "count": 8
     },
     {
-      "code": "dz",
-      "count": 8
-    },
-    {
-      "code": "jm",
-      "count": 8
-    },
-    {
-      "code": "kg",
-      "count": 8
-    },
-    {
-      "code": "mc",
+      "code": "ly",
       "count": 8
     },
     {
@@ -510,15 +539,15 @@
       "count": 8
     },
     {
-      "code": "rw",
+      "code": "my",
       "count": 8
     },
     {
-      "code": "tm",
+      "code": "mz",
       "count": 8
     },
     {
-      "code": "tz",
+      "code": "om",
       "count": 8
     },
     {
@@ -526,7 +555,7 @@
       "count": 7
     },
     {
-      "code": "mo",
+      "code": "tn",
       "count": 7
     },
     {
@@ -534,7 +563,15 @@
       "count": 6
     },
     {
+      "code": "bh",
+      "count": 6
+    },
+    {
       "code": "bq",
+      "count": 6
+    },
+    {
+      "code": "cg",
       "count": 6
     },
     {
@@ -542,11 +579,7 @@
       "count": 6
     },
     {
-      "code": "kp",
-      "count": 6
-    },
-    {
-      "code": "ly",
+      "code": "ml",
       "count": 6
     },
     {
@@ -554,15 +587,7 @@
       "count": 6
     },
     {
-      "code": "my",
-      "count": 6
-    },
-    {
       "code": "ne",
-      "count": 6
-    },
-    {
-      "code": "om",
       "count": 6
     },
     {
@@ -570,19 +595,15 @@
       "count": 6
     },
     {
-      "code": "bh",
-      "count": 5
-    },
-    {
-      "code": "cg",
-      "count": 5
-    },
-    {
       "code": "cu",
       "count": 5
     },
     {
       "code": "cw",
+      "count": 5
+    },
+    {
+      "code": "et",
       "count": 5
     },
     {
@@ -598,27 +619,11 @@
       "count": 5
     },
     {
-      "code": "mz",
-      "count": 5
-    },
-    {
       "code": "bs",
       "count": 4
     },
     {
-      "code": "et",
-      "count": 4
-    },
-    {
-      "code": "ml",
-      "count": 4
-    },
-    {
       "code": "sm",
-      "count": 4
-    },
-    {
-      "code": "tn",
       "count": 4
     },
     {
@@ -634,11 +639,27 @@
       "count": 3
     },
     {
+      "code": "eh",
+      "count": 3
+    },
+    {
       "code": "kn",
       "count": 3
     },
     {
+      "code": "lc",
+      "count": 3
+    },
+    {
+      "code": "pf",
+      "count": 3
+    },
+    {
       "code": "sd",
+      "count": 3
+    },
+    {
+      "code": "td",
       "count": 3
     },
     {
@@ -662,10 +683,6 @@
       "count": 2
     },
     {
-      "code": "lc",
-      "count": 2
-    },
-    {
       "code": "mr",
       "count": 2
     },
@@ -678,15 +695,7 @@
       "count": 2
     },
     {
-      "code": "pf",
-      "count": 2
-    },
-    {
       "code": "sr",
-      "count": 2
-    },
-    {
-      "code": "td",
       "count": 2
     },
     {
@@ -715,10 +724,6 @@
     },
     {
       "code": "cv",
-      "count": 1
-    },
-    {
-      "code": "eh",
       "count": 1
     },
     {
@@ -784,8 +789,24 @@
   ],
   "categories": [
     {
+      "slug": "iptv-org-streams",
+      "count": 18765
+    },
+    {
+      "slug": "nexus",
+      "count": 15920
+    },
+    {
+      "slug": "world-iptv",
+      "count": 14097
+    },
+    {
+      "slug": "nexus-online",
+      "count": 8534
+    },
+    {
       "slug": "general",
-      "count": 2768
+      "count": 2765
     },
     {
       "slug": "free-tv",
@@ -797,7 +818,7 @@
     },
     {
       "slug": "news",
-      "count": 1069
+      "count": 1067
     },
     {
       "slug": "entertainment",
@@ -805,7 +826,7 @@
     },
     {
       "slug": "religious",
-      "count": 822
+      "count": 820
     },
     {
       "slug": "music",
@@ -817,11 +838,11 @@
     },
     {
       "slug": "sports",
-      "count": 529
+      "count": 534
     },
     {
       "slug": "series",
-      "count": 527
+      "count": 528
     },
     {
       "slug": "kids",
@@ -829,7 +850,7 @@
     },
     {
       "slug": "documentary",
-      "count": 250
+      "count": 251
     },
     {
       "slug": "comedy",
@@ -841,7 +862,7 @@
     },
     {
       "slug": "culture",
-      "count": 196
+      "count": 195
     },
     {
       "slug": "animation",
@@ -917,18 +938,47 @@
     "byCountry": "/playlists/index.country.m3u",
     "byCategory": "/playlists/index.category.m3u",
     "byLanguage": "/playlists/index.language.m3u",
-    "freeTv": "/playlists/free-tv.m3u8"
+    "freeTv": "/playlists/free-tv.m3u8",
+    "nexus": "/playlists/nexus.m3u",
+    "nexusOnline": "/playlists/nexus-online.m3u",
+    "worldIptv": "/playlists/world-iptv.m3u",
+    "iptvOrgStreams": "/playlists/iptv-org-streams.m3u"
   },
   "sources": [
     {
       "id": "iptv-org",
       "label": "iptv-org",
-      "count": 11558
+      "count": 11557
     },
     {
       "id": "free-tv",
       "label": "Free-TV/IPTV",
-      "count": 2203
+      "count": 2203,
+      "added": 1382
+    },
+    {
+      "id": "nexus",
+      "label": "IPTV Nexus",
+      "count": 15920,
+      "added": 4415
+    },
+    {
+      "id": "nexus-online",
+      "label": "Nexus Online",
+      "count": 8534,
+      "added": 0
+    },
+    {
+      "id": "world-iptv",
+      "label": "World IPTV",
+      "count": 14097,
+      "added": 741
+    },
+    {
+      "id": "iptv-org-streams",
+      "label": "iptv-org streams API",
+      "count": 18765,
+      "added": 2629
     }
   ]
 }

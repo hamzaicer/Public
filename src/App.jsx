@@ -102,14 +102,20 @@ export default function App() {
   })
   const visible = filtered.slice(0, visibleCount)
 
+  const sourcePlaylistMap = {
+    'free-tv': '/playlists/free-tv.m3u8',
+    nexus: '/playlists/nexus.m3u',
+    'nexus-online': '/playlists/nexus-online.m3u',
+    'world-iptv': '/playlists/world-iptv.m3u',
+    'iptv-org-streams': '/playlists/iptv-org-streams.m3u',
+  }
+
   const playlistHref =
     mode === 'all'
       ? '/playlists/index.m3u'
       : mode === 'country'
         ? `/playlists/countries/${selected}.m3u`
-        : selected === 'free-tv'
-          ? '/playlists/free-tv.m3u8'
-          : `/playlists/categories/${selected}.m3u`
+        : sourcePlaylistMap[selected] || `/playlists/categories/${selected}.m3u`
 
   const scrollToBrowse = () => {
     document.getElementById('browse')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -128,7 +134,9 @@ export default function App() {
         <div className="hero-copy">
           <p className="brand">Beacon</p>
           <h1 className="hero-title">Açık yayınları izle</h1>
-          <p className="lede">iptv-org ve Free-TV listelerinden kanal seç, EPG’ye bak, M3U indir.</p>
+          <p className="lede">
+            iptv-org, Free-TV, Nexus ve World IPTV açık listelerinden kanal seç, EPG’ye bak, M3U indir.
+          </p>
           <div className="cta-row">
             <button type="button" className="btn btn-primary" onClick={scrollToBrowse}>
               İzlemeye başla
@@ -175,18 +183,26 @@ export default function App() {
             onChange={(e) => setQuery(e.target.value)}
           />
           <div className="quick-filters">
-            <button
-              type="button"
-              className={`chip${mode === 'category' && selected === 'free-tv' ? ' active-chip' : ''}`}
-              onClick={() => {
-                setMode('category')
-                setSelected('free-tv')
-                setQuery('')
-                setVisibleCount(500)
-              }}
-            >
-              Free-TV
-            </button>
+            {[
+              { id: 'free-tv', label: 'Free-TV' },
+              { id: 'nexus', label: 'Nexus' },
+              { id: 'nexus-online', label: 'Online' },
+              { id: 'world-iptv', label: 'World' },
+            ].map((src) => (
+              <button
+                key={src.id}
+                type="button"
+                className={`chip${mode === 'category' && selected === src.id ? ' active-chip' : ''}`}
+                onClick={() => {
+                  setMode('category')
+                  setSelected(src.id)
+                  setQuery('')
+                  setVisibleCount(500)
+                }}
+              >
+                {src.label}
+              </button>
+            ))}
             {['beIN', 'TRT Spor', 'S Sport', 'A Spor'].map((q) => (
               <button
                 key={q}
@@ -304,7 +320,15 @@ export default function App() {
         </a>
         {' · '}
         <a href="https://github.com/Free-TV/IPTV" target="_blank" rel="noreferrer">
-          Free-TV/IPTV
+          Free-TV
+        </a>
+        {' · '}
+        <a href="https://github.com/dearbulut/iptv" target="_blank" rel="noreferrer">
+          Nexus
+        </a>
+        {' · '}
+        <a href="https://github.com/Romaxa55/world_ip_tv" target="_blank" rel="noreferrer">
+          World IPTV
         </a>
         {' · '}
         Rehber:{' '}

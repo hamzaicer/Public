@@ -197,6 +197,10 @@ const categoryNames = {
   undefined: 'Diğer',
   weather: 'Hava',
   'free-tv': 'Free-TV',
+  nexus: 'IPTV Nexus',
+  'nexus-online': 'Nexus Online',
+  'world-iptv': 'World IPTV',
+  'iptv-org-streams': 'iptv-org Streams',
 }
 
 export function countryLabel(code) {

@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 
 const ROOT = path.resolve(import.meta.dirname, '..')
 const PLAYLISTS = path.join(ROOT, 'public/playlists')
@@ -12,11 +13,35 @@ const INDEXES = {
   byLanguage: `${BASE}/index.language.m3u`,
 }
 
-const EXTRA_SOURCES = [
+/** Public open playlists only — no paid/DRM bypass sources. */
+export const EXTRA_SOURCES = [
   {
     name: 'free-tv',
+    label: 'Free-TV/IPTV',
     url: 'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8',
     file: 'free-tv.m3u8',
+    categorySlug: 'free-tv',
+  },
+  {
+    name: 'nexus',
+    label: 'IPTV Nexus',
+    url: 'https://dearbulut.github.io/iptv/playlists/index.m3u',
+    file: 'nexus.m3u',
+    categorySlug: 'nexus',
+  },
+  {
+    name: 'nexus-online',
+    label: 'Nexus Online',
+    url: 'https://dearbulut.github.io/iptv/playlists/online.m3u',
+    file: 'nexus-online.m3u',
+    categorySlug: 'nexus-online',
+  },
+  {
+    name: 'world-iptv',
+    label: 'World IPTV',
+    url: 'https://romaxa55.github.io/world_ip_tv/output/index.m3u',
+    file: 'world-iptv.m3u',
+    categorySlug: 'world-iptv',
   },
 ]
 
@@ -32,47 +57,11 @@ async function fetchText(url) {
   return res.text()
 }
 
-function parseIndexCodes(text, kind) {
-  // Prefer dedicated per-file endpoints: /countries/tr.m3u and /categories/news.m3u
-  // Index files are full channel dumps grouped by title; we still keep them locally.
-  const codes = new Set()
-  for (const line of text.split(/\r?\n/)) {
-    if (!line.startsWith('#EXTINF:')) continue
-    const match = line.match(/group-title="([^"]+)"/)
-    if (!match) continue
-    const title = match[1].trim()
-    if (!title) continue
-    if (kind === 'categories') {
-      const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '').replace(/^$/, 'undefined')
-      // category files use lowercase slug names on iptv-org hosting
-      codes.add(title.toLowerCase())
-    } else {
-      // country index groups by country name, not code — use known files list instead
-      codes.add(title)
-    }
-  }
-  return [...codes]
-}
-
 async function listRemoteFiles(kind) {
-  // iptv-org publishes stable per-code playlists
-  // Discover by probing the existing local set first, then refresh from a known directory listing via index.m3u country codes in filenames.
-  // Reliable approach: download the archive listing from the countries/categories index pages is not available,
-  // so we parse codes from existing local files + ensure TR and popular ones, then also scrape from
-  // https://iptv-org.github.io/api/streams.json is heavy. Use the mirror directory via GitHub raw paths.
-  const api = kind === 'countries'
-    ? 'https://api.github.com/repos/iptv-org/iptv/contents/streams?ref=master'
-    : null
-
-  if (kind === 'countries' && api) {
-    // streams/ folder uses country codes as filenames in older layouts; current layout uses generated site.
-  }
-
   const known = fs.existsSync(path.join(PLAYLISTS, kind))
     ? fs.readdirSync(path.join(PLAYLISTS, kind)).filter((f) => f.endsWith('.m3u')).map((f) => f.replace(/\.m3u$/, ''))
     : []
 
-  // Always include core set
   const extras =
     kind === 'countries'
       ? ['tr', 'us', 'uk', 'de', 'fr', 'it', 'es', 'nl', 'int']
@@ -119,21 +108,61 @@ async function downloadIndexes() {
   }
 }
 
+function escapeAttr(value) {
+  return String(value || '').replace(/"/g, "'")
+}
+
+async function downloadIptvOrgStreamsApi() {
+  process.stdout.write('source iptv-org-streams… ')
+  const res = await fetch('https://iptv-org.github.io/api/streams.json', {
+    headers: { 'user-agent': 'BeaconIPTV/1.0 (+https://github.com/hamzaicer/Public)' },
+  })
+  if (!res.ok) throw new Error(`Fetch failed ${res.status} for streams.json`)
+  const streams = await res.json()
+  const lines = ['#EXTM3U']
+  let kept = 0
+  for (const s of streams) {
+    if (!s?.url) continue
+    const labels = Array.isArray(s.labels) ? s.labels.map((x) => String(x).toLowerCase()) : []
+    // Keep public index policy: skip adult / NSFW labelled feeds.
+    if (labels.some((l) => l.includes('nsfw') || l.includes('adult') || l === 'xxx')) continue
+    const title = s.title || s.channel || 'Stream'
+    const quality = s.quality ? ` (${s.quality})` : ''
+    const ua = s.user_agent ? ` http-user-agent="${escapeAttr(s.user_agent)}"` : ''
+    const logo = ''
+    lines.push(
+      `#EXTINF:-1 tvg-id="${escapeAttr(s.channel || '')}" tvg-logo="${logo}"${ua} group-title="iptv-org-streams",${title}${quality}`,
+    )
+    if (s.referrer) lines.push(`#EXTVLCOPT:http-referrer=${s.referrer}`)
+    if (s.user_agent) lines.push(`#EXTVLCOPT:http-user-agent=${s.user_agent}`)
+    lines.push(s.url)
+    kept += 1
+  }
+  fs.writeFileSync(path.join(PLAYLISTS, 'iptv-org-streams.m3u'), `${lines.join('\n')}\n`)
+  console.log(`ok (${kept} channels)`)
+  return kept
+}
+
 async function downloadExtraSources() {
   ensureDir(PLAYLISTS)
   for (const src of EXTRA_SOURCES) {
     process.stdout.write(`source ${src.name}… `)
-    const text = await fetchText(src.url)
-    fs.writeFileSync(path.join(PLAYLISTS, src.file), text)
-    const n = text.split(/\r?\n/).filter((l) => l.startsWith('#EXTINF:')).length
-    console.log(`ok (${n} channels)`)
+    try {
+      const text = await fetchText(src.url)
+      fs.writeFileSync(path.join(PLAYLISTS, src.file), text)
+      const n = text.split(/\r?\n/).filter((l) => l.startsWith('#EXTINF:')).length
+      console.log(`ok (${n} channels)`)
+    } catch (err) {
+      console.warn(`skip ${src.name}: ${err.message}`)
+    }
   }
+  await downloadIptvOrgStreamsApi()
 }
 
 async function main() {
   console.log('Syncing playlists from iptv-org…')
   await downloadIndexes()
-  console.log('Syncing extra sources…')
+  console.log('Syncing extra public sources…')
   await downloadExtraSources()
 
   for (const kind of ['countries', 'categories']) {
@@ -156,7 +185,9 @@ async function main() {
   console.log('Playlist sync complete.')
 }
 
-main().catch((err) => {
-  console.error(err)
-  process.exit(1)
-})
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((err) => {
+    console.error(err)
+    process.exit(1)
+  })
+}

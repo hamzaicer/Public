@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { EXTRA_SOURCES } from './sync-playlists.mjs'
 
 const ROOT = path.resolve(import.meta.dirname, '..')
 const PLAYLISTS = path.join(ROOT, 'public/playlists')
@@ -7,9 +8,17 @@ const OUT = path.join(ROOT, 'public/catalog')
 
 const ATTR_RE = /([a-zA-Z0-9-]+)="([^"]*)"/g
 
+const EXTRA_PLAYLISTS = [
+  ...EXTRA_SOURCES,
+  {
+    name: 'iptv-org-streams',
+    label: 'iptv-org streams API',
+    file: 'iptv-org-streams.m3u',
+    categorySlug: 'iptv-org-streams',
+  },
+]
+
 function splitExtinf(line) {
-  // Channel name starts after the last comma that is outside double quotes.
-  // Needed because http-user-agent values often contain commas.
   let inQuotes = false
   let lastComma = -1
   for (let i = 0; i < line.length; i++) {
@@ -106,11 +115,16 @@ ensureDir(path.join(OUT, 'categories'))
 const countryDir = path.join(PLAYLISTS, 'countries')
 const categoryDir = path.join(PLAYLISTS, 'categories')
 const indexFile = path.join(PLAYLISTS, 'index.m3u')
-const freeTvFile = path.join(PLAYLISTS, 'free-tv.m3u8')
 
-const freeTvChannels = fs.existsSync(freeTvFile)
-  ? parseM3u(freeTvFile, { source: 'free-tv' })
-  : []
+const extraBundles = []
+for (const src of EXTRA_PLAYLISTS) {
+  const filePath = path.join(PLAYLISTS, src.file)
+  if (!fs.existsSync(filePath)) continue
+  const channels = parseM3u(filePath, { source: src.name })
+  extraBundles.push({ ...src, channels })
+}
+
+const allExtraChannels = extraBundles.flatMap((b) => b.channels)
 
 const countries = []
 const categories = []
@@ -119,25 +133,25 @@ let total = 0
 for (const file of fs.readdirSync(countryDir).filter((f) => f.endsWith('.m3u')).sort()) {
   const code = file.replace(/\.m3u$/, '')
   const local = parseM3u(path.join(countryDir, file))
-  const fromFreeTv = freeTvChannels.filter((c) => c.country === code)
-  const { merged } = mergeUnique(local, fromFreeTv)
+  const fromExtras = allExtraChannels.filter((c) => c.country === code)
+  const { merged } = mergeUnique(local, fromExtras)
   fs.writeFileSync(path.join(OUT, 'countries', `${code}.json`), JSON.stringify(merged))
   countries.push({ code, count: merged.length })
   total += merged.length
 }
 
-// Free-TV country codes that have no iptv-org country file yet
 const knownCountryCodes = new Set(countries.map((c) => c.code))
 const orphanByCountry = new Map()
-for (const ch of freeTvChannels) {
+for (const ch of allExtraChannels) {
   if (!ch.country || knownCountryCodes.has(ch.country)) continue
   if (!orphanByCountry.has(ch.country)) orphanByCountry.set(ch.country, [])
   orphanByCountry.get(ch.country).push(ch)
 }
 for (const [code, list] of [...orphanByCountry.entries()].sort((a, b) => a[0].localeCompare(b[0]))) {
-  fs.writeFileSync(path.join(OUT, 'countries', `${code}.json`), JSON.stringify(list))
-  countries.push({ code, count: list.length })
-  total += list.length
+  const unique = mergeUnique([], list).merged
+  fs.writeFileSync(path.join(OUT, 'countries', `${code}.json`), JSON.stringify(unique))
+  countries.push({ code, count: unique.length })
+  total += unique.length
 }
 
 for (const file of fs.readdirSync(categoryDir).filter((f) => f.endsWith('.m3u')).sort()) {
@@ -148,18 +162,26 @@ for (const file of fs.readdirSync(categoryDir).filter((f) => f.endsWith('.m3u'))
 }
 
 const orgAll = fs.existsSync(indexFile) ? parseM3u(indexFile) : []
-const { merged: allChannels, added: freeTvAdded } = mergeUnique(orgAll, freeTvChannels)
+let allChannels = orgAll
+const addedBySource = {}
+for (const bundle of extraBundles) {
+  const { merged, added } = mergeUnique(allChannels, bundle.channels)
+  allChannels = merged
+  addedBySource[bundle.name] = added.length
+  fs.writeFileSync(
+    path.join(OUT, 'categories', `${bundle.categorySlug}.json`),
+    JSON.stringify(bundle.channels),
+  )
+  categories.push({ slug: bundle.categorySlug, count: bundle.channels.length })
+}
 
 fs.writeFileSync(path.join(OUT, 'all.json'), JSON.stringify(allChannels))
-fs.writeFileSync(path.join(OUT, 'categories', 'free-tv.json'), JSON.stringify(freeTvChannels))
-categories.push({ slug: 'free-tv', count: freeTvChannels.length })
 
 const meta = {
   generatedAt: new Date().toISOString(),
   totalStreams: allChannels.length || total,
   allCount: allChannels.length,
-  freeTvCount: freeTvChannels.length,
-  freeTvAdded: freeTvAdded.length,
+  addedBySource,
   countries: countries.sort((a, b) => b.count - a.count),
   categories: categories.sort((a, b) => b.count - a.count),
   playlists: {
@@ -168,14 +190,24 @@ const meta = {
     byCategory: '/playlists/index.category.m3u',
     byLanguage: '/playlists/index.language.m3u',
     freeTv: '/playlists/free-tv.m3u8',
+    nexus: '/playlists/nexus.m3u',
+    nexusOnline: '/playlists/nexus-online.m3u',
+    worldIptv: '/playlists/world-iptv.m3u',
+    iptvOrgStreams: '/playlists/iptv-org-streams.m3u',
   },
   sources: [
     { id: 'iptv-org', label: 'iptv-org', count: orgAll.length },
-    { id: 'free-tv', label: 'Free-TV/IPTV', count: freeTvChannels.length },
+    ...extraBundles.map((b) => ({
+      id: b.name,
+      label: b.label,
+      count: b.channels.length,
+      added: addedBySource[b.name] || 0,
+    })),
   ],
 }
 
 fs.writeFileSync(path.join(OUT, 'meta.json'), JSON.stringify(meta, null, 2))
 console.log(
-  `Catalog ready: ${meta.totalStreams} in index (+${freeTvAdded.length} Free-TV unique), ${countries.length} countries, ${categories.length} categories`,
+  `Catalog ready: ${meta.totalStreams} unique streams, ${countries.length} countries, ${categories.length} categories`,
 )
+console.log('Added by source:', addedBySource)
