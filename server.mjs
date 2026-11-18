@@ -1,7 +1,7 @@
 import express from 'express'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { proxyFetch, rewriteM3u } from './scripts/proxy-utils.mjs'
+import { looksLikeM3u, proxyFetch, rewriteM3u } from './scripts/proxy-utils.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const dist = path.join(__dirname, 'dist')
@@ -20,7 +20,8 @@ app.get('/api/proxy', async (req, res) => {
       return
     }
     const userAgent = typeof req.query.ua === 'string' ? req.query.ua : undefined
-    const { res: upstream, parsed } = await proxyFetch(target, req.headers, { userAgent })
+    const referer = typeof req.query.ref === 'string' ? req.query.ref : undefined
+    const { res: upstream, finalUrl } = await proxyFetch(target, req.headers, { userAgent, referer })
     if (!upstream.ok) {
       res.status(upstream.status).set('access-control-allow-origin', '*').send(`Upstream ${upstream.status}`)
       return
@@ -30,14 +31,16 @@ app.get('/api/proxy', async (req, res) => {
     res.set('access-control-allow-origin', '*')
     res.set('cache-control', 'no-store')
 
-    const isManifest =
-      contentType.includes('mpegurl') ||
-      contentType.includes('m3u8') ||
-      parsed.pathname.endsWith('.m3u8') ||
-      parsed.pathname.endsWith('.m3u')
-
-    if (isManifest) {
-      const rewritten = rewriteM3u(buf.toString('utf8'), parsed.toString(), '/api/proxy?url=', userAgent)
+    const text = buf.toString('utf8')
+    const pathName = (() => {
+      try {
+        return new URL(finalUrl).pathname
+      } catch {
+        return ''
+      }
+    })()
+    if (looksLikeM3u(contentType, text, pathName)) {
+      const rewritten = rewriteM3u(text, finalUrl, '/api/proxy?url=', userAgent, referer)
       res.type('application/vnd.apple.mpegurl').send(rewritten)
       return
     }

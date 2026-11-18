@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-11-18T06:26:56.646Z",
+  "generatedAt": "2026-11-18T06:40:31.097Z",
   "totals": {
-    "found": 71076,
-    "allowed": 20701,
+    "found": 91801,
+    "allowed": 28289,
     "review": 23,
     "blocked": 0,
-    "duplicate": 50352,
+    "duplicate": 63489,
     "invalid": 0
   },
   "sources": [
@@ -66,27 +66,140 @@
     {
       "id": "world-iptv",
       "label": "World IPTV",
-      "found": 14097,
+      "found": 13996,
       "added": 741,
-      "duplicate": 13356,
+      "duplicate": 13255,
       "review": 0,
       "blocked": 0,
       "invalid": 0,
       "rejectReasons": {
-        "duplicate-url": 13356
+        "duplicate-url": 13255
+      }
+    },
+    {
+      "id": "nexus-best",
+      "label": "Nexus Best",
+      "found": 10469,
+      "added": 0,
+      "duplicate": 10469,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0,
+      "rejectReasons": {
+        "duplicate-url": 10469
+      }
+    },
+    {
+      "id": "italy-open",
+      "label": "Open IPTV Italy",
+      "found": 125,
+      "added": 82,
+      "duplicate": 43,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0,
+      "rejectReasons": {
+        "duplicate-url": 43
+      }
+    },
+    {
+      "id": "samsung-tv",
+      "label": "Samsung TV Plus",
+      "found": 2661,
+      "added": 2651,
+      "duplicate": 10,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0,
+      "rejectReasons": {
+        "duplicate-url": 10
+      }
+    },
+    {
+      "id": "plex-tv",
+      "label": "Plex Live TV",
+      "found": 2890,
+      "added": 2890,
+      "duplicate": 0,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0,
+      "rejectReasons": {}
+    },
+    {
+      "id": "tubi-tv",
+      "label": "Tubi Live",
+      "found": 183,
+      "added": 181,
+      "duplicate": 2,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0,
+      "rejectReasons": {
+        "duplicate-url": 2
+      }
+    },
+    {
+      "id": "roku-tv",
+      "label": "The Roku Channel",
+      "found": 258,
+      "added": 257,
+      "duplicate": 1,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0,
+      "rejectReasons": {
+        "duplicate-url": 1
+      }
+    },
+    {
+      "id": "whale-tv",
+      "label": "Whale TV Plus",
+      "found": 360,
+      "added": 357,
+      "duplicate": 3,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0,
+      "rejectReasons": {
+        "duplicate-url": 3
+      }
+    },
+    {
+      "id": "vidaa-tv",
+      "label": "VIDAA Free",
+      "found": 788,
+      "added": 788,
+      "duplicate": 0,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0,
+      "rejectReasons": {}
+    },
+    {
+      "id": "pluto-tv",
+      "label": "Pluto TV",
+      "found": 3092,
+      "added": 1227,
+      "duplicate": 1865,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0,
+      "rejectReasons": {
+        "duplicate-url": 1865
       }
     },
     {
       "id": "iptv-org-streams",
       "label": "iptv-org streams API",
       "found": 18765,
-      "added": 2627,
-      "duplicate": 16136,
+      "added": 1782,
+      "duplicate": 16981,
       "review": 2,
       "blocked": 0,
       "invalid": 0,
       "rejectReasons": {
-        "duplicate-url": 16136,
+        "duplicate-url": 16981,
         "non-http-stream": 2
       }
     }

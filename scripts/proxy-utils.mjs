@@ -44,10 +44,11 @@ export function assertSafeProxyUrl(raw) {
   return parsed
 }
 
-export function rewriteM3u(body, baseUrl, proxyPrefix, ua) {
+export function rewriteM3u(body, baseUrl, proxyPrefix, ua, referer) {
   const base = new URL(baseUrl)
   const uaQ = ua ? `&ua=${encodeURIComponent(ua)}` : ''
-  const wrap = (abs) => `${proxyPrefix}${encodeURIComponent(abs)}${uaQ}`
+  const refQ = referer ? `&ref=${encodeURIComponent(referer)}` : ''
+  const wrap = (abs) => `${proxyPrefix}${encodeURIComponent(abs)}${uaQ}${refQ}`
   return body
     .split(/\r?\n/)
     .map((line) => {
@@ -70,6 +71,15 @@ export function rewriteM3u(body, baseUrl, proxyPrefix, ua) {
     .join('\n')
 }
 
+export function looksLikeM3u(contentType = '', bodyText = '', urlPath = '') {
+  const ct = contentType.toLowerCase()
+  if (ct.includes('mpegurl') || ct.includes('m3u8') || ct.includes('x-m3u')) return true
+  const path = urlPath.toLowerCase()
+  if (path.endsWith('.m3u8') || path.endsWith('.m3u')) return true
+  const head = bodyText.slice(0, 64).trimStart()
+  return head.startsWith('#EXTM3U') || head.startsWith('#EXTINF')
+}
+
 export async function proxyFetch(targetUrl, reqHeaders = {}, opts = {}) {
   const parsed = assertSafeProxyUrl(targetUrl)
   const headers = {
@@ -82,11 +92,28 @@ export async function proxyFetch(targetUrl, reqHeaders = {}, opts = {}) {
   }
   if (reqHeaders.referer) headers.referer = reqHeaders.referer
   if (opts.referer) headers.referer = opts.referer
+  // Many CDNs also check Origin; derive from referer when present.
+  const referer = headers.referer
+  if (referer) {
+    try {
+      headers.origin = new URL(referer).origin
+    } catch {
+      // ignore
+    }
+  }
+  if (reqHeaders.range) headers.range = reqHeaders.range
 
   const res = await undiciFetch(parsed.toString(), {
     headers,
     redirect: 'follow',
     dispatcher: insecureAgent,
   })
-  return { res, parsed }
+  // After redirects (e.g. jmp2.uk → CDN), rewrite relative playlist URLs against the final URL.
+  let finalUrl = parsed.toString()
+  try {
+    if (res.url) finalUrl = new URL(res.url).toString()
+  } catch {
+    // keep original
+  }
+  return { res, parsed, finalUrl }
 }

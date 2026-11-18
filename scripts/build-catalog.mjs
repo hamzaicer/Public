@@ -11,6 +11,13 @@ const ATTR_RE = /([a-zA-Z0-9-]+)="([^"]*)"/g
 const EXTRA_PLAYLISTS = [
   ...EXTRA_SOURCES,
   {
+    name: 'pluto-tv',
+    label: 'Pluto TV',
+    file: 'pluto-tv.m3u8',
+    categorySlug: 'pluto-tv',
+    defaultLicense: 'allowed',
+  },
+  {
     name: 'iptv-org-streams',
     label: 'iptv-org streams API',
     file: 'iptv-org-streams.m3u',
@@ -415,7 +422,10 @@ const meta = {
     freeTv: '/playlists/free-tv.m3u8',
     nexus: '/playlists/nexus.m3u',
     nexusOnline: '/playlists/nexus-online.m3u',
+    nexusBest: '/playlists/nexus-best.m3u',
     worldIptv: '/playlists/world-iptv.m3u',
+    italyOpen: '/playlists/italy-open.m3u',
+    plutoTv: '/playlists/pluto-tv.m3u8',
     iptvOrgStreams: '/playlists/iptv-org-streams.m3u',
   },
   sources: report.sources.map((s) => ({

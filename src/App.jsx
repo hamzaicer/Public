@@ -16,7 +16,16 @@ const SOURCE_SLUGS = new Set([
   'free-tv',
   'nexus',
   'nexus-online',
+  'nexus-best',
   'world-iptv',
+  'italy-open',
+  'pluto-tv',
+  'samsung-tv',
+  'plex-tv',
+  'tubi-tv',
+  'roku-tv',
+  'whale-tv',
+  'vidaa-tv',
   'iptv-org-streams',
   'review',
   'blocked',
@@ -26,7 +35,16 @@ const SOURCE_PLAYLISTS = {
   'free-tv': '/playlists/free-tv.m3u8',
   nexus: '/playlists/nexus.m3u',
   'nexus-online': '/playlists/nexus-online.m3u',
+  'nexus-best': '/playlists/nexus-best.m3u',
   'world-iptv': '/playlists/world-iptv.m3u',
+  'italy-open': '/playlists/italy-open.m3u',
+  'pluto-tv': '/playlists/pluto-tv.m3u8',
+  'samsung-tv': '/playlists/samsung-tv.m3u',
+  'plex-tv': '/playlists/plex-tv.m3u',
+  'tubi-tv': '/playlists/tubi-tv.m3u',
+  'roku-tv': '/playlists/roku-tv.m3u',
+  'whale-tv': '/playlists/whale-tv.m3u',
+  'vidaa-tv': '/playlists/vidaa-tv.m3u',
   'iptv-org-streams': '/playlists/iptv-org-streams.m3u',
 }
 
@@ -277,10 +295,18 @@ export default function App() {
                 <span>{meta?.reviewCount ?? 0} kayıt bekliyor</span>
               </button>
               {[
-                { id: 'free-tv', label: 'Free-TV', hint: 'Ücretsiz kanallar' },
+                { id: 'nexus-online', label: 'Çevrimiçi', hint: 'Sağlık kontrolünden geçenler' },
+                { id: 'pluto-tv', label: 'Pluto TV', hint: 'Canlı JWT yönlendirmeli' },
+                { id: 'samsung-tv', label: 'Samsung+', hint: 'Samsung TV Plus FAST' },
+                { id: 'plex-tv', label: 'Plex', hint: 'Plex ücretsiz canlı' },
+                { id: 'tubi-tv', label: 'Tubi', hint: 'Tubi Live TV' },
+                { id: 'roku-tv', label: 'Roku', hint: 'The Roku Channel' },
+                { id: 'whale-tv', label: 'Whale', hint: 'Whale TV Plus' },
+                { id: 'vidaa-tv', label: 'VIDAA', hint: 'Hisense ücretsiz' },
+                { id: 'free-tv', label: 'Free-TV', hint: 'Açık anten / ücretsiz' },
                 { id: 'nexus', label: 'Nexus', hint: 'Geniş katalog' },
-                { id: 'nexus-online', label: 'Çevrimiçi', hint: 'Çalışan yayınlar' },
                 { id: 'world-iptv', label: 'Dünya', hint: 'Doğrulanmış liste' },
+                { id: 'italy-open', label: 'İtalya', hint: 'Açık İtalyan kanalları' },
               ].map((src) => {
                 const count = sourceCount(meta, src.id)
                 return (
@@ -515,6 +541,10 @@ export default function App() {
         {' · '}
         <a href="https://github.com/Romaxa55/world_ip_tv" target="_blank" rel="noreferrer">
           World IPTV
+        </a>
+        {' · '}
+        <a href="https://github.com/BuddyChewChew/app-m3u-generator" target="_blank" rel="noreferrer">
+          FAST
         </a>
         {' · '}
         Rehber:{' '}

@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { proxyFetch, rewriteM3u } from './scripts/proxy-utils.mjs'
+import { looksLikeM3u, proxyFetch, rewriteM3u } from './scripts/proxy-utils.mjs'
 
 function attachStreamProxy(middlewares) {
   middlewares.use(async (req, res, next) => {
@@ -9,12 +9,13 @@ function attachStreamProxy(middlewares) {
       const incoming = new URL(req.url, 'http://127.0.0.1')
       const target = incoming.searchParams.get('url')
       const userAgent = incoming.searchParams.get('ua') || undefined
+      const referer = incoming.searchParams.get('ref') || undefined
       if (!target) {
         res.statusCode = 400
         res.end('Missing url')
         return
       }
-      const { res: upstream, parsed } = await proxyFetch(target, req.headers, { userAgent })
+      const { res: upstream, finalUrl } = await proxyFetch(target, req.headers, { userAgent, referer })
       if (!upstream.ok) {
         res.statusCode = upstream.status
         res.setHeader('access-control-allow-origin', '*')
@@ -28,15 +29,15 @@ function attachStreamProxy(middlewares) {
       res.setHeader('access-control-allow-origin', '*')
       res.setHeader('cache-control', 'no-store')
 
-      const isManifest =
-        contentType.includes('mpegurl') ||
-        contentType.includes('m3u8') ||
-        parsed.pathname.endsWith('.m3u8') ||
-        parsed.pathname.endsWith('.m3u')
-
-      if (isManifest) {
-        const text = buf.toString('utf8')
-        const rewritten = rewriteM3u(text, parsed.toString(), '/api/proxy?url=', userAgent)
+      const text = buf.toString('utf8')
+      let pathName = ''
+      try {
+        pathName = new URL(finalUrl).pathname
+      } catch {
+        // ignore
+      }
+      if (looksLikeM3u(contentType, text, pathName)) {
+        const rewritten = rewriteM3u(text, finalUrl, '/api/proxy?url=', userAgent, referer)
         res.setHeader('content-type', 'application/vnd.apple.mpegurl')
         res.end(rewritten)
         return

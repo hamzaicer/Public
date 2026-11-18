@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-11-18T06:26:57.334Z",
-  "totalStreams": 20701,
-  "allCount": 20701,
+  "generatedAt": "2026-11-18T06:40:31.966Z",
+  "totalStreams": 28289,
+  "allCount": 28289,
   "reviewCount": 23,
   "blockedCount": 0,
-  "duplicateCount": 50352,
+  "duplicateCount": 63489,
   "invalidCount": 0,
   "addedBySource": {
     "iptv-org": 11542,
@@ -12,7 +12,16 @@
     "nexus": 4413,
     "nexus-online": 0,
     "world-iptv": 741,
-    "iptv-org-streams": 2627
+    "nexus-best": 0,
+    "italy-open": 82,
+    "samsung-tv": 2651,
+    "plex-tv": 2890,
+    "tubi-tv": 181,
+    "roku-tv": 257,
+    "whale-tv": 357,
+    "vidaa-tv": 788,
+    "pluto-tv": 1227,
+    "iptv-org-streams": 1782
   },
   "countries": [
     {
@@ -803,15 +812,31 @@
     },
     {
       "slug": "world-iptv",
-      "count": 14097
+      "count": 13996
+    },
+    {
+      "slug": "nexus-best",
+      "count": 10455
     },
     {
       "slug": "nexus-online",
       "count": 8534
     },
     {
+      "slug": "pluto-tv",
+      "count": 3092
+    },
+    {
+      "slug": "plex-tv",
+      "count": 2890
+    },
+    {
       "slug": "general",
       "count": 2762
+    },
+    {
+      "slug": "samsung-tv",
+      "count": 2661
     },
     {
       "slug": "free-tv",
@@ -834,6 +859,10 @@
       "count": 820
     },
     {
+      "slug": "vidaa-tv",
+      "count": 788
+    },
+    {
       "slug": "movies",
       "count": 780
     },
@@ -852,6 +881,14 @@
     {
       "slug": "kids",
       "count": 456
+    },
+    {
+      "slug": "whale-tv",
+      "count": 360
+    },
+    {
+      "slug": "roku-tv",
+      "count": 258
     },
     {
       "slug": "documentary",
@@ -874,12 +911,20 @@
       "count": 187
     },
     {
+      "slug": "tubi-tv",
+      "count": 183
+    },
+    {
       "slug": "legislative",
       "count": 181
     },
     {
       "slug": "lifestyle",
       "count": 151
+    },
+    {
+      "slug": "italy-open",
+      "count": 125
     },
     {
       "slug": "classic",
@@ -946,7 +991,10 @@
     "freeTv": "/playlists/free-tv.m3u8",
     "nexus": "/playlists/nexus.m3u",
     "nexusOnline": "/playlists/nexus-online.m3u",
+    "nexusBest": "/playlists/nexus-best.m3u",
     "worldIptv": "/playlists/world-iptv.m3u",
+    "italyOpen": "/playlists/italy-open.m3u",
+    "plutoTv": "/playlists/pluto-tv.m3u8",
     "iptvOrgStreams": "/playlists/iptv-org-streams.m3u"
   },
   "sources": [
@@ -993,9 +1041,99 @@
     {
       "id": "world-iptv",
       "label": "World IPTV",
-      "found": 14097,
+      "found": 13996,
       "added": 741,
-      "duplicate": 13356,
+      "duplicate": 13255,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0
+    },
+    {
+      "id": "nexus-best",
+      "label": "Nexus Best",
+      "found": 10469,
+      "added": 0,
+      "duplicate": 10469,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0
+    },
+    {
+      "id": "italy-open",
+      "label": "Open IPTV Italy",
+      "found": 125,
+      "added": 82,
+      "duplicate": 43,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0
+    },
+    {
+      "id": "samsung-tv",
+      "label": "Samsung TV Plus",
+      "found": 2661,
+      "added": 2651,
+      "duplicate": 10,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0
+    },
+    {
+      "id": "plex-tv",
+      "label": "Plex Live TV",
+      "found": 2890,
+      "added": 2890,
+      "duplicate": 0,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0
+    },
+    {
+      "id": "tubi-tv",
+      "label": "Tubi Live",
+      "found": 183,
+      "added": 181,
+      "duplicate": 2,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0
+    },
+    {
+      "id": "roku-tv",
+      "label": "The Roku Channel",
+      "found": 258,
+      "added": 257,
+      "duplicate": 1,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0
+    },
+    {
+      "id": "whale-tv",
+      "label": "Whale TV Plus",
+      "found": 360,
+      "added": 357,
+      "duplicate": 3,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0
+    },
+    {
+      "id": "vidaa-tv",
+      "label": "VIDAA Free",
+      "found": 788,
+      "added": 788,
+      "duplicate": 0,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0
+    },
+    {
+      "id": "pluto-tv",
+      "label": "Pluto TV",
+      "found": 3092,
+      "added": 1227,
+      "duplicate": 1865,
       "review": 0,
       "blocked": 0,
       "invalid": 0
@@ -1004,8 +1142,8 @@
       "id": "iptv-org-streams",
       "label": "iptv-org streams API",
       "found": 18765,
-      "added": 2627,
-      "duplicate": 16136,
+      "added": 1782,
+      "duplicate": 16981,
       "review": 2,
       "blocked": 0,
       "invalid": 0

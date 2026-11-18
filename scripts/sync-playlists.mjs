@@ -47,6 +47,74 @@ export const EXTRA_SOURCES = [
     categorySlug: 'world-iptv',
     defaultLicense: 'allowed',
   },
+  {
+    name: 'nexus-best',
+    label: 'Nexus Best',
+    url: 'https://dearbulut.github.io/iptv/playlists/best.m3u',
+    file: 'nexus-best.m3u',
+    categorySlug: 'nexus-best',
+    defaultLicense: 'allowed',
+  },
+  {
+    name: 'italy-open',
+    label: 'Open IPTV Italy',
+    url: 'https://raw.githubusercontent.com/xN1ckuz/OpenIPTVItaly/main/OpenIPTVItaly.m3u',
+    file: 'italy-open.m3u',
+    categorySlug: 'italy-open',
+    defaultLicense: 'allowed',
+  },
+  {
+    name: 'samsung-tv',
+    label: 'Samsung TV Plus',
+    url: 'https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/samsungtvplus_all.m3u',
+    file: 'samsung-tv.m3u',
+    categorySlug: 'samsung-tv',
+    defaultLicense: 'allowed',
+    defaultReferrer: 'https://www.samsung.com/',
+  },
+  {
+    name: 'plex-tv',
+    label: 'Plex Live TV',
+    url: 'https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plex_all.m3u',
+    file: 'plex-tv.m3u',
+    categorySlug: 'plex-tv',
+    defaultLicense: 'allowed',
+    defaultReferrer: 'https://watch.plex.tv/',
+  },
+  {
+    name: 'tubi-tv',
+    label: 'Tubi Live',
+    url: 'https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/tubi_all.m3u',
+    file: 'tubi-tv.m3u',
+    categorySlug: 'tubi-tv',
+    defaultLicense: 'allowed',
+    defaultReferrer: 'https://tubitv.com/',
+  },
+  {
+    name: 'roku-tv',
+    label: 'The Roku Channel',
+    url: 'https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/roku_all.m3u',
+    file: 'roku-tv.m3u',
+    categorySlug: 'roku-tv',
+    defaultLicense: 'allowed',
+    defaultReferrer: 'https://therokuchannel.roku.com/',
+  },
+  {
+    name: 'whale-tv',
+    label: 'Whale TV Plus',
+    url: 'https://www.apsattv.com/whaletvplus_all.m3u',
+    file: 'whale-tv.m3u',
+    categorySlug: 'whale-tv',
+    defaultLicense: 'allowed',
+  },
+  {
+    name: 'vidaa-tv',
+    label: 'VIDAA Free',
+    url: 'https://www.apsattv.com/vidaa.m3u',
+    file: 'vidaa-tv.m3u',
+    categorySlug: 'vidaa-tv',
+    defaultLicense: 'allowed',
+  },
 ]
 
 function ensureDir(dir) {
@@ -165,12 +233,40 @@ async function downloadIptvOrgStreamsApi() {
   return kept
 }
 
+/** Inject a default VLC referrer after each EXTINF when the playlist lacks one. */
+function withDefaultReferrer(text, referrer) {
+  if (!referrer) return text
+  const lines = text.split(/\r?\n/)
+  const out = []
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i]
+    out.push(line)
+    if (!line.startsWith('#EXTINF:')) continue
+    const next = lines[i + 1] || ''
+    if (next.startsWith('#EXTVLCOPT:http-referrer=')) continue
+    out.push(`#EXTVLCOPT:http-referrer=${referrer}`)
+  }
+  return `${out.join('\n')}\n`
+}
+
+async function downloadPlutoBundle() {
+  // BuddyChewChew jmp2.uk links mint a fresh Pluto JWT on each request (static JWTs expire ~24h).
+  process.stdout.write('source pluto-tv… ')
+  const url =
+    'https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plutotv_all.m3u'
+  const text = withDefaultReferrer(await fetchText(url), 'https://pluto.tv/')
+  fs.writeFileSync(path.join(PLAYLISTS, 'pluto-tv.m3u8'), text)
+  const total = text.split(/\r?\n/).filter((l) => l.startsWith('#EXTINF:')).length
+  console.log(`ok (${total} channels via live JWT redirect)`)
+}
+
 async function downloadExtraSources() {
   ensureDir(PLAYLISTS)
   for (const src of EXTRA_SOURCES) {
     process.stdout.write(`source ${src.name}… `)
     try {
-      const text = await fetchText(src.url)
+      let text = await fetchText(src.url)
+      if (src.defaultReferrer) text = withDefaultReferrer(text, src.defaultReferrer)
       fs.writeFileSync(path.join(PLAYLISTS, src.file), text)
       const n = text.split(/\r?\n/).filter((l) => l.startsWith('#EXTINF:')).length
       console.log(`ok (${n} channels)`)
@@ -178,6 +274,7 @@ async function downloadExtraSources() {
       console.warn(`skip ${src.name}: ${err.message}`)
     }
   }
+  await downloadPlutoBundle()
   await downloadIptvOrgStreamsApi()
 }
 

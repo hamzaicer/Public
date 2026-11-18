@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import Hls from 'hls.js'
 
-function proxied(url, userAgent) {
+function proxied(url, userAgent, referrer) {
   const ua = userAgent ? `&ua=${encodeURIComponent(userAgent)}` : ''
-  return `/api/proxy?url=${encodeURIComponent(url)}${ua}`
+  const ref = referrer ? `&ref=${encodeURIComponent(referrer)}` : ''
+  return `/api/proxy?url=${encodeURIComponent(url)}${ua}${ref}`
 }
 
 function isHlsUrl(url) {
@@ -60,7 +61,16 @@ const SOURCE_LABELS = {
   'free-tv': 'Free-TV',
   nexus: 'Nexus',
   'nexus-online': 'Nexus Online',
+  'nexus-best': 'Nexus Best',
   'world-iptv': 'World IPTV',
+  'italy-open': 'İtalya',
+  'pluto-tv': 'Pluto TV',
+  'samsung-tv': 'Samsung+',
+  'plex-tv': 'Plex',
+  'tubi-tv': 'Tubi',
+  'roku-tv': 'Roku',
+  'whale-tv': 'Whale',
+  'vidaa-tv': 'VIDAA',
   'iptv-org-streams': 'iptv-org',
 }
 
@@ -103,6 +113,7 @@ export default function Player({ channel }) {
 
     const sourceUrl = channel.url
     const userAgent = channel.userAgent || ''
+    const referrer = channel.referrer || ''
 
     const fail = (message, extra = '') => {
       if (cancelled) return
@@ -138,10 +149,10 @@ export default function Player({ channel }) {
       if (cancelled) return
 
       const useProxy = hasProxy
-      const playUrl = useProxy ? proxied(sourceUrl, userAgent) : sourceUrl
+      const playUrl = useProxy ? proxied(sourceUrl, userAgent, referrer) : sourceUrl
 
       if (!useProxy) {
-        setDetail('Yayın proxy’si yok; doğrudan kaynak deneniyor (CORS gerekebilir).')
+        setDetail('Bağlantı kuruluyor…')
       }
 
       const attachNative = (url) => {
@@ -177,12 +188,16 @@ export default function Player({ channel }) {
         const hls = new Hls({
           enableWorker: true,
           lowLatencyMode: true,
+          maxMaxBufferLength: 60,
+          manifestLoadingMaxRetry: 4,
+          levelLoadingMaxRetry: 4,
+          fragLoadingMaxRetry: 6,
           // Authorized public HLS only — no DRM license hooking.
           xhrSetup(xhr, requestUrl) {
             if (!useProxy) return
             if (requestUrl.includes('/api/proxy?url=')) return
             // hls.js calls open() before xhrSetup; reopen against the CORS proxy.
-            xhr.open('GET', proxied(requestUrl, userAgent), true)
+            xhr.open('GET', proxied(requestUrl, userAgent, referrer), true)
           },
         })
         hlsRef.current = hls
