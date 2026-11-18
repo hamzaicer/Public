@@ -1,4 +1,4 @@
-import { startTransition, useDeferredValue, useEffect, useState } from 'react'
+import { startTransition, useDeferredValue, useEffect, useMemo, useState } from 'react'
 import EpgPanel from './components/EpgPanel.jsx'
 import Player from './components/Player.jsx'
 import {
@@ -12,8 +12,29 @@ import {
 } from './lib/catalog.js'
 import { loadEpgMeta } from './lib/epg.js'
 
+const SOURCE_SLUGS = new Set([
+  'free-tv',
+  'nexus',
+  'nexus-online',
+  'world-iptv',
+  'iptv-org-streams',
+  'review',
+  'blocked',
+])
+
+const SOURCE_PLAYLISTS = {
+  'free-tv': '/playlists/free-tv.m3u8',
+  nexus: '/playlists/nexus.m3u',
+  'nexus-online': '/playlists/nexus-online.m3u',
+  'world-iptv': '/playlists/world-iptv.m3u',
+  'iptv-org-streams': '/playlists/iptv-org-streams.m3u',
+}
+
 function ChannelLogo({ name, logo }) {
   const [failed, setFailed] = useState(false)
+  useEffect(() => {
+    setFailed(false)
+  }, [logo])
   if (!logo || failed) {
     return <div className="channel-fallback">{name.slice(0, 1)}</div>
   }
@@ -27,6 +48,15 @@ function ChannelLogo({ name, logo }) {
       onError={() => setFailed(true)}
     />
   )
+}
+
+function firstContentCategory(meta) {
+  const preferred = ['general', 'news', 'sports', 'entertainment']
+  const list = meta?.categories || []
+  for (const slug of preferred) {
+    if (list.some((c) => c.slug === slug)) return slug
+  }
+  return list.find((c) => !SOURCE_SLUGS.has(c.slug))?.slug || list[0]?.slug || ''
 }
 
 export default function App() {
@@ -99,6 +129,11 @@ export default function App() {
     }
   }, [mode, selected])
 
+  const contentCategories = useMemo(
+    () => (meta?.categories || []).filter((c) => !SOURCE_SLUGS.has(c.slug)),
+    [meta],
+  )
+
   const filtered = channels.filter((ch) => {
     if (!deferredQuery.trim()) return true
     const q = deferredQuery.toLowerCase()
@@ -110,20 +145,15 @@ export default function App() {
   })
   const visible = filtered.slice(0, visibleCount)
 
-  const sourcePlaylistMap = {
-    'free-tv': '/playlists/free-tv.m3u8',
-    nexus: '/playlists/nexus.m3u',
-    'nexus-online': '/playlists/nexus-online.m3u',
-    'world-iptv': '/playlists/world-iptv.m3u',
-    'iptv-org-streams': '/playlists/iptv-org-streams.m3u',
-  }
-
   const playlistHref =
     mode === 'all'
       ? '/playlists/index.m3u'
       : mode === 'country'
         ? `/playlists/countries/${selected}.m3u`
-        : sourcePlaylistMap[selected] || `/playlists/categories/${selected}.m3u`
+        : SOURCE_PLAYLISTS[selected] ||
+          (SOURCE_SLUGS.has(selected) ? '' : `/playlists/categories/${selected}.m3u`)
+
+  const canDownloadPlaylist = Boolean(playlistHref)
 
   const scrollToBrowse = () => {
     document.getElementById('browse')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -134,7 +164,7 @@ export default function App() {
       <header className="hero">
         <div className="hero-media" aria-hidden="true">
           <img
-            src="https://images.unsplash.com/photo-1461151304267-38535e780c79?auto=format&fit=crop&w=2400&q=80"
+            src="https://images.unsplash.com/photo-1478737270239-2f02bb3fff1f?auto=format&fit=crop&w=2400&q=80"
             alt=""
           />
         </div>
@@ -143,7 +173,7 @@ export default function App() {
           <p className="brand">Beacon</p>
           <h1 className="hero-title">Açık yayınları izle</h1>
           <p className="lede">
-            iptv-org, Free-TV, Nexus ve World IPTV açık listelerinden kanal seç, EPG’ye bak, M3U indir.
+            Açık IPTV listelerinden kanal seç, program rehberine bak, M3U indir.
           </p>
           <div className="cta-row">
             <button type="button" className="btn btn-primary" onClick={scrollToBrowse}>
@@ -159,6 +189,24 @@ export default function App() {
       <div className="shell" id="browse">
         <aside className="sidebar">
           <h2>Keşfet</h2>
+
+          {meta && (
+            <div className="browse-stats" aria-label="Katalog özeti">
+              <div>
+                <strong>{meta.allCount.toLocaleString('tr-TR')}</strong>
+                yayın
+              </div>
+              <div>
+                <strong>{(meta.reviewCount || 0).toLocaleString('tr-TR')}</strong>
+                inceleme
+              </div>
+              <div>
+                <strong>{meta.countries.length}</strong>
+                ülke
+              </div>
+            </div>
+          )}
+
           <select
             className="field"
             value={mode}
@@ -174,7 +222,7 @@ export default function App() {
                     : meta?.countries[0]?.code || '',
                 )
               } else {
-                setSelected(meta?.categories[0]?.slug || '')
+                setSelected(firstContentCategory(meta))
               }
             }}
           >
@@ -190,7 +238,8 @@ export default function App() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
-          <div className="quick-filters">
+
+          <div className="quick-filters" aria-label="Hızlı kaynaklar">
             <button
               type="button"
               className={`chip${mode === 'category' && selected === 'review' ? ' active-chip' : ''}`}
@@ -201,7 +250,8 @@ export default function App() {
                 setVisibleCount(500)
               }}
             >
-              İnceleme Bekliyor
+              İnceleme
+              {meta?.reviewCount ? ` (${meta.reviewCount})` : ''}
             </button>
             {[
               { id: 'free-tv', label: 'Free-TV' },
@@ -242,12 +292,8 @@ export default function App() {
 
           {importReport && (
             <div className="import-report">
-              <button
-                type="button"
-                className="chip"
-                onClick={() => setShowReport((v) => !v)}
-              >
-                İçe aktarma raporu
+              <button type="button" className="chip" onClick={() => setShowReport((v) => !v)}>
+                {showReport ? 'Raporu gizle' : 'İçe aktarma raporu'}
               </button>
               {showReport && (
                 <div className="import-report-body">
@@ -256,8 +302,7 @@ export default function App() {
                     {importReport.totals.allowed.toLocaleString('tr-TR')} · Tekrar{' '}
                     {importReport.totals.duplicate.toLocaleString('tr-TR')} · İnceleme{' '}
                     {importReport.totals.review.toLocaleString('tr-TR')} · Red{' '}
-                    {importReport.totals.blocked.toLocaleString('tr-TR')} · Hatalı{' '}
-                    {importReport.totals.invalid.toLocaleString('tr-TR')}
+                    {importReport.totals.blocked.toLocaleString('tr-TR')}
                   </p>
                   <ul>
                     {importReport.sources.map((s) => (
@@ -303,7 +348,8 @@ export default function App() {
                 </button>
               ))}
             {mode === 'category' &&
-              meta?.categories.map((c) => (
+              !SOURCE_SLUGS.has(selected) &&
+              contentCategories.map((c) => (
                 <button
                   key={c.slug}
                   type="button"
@@ -314,6 +360,12 @@ export default function App() {
                   <span>{c.count}</span>
                 </button>
               ))}
+            {mode === 'category' && SOURCE_SLUGS.has(selected) && (
+              <button type="button" className="filter-item active">
+                {categoryLabel(selected)}
+                <span>{filtered.length}</span>
+              </button>
+            )}
           </div>
         </aside>
 
@@ -331,12 +383,23 @@ export default function App() {
                       ? countryLabel(selected)
                       : categoryLabel(selected)}
                 </h2>
-                <span className="count">{filtered.length} kanal</span>
+                <span className="count">{filtered.length.toLocaleString('tr-TR')} kanal</span>
               </div>
-              <a className="btn btn-ghost" href={playlistHref} download>
-                Bu listeyi indir
-              </a>
+              {canDownloadPlaylist ? (
+                <a className="btn btn-ghost" href={playlistHref} download>
+                  Bu listeyi indir
+                </a>
+              ) : (
+                <span className="count">Playlist indirme yok</span>
+              )}
             </div>
+
+            {selected === 'review' && (
+              <p className="review-note">
+                Bu kayıtlar lisans durumu doğrulanamadığı için incelemede. DRM veya erişim kısıtı
+                aşılmaz; yalnızca listeleme yapılır.
+              </p>
+            )}
 
             {error && <div className="empty">{error}</div>}
             {loading && !error && <div className="empty">Kanallar yükleniyor…</div>}
@@ -375,7 +438,7 @@ export default function App() {
                 className="btn btn-ghost more-btn"
                 onClick={() => setVisibleCount((n) => n + 400)}
               >
-                Daha fazla göster ({filtered.length - visible.length} kaldı)
+                Daha fazla göster ({(filtered.length - visible.length).toLocaleString('tr-TR')} kaldı)
               </button>
             )}
           </section>

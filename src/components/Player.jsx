@@ -249,7 +249,7 @@ export default function Player({ channel }) {
         {!channel && (
           <div className="player-empty">
             <strong>Bir kanal seç</strong>
-            <span>Soldan ülke veya kategori seç, listeden yayına tıkla.</span>
+            <span>Soldan kaynak veya kategori seç, listeden yayına tıkla.</span>
           </div>
         )}
         {channel && status === 'loading' && (

@@ -49,9 +49,17 @@ app.get('/api/proxy', async (req, res) => {
   }
 })
 
-app.use(express.static(dist))
+app.use(express.static(dist, { fallthrough: true }))
+
+// SPA fallback only for app routes — never mask missing playlists/assets as index.html
 app.use((req, res, next) => {
   if (req.method !== 'GET' && req.method !== 'HEAD') return next()
+  const pathname = req.path || ''
+  if (pathname.startsWith('/api/')) return next()
+  if (/\.[a-zA-Z0-9]+$/.test(pathname)) {
+    res.status(404).type('text/plain').send('Not found')
+    return
+  }
   res.sendFile(path.join(dist, 'index.html'), (err) => {
     if (err) next(err)
   })
