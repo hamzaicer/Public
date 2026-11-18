@@ -55,12 +55,22 @@ function isAccessDenied(data) {
   return code === 401 || code === 403
 }
 
+const SOURCE_LABELS = {
+  'iptv-org': 'iptv-org',
+  'free-tv': 'Free-TV',
+  nexus: 'Nexus',
+  'nexus-online': 'Nexus Online',
+  'world-iptv': 'World IPTV',
+  'iptv-org-streams': 'iptv-org',
+}
+
 export default function Player({ channel }) {
   const videoRef = useRef(null)
   const hlsRef = useRef(null)
   const [error, setError] = useState('')
   const [status, setStatus] = useState('idle')
   const [detail, setDetail] = useState('')
+  const [reloadKey, setReloadKey] = useState(0)
 
   useEffect(() => {
     const video = videoRef.current
@@ -191,7 +201,7 @@ export default function Player({ channel }) {
           if (cancelled || !data?.fatal) return
           // Do not retry access-denied responses (rights / auth) — surface them immediately.
           if (isAccessDenied(data)) {
-            fail(describeHlsError(data), sourceUrl)
+            fail(describeHlsError(data), 'Teknik erişim sonucu; yayın adresi gösterilmez.')
             return
           }
           if (data.type === Hls.ErrorTypes.NETWORK_ERROR && !didNetworkRecover) {
@@ -212,7 +222,7 @@ export default function Player({ channel }) {
               // fall through
             }
           }
-          fail(describeHlsError(data), sourceUrl)
+          fail(describeHlsError(data), 'Teknik hata; yayın adresi gösterilmez.')
         })
       } else if (isHlsUrl(sourceUrl) && canNativeHls) {
         attachNative(playUrl)
@@ -240,7 +250,9 @@ export default function Player({ channel }) {
       clearTimers()
       cleanupHls()
     }
-  }, [channel])
+  }, [channel, reloadKey])
+
+  const sourceLabel = channel?.source ? SOURCE_LABELS[channel.source] || channel.source : ''
 
   return (
     <section className="panel player">
@@ -249,7 +261,7 @@ export default function Player({ channel }) {
         {!channel && (
           <div className="player-empty">
             <strong>Bir kanal seç</strong>
-            <span>Soldan kaynak veya kategori seç, listeden yayına tıkla.</span>
+            <span>Soldan paket veya kategori seç, listeden yayına tıkla.</span>
           </div>
         )}
         {channel && status === 'loading' && (
@@ -271,23 +283,19 @@ export default function Player({ channel }) {
         <div>
           <h3>{channel?.name || 'Beacon Player'}</h3>
           <p>
-            {channel ? channel.group : 'iptv-org açık yayınları'}
+            {channel ? channel.group : 'Açık yayın kataloğu'}
+            {sourceLabel ? ` · ${sourceLabel}` : ''}
             {status === 'playing' && detail ? ` · ${detail}` : ''}
           </p>
         </div>
-        {channel && (
-          <div className="cta-row">
-            <a className="btn btn-ghost" href={channel.url} target="_blank" rel="noreferrer">
-              Kaynak URL
-            </a>
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => navigator.clipboard.writeText(channel.url)}
-            >
-              Linki kopyala
-            </button>
-          </div>
+        {channel && status === 'error' && (
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => setReloadKey((n) => n + 1)}
+          >
+            Yeniden dene
+          </button>
         )}
       </div>
     </section>

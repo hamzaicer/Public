@@ -677,28 +677,109 @@ img {
   vertical-align: middle;
 }
 
-.quick-filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
+.nav-block {
+  margin: 0.85rem 0 0.35rem;
 }
 
-.import-report {
-  margin: 0.75rem 0 0.35rem;
+.nav-label {
+  margin: 0 0 0.45rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mist);
+  font-weight: 700;
+}
+
+.nav-actions {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.nav-actions.compact {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.nav-card {
+  display: grid;
+  gap: 0.15rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.nav-card strong {
+  font-size: 0.92rem;
+}
+
+.nav-card span {
+  color: var(--mist);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.nav-card:hover,
+.nav-card.active {
+  border-color: rgba(227, 93, 42, 0.55);
+  background: rgba(227, 93, 42, 0.06);
+  transform: translateY(-1px);
+}
+
+.nav-card.warn {
+  border-color: rgba(227, 93, 42, 0.35);
+  background: rgba(227, 93, 42, 0.05);
+}
+
+.nav-pill {
+  appearance: none;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  padding: 0.55rem 0.65rem;
+  cursor: pointer;
+  font-size: 0.88rem;
+}
+
+.nav-pill:hover,
+.nav-pill.active {
+  border-color: rgba(227, 93, 42, 0.55);
+  color: var(--signal-deep);
+  background: rgba(227, 93, 42, 0.06);
 }
 
 .import-report-body {
   margin-top: 0.55rem;
-  padding: 0.65rem 0;
+  padding: 0.65rem 0 0;
   border-top: 1px solid var(--line);
   color: var(--mist);
   font-size: 0.82rem;
   line-height: 1.45;
 }
 
-.import-report-body p {
-  margin: 0 0 0.55rem;
+.report-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem;
+  margin-bottom: 0.65rem;
+}
+
+.report-grid div {
+  padding: 0.45rem 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.report-grid strong {
+  display: block;
   color: var(--ink);
+  font-size: 1rem;
 }
 
 .import-report-body ul {
@@ -720,24 +801,11 @@ img {
 
 .import-report-body small {
   color: var(--mist);
-  word-break: break-word;
 }
 
 .review-badge {
   color: var(--signal-deep) !important;
   border-color: rgba(227, 93, 42, 0.45) !important;
-}
-
-.quick-filters .chip {
-  text-decoration: none;
-}
-
-.quick-filters .chip:hover,
-.quick-filters .active-chip {
-  border-color: var(--signal);
-  color: var(--signal-deep);
-  background: rgba(227, 93, 42, 0.06);
-  text-decoration: none;
 }
 
 @keyframes pulse {

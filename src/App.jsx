@@ -30,6 +30,27 @@ const SOURCE_PLAYLISTS = {
   'iptv-org-streams': '/playlists/iptv-org-streams.m3u',
 }
 
+const REASON_LABELS = {
+  'duplicate-url': 'Tekrarlayan kayıt',
+  'non-http-stream': 'Tarayıcıda açılamayan biçim',
+  'adult-or-nsfw-marker': 'İçerik incelemesi',
+  'adult-or-nsfw-label': 'İçerik incelemesi',
+  'adult-category': 'Yetişkin kategori',
+  'license-unknown': 'Lisans belirsiz',
+  'license-unverified': 'Lisans doğrulanamadı',
+  'missing-url': 'Eksik yayın kaydı',
+  'explicit-blocked': 'Yayın engelli',
+}
+
+function reasonLabel(code) {
+  return REASON_LABELS[code] || 'İnceleme gerekli'
+}
+
+function sourceCount(meta, id) {
+  const row = meta?.sources?.find((s) => s.id === id)
+  return row?.added ?? row?.count ?? null
+}
+
 function ChannelLogo({ name, logo }) {
   const [failed, setFailed] = useState(false)
   useEffect(() => {
@@ -180,7 +201,7 @@ export default function App() {
               İzlemeye başla
             </button>
             <a className="btn btn-ghost" href="/playlists/index.m3u" download>
-              Tüm kanallar (.m3u)
+              Listeyi indir
             </a>
           </div>
         </div>
@@ -239,85 +260,120 @@ export default function App() {
             onChange={(e) => setQuery(e.target.value)}
           />
 
-          <div className="quick-filters" aria-label="Hızlı kaynaklar">
-            <button
-              type="button"
-              className={`chip${mode === 'category' && selected === 'review' ? ' active-chip' : ''}`}
-              onClick={() => {
-                setMode('category')
-                setSelected('review')
-                setQuery('')
-                setVisibleCount(500)
-              }}
-            >
-              İnceleme
-              {meta?.reviewCount ? ` (${meta.reviewCount})` : ''}
-            </button>
-            {[
-              { id: 'free-tv', label: 'Free-TV' },
-              { id: 'nexus', label: 'Nexus' },
-              { id: 'nexus-online', label: 'Online' },
-              { id: 'world-iptv', label: 'World' },
-            ].map((src) => (
+          <div className="nav-block">
+            <h3 className="nav-label">Yayın paketleri</h3>
+            <div className="nav-actions">
               <button
-                key={src.id}
                 type="button"
-                className={`chip${mode === 'category' && selected === src.id ? ' active-chip' : ''}`}
+                className={`nav-card warn${mode === 'category' && selected === 'review' ? ' active' : ''}`}
                 onClick={() => {
                   setMode('category')
-                  setSelected(src.id)
+                  setSelected('review')
                   setQuery('')
                   setVisibleCount(500)
                 }}
               >
-                {src.label}
+                <strong>İnceleme</strong>
+                <span>{meta?.reviewCount ?? 0} kayıt bekliyor</span>
               </button>
-            ))}
-            {['beIN', 'TRT Spor', 'S Sport', 'A Spor'].map((q) => (
-              <button
-                key={q}
-                type="button"
-                className={`chip${query.toLowerCase() === q.toLowerCase() ? ' active-chip' : ''}`}
-                onClick={() => {
-                  setMode('all')
-                  setSelected('all')
-                  setQuery(q)
-                  setVisibleCount(500)
-                }}
-              >
-                {q}
-              </button>
-            ))}
+              {[
+                { id: 'free-tv', label: 'Free-TV', hint: 'Ücretsiz kanallar' },
+                { id: 'nexus', label: 'Nexus', hint: 'Geniş katalog' },
+                { id: 'nexus-online', label: 'Çevrimiçi', hint: 'Çalışan yayınlar' },
+                { id: 'world-iptv', label: 'Dünya', hint: 'Doğrulanmış liste' },
+              ].map((src) => {
+                const count = sourceCount(meta, src.id)
+                return (
+                  <button
+                    key={src.id}
+                    type="button"
+                    className={`nav-card${mode === 'category' && selected === src.id ? ' active' : ''}`}
+                    onClick={() => {
+                      setMode('category')
+                      setSelected(src.id)
+                      setQuery('')
+                      setVisibleCount(500)
+                    }}
+                  >
+                    <strong>{src.label}</strong>
+                    <span>
+                      {src.hint}
+                      {count != null ? ` · ${count.toLocaleString('tr-TR')}` : ''}
+                    </span>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          <div className="nav-block">
+            <h3 className="nav-label">Hızlı spor</h3>
+            <div className="nav-actions compact">
+              {['beIN', 'TRT Spor', 'S Sport', 'A Spor'].map((q) => (
+                <button
+                  key={q}
+                  type="button"
+                  className={`nav-pill${query.toLowerCase() === q.toLowerCase() ? ' active' : ''}`}
+                  onClick={() => {
+                    setMode('all')
+                    setSelected('all')
+                    setQuery(q)
+                    setVisibleCount(500)
+                  }}
+                >
+                  {q}
+                </button>
+              ))}
+            </div>
           </div>
 
           {importReport && (
-            <div className="import-report">
-              <button type="button" className="chip" onClick={() => setShowReport((v) => !v)}>
-                {showReport ? 'Raporu gizle' : 'İçe aktarma raporu'}
+            <div className="nav-block">
+              <h3 className="nav-label">Yönetim</h3>
+              <button
+                type="button"
+                className={`nav-card${showReport ? ' active' : ''}`}
+                onClick={() => setShowReport((v) => !v)}
+              >
+                <strong>İçe aktarma özeti</strong>
+                <span>
+                  {importReport.totals.allowed.toLocaleString('tr-TR')} eklendi ·{' '}
+                  {importReport.totals.review.toLocaleString('tr-TR')} inceleme
+                </span>
               </button>
               {showReport && (
                 <div className="import-report-body">
-                  <p>
-                    Bulunan {importReport.totals.found.toLocaleString('tr-TR')} · Eklenen{' '}
-                    {importReport.totals.allowed.toLocaleString('tr-TR')} · Tekrar{' '}
-                    {importReport.totals.duplicate.toLocaleString('tr-TR')} · İnceleme{' '}
-                    {importReport.totals.review.toLocaleString('tr-TR')} · Red{' '}
-                    {importReport.totals.blocked.toLocaleString('tr-TR')}
-                  </p>
+                  <div className="report-grid">
+                    <div>
+                      <strong>{importReport.totals.found.toLocaleString('tr-TR')}</strong>
+                      bulunan
+                    </div>
+                    <div>
+                      <strong>{importReport.totals.allowed.toLocaleString('tr-TR')}</strong>
+                      eklenen
+                    </div>
+                    <div>
+                      <strong>{importReport.totals.duplicate.toLocaleString('tr-TR')}</strong>
+                      tekrar
+                    </div>
+                    <div>
+                      <strong>{importReport.totals.review.toLocaleString('tr-TR')}</strong>
+                      inceleme
+                    </div>
+                  </div>
                   <ul>
                     {importReport.sources.map((s) => (
                       <li key={s.id}>
                         <strong>{s.label}</strong>
                         <span>
-                          {s.found} bulunan · {s.added} eklenen · {s.duplicate} tekrar · {s.review}{' '}
-                          inceleme
+                          {s.added.toLocaleString('tr-TR')} eklendi / {s.found.toLocaleString('tr-TR')}{' '}
+                          bulundu
                         </span>
                         {s.rejectReasons && Object.keys(s.rejectReasons).length > 0 && (
                           <small>
-                            Nedenler:{' '}
                             {Object.entries(s.rejectReasons)
-                              .map(([reason, count]) => `${reason} (${count})`)
-                              .join(', ')}
+                              .map(([reason, count]) => `${reasonLabel(reason)}: ${count}`)
+                              .join(' · ')}
                           </small>
                         )}
                       </li>
@@ -387,17 +443,15 @@ export default function App() {
               </div>
               {canDownloadPlaylist ? (
                 <a className="btn btn-ghost" href={playlistHref} download>
-                  Bu listeyi indir
+                  Listeyi indir
                 </a>
-              ) : (
-                <span className="count">Playlist indirme yok</span>
-              )}
+              ) : null}
             </div>
 
             {selected === 'review' && (
               <p className="review-note">
-                Bu kayıtlar lisans durumu doğrulanamadığı için incelemede. DRM veya erişim kısıtı
-                aşılmaz; yalnızca listeleme yapılır.
+                Lisans durumu doğrulanamayan kayıtlar burada tutulur. Erişim kısıtı veya DRM aşılmaz;
+                yalnızca inceleme listesidir.
               </p>
             )}
 
@@ -426,7 +480,7 @@ export default function App() {
                     </strong>
                     <small>
                       {ch.group}
-                      {ch.rejectReason ? ` · ${ch.rejectReason}` : ''}
+                      {ch.rejectReason ? ` · ${reasonLabel(ch.rejectReason)}` : ''}
                     </small>
                   </div>
                 </button>
