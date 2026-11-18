@@ -19,6 +19,9 @@ const SOURCE_SLUGS = new Set([
   'nexus-best',
   'world-iptv',
   'italy-open',
+  'turkey-live',
+  'turkey-lang',
+  'beacon-dizi',
   'pluto-tv',
   'samsung-tv',
   'plex-tv',
@@ -38,6 +41,9 @@ const SOURCE_PLAYLISTS = {
   'nexus-best': '/playlists/nexus-best.m3u',
   'world-iptv': '/playlists/world-iptv.m3u',
   'italy-open': '/playlists/italy-open.m3u',
+  'turkey-live': '/playlists/turkey-live.m3u8',
+  'turkey-lang': '/playlists/turkey-lang.m3u',
+  'beacon-dizi': '/playlists/beacon-dizi.m3u',
   'pluto-tv': '/playlists/pluto-tv.m3u8',
   'samsung-tv': '/playlists/samsung-tv.m3u',
   'plex-tv': '/playlists/plex-tv.m3u',
@@ -47,6 +53,24 @@ const SOURCE_PLAYLISTS = {
   'vidaa-tv': '/playlists/vidaa-tv.m3u',
   'iptv-org-streams': '/playlists/iptv-org-streams.m3u',
 }
+
+const BEACON_PACKS = [
+  { id: 'turkey-live', label: 'TRT Açık', hint: 'Free-TV TRT ulusal yayınlar' },
+  { id: 'turkey-lang', label: 'Türkçe', hint: 'Türkçe dilindeki açık kanallar' },
+  { id: 'beacon-dizi', label: 'Diziler', hint: 'Dizi / drama / Merhaba Serien' },
+  { id: 'nexus-online', label: 'Canlı', hint: 'Sağlık kontrolünden geçenler' },
+  { id: 'pluto-tv', label: 'Pluto', hint: 'Ücretsiz FAST' },
+  { id: 'samsung-tv', label: 'Samsung+', hint: 'Samsung TV Plus' },
+  { id: 'plex-tv', label: 'Plex', hint: 'Plex ücretsiz canlı' },
+  { id: 'tubi-tv', label: 'Tubi', hint: 'Tubi Live TV' },
+  { id: 'roku-tv', label: 'Roku', hint: 'The Roku Channel' },
+  { id: 'whale-tv', label: 'Whale', hint: 'Whale TV Plus' },
+  { id: 'vidaa-tv', label: 'VIDAA', hint: 'Hisense ücretsiz' },
+  { id: 'free-tv', label: 'Free-TV', hint: 'Açık anten / dünya' },
+  { id: 'nexus', label: 'Katalog', hint: 'Geniş Beacon arşivi' },
+  { id: 'world-iptv', label: 'Dünya', hint: 'Doğrulanmış liste' },
+  { id: 'italy-open', label: 'İtalya', hint: 'Açık İtalyan kanalları' },
+]
 
 const REASON_LABELS = {
   'duplicate-url': 'Tekrarlayan kayıt',
@@ -65,8 +89,10 @@ function reasonLabel(code) {
 }
 
 function sourceCount(meta, id) {
+  const cat = meta?.categories?.find((c) => c.slug === id)
+  if (cat?.count != null) return cat.count
   const row = meta?.sources?.find((s) => s.id === id)
-  return row?.added ?? row?.count ?? null
+  return row?.found ?? row?.added ?? row?.count ?? null
 }
 
 function ChannelLogo({ name, logo }) {
@@ -210,13 +236,14 @@ export default function App() {
         <div className="hero-veil" aria-hidden="true" />
         <div className="hero-copy">
           <p className="brand">Beacon</p>
-          <h1 className="hero-title">Açık yayınları izle</h1>
+          <h1 className="hero-title">Tek çatıda açık yayın</h1>
           <p className="lede">
-            Açık IPTV listelerinden kanal seç, program rehberine bak, M3U indir.
+            Türkiye, dizi ve dünya FAST kanalları Beacon koleksiyonlarında. Kanal seç — oynatıcı yerinde
+            kalır.
           </p>
           <div className="cta-row">
             <button type="button" className="btn btn-primary" onClick={scrollToBrowse}>
-              İzlemeye başla
+              Beacon’a gir
             </button>
             <a className="btn btn-ghost" href="/playlists/index.m3u" download>
               Listeyi indir
@@ -227,7 +254,8 @@ export default function App() {
 
       <div className="shell" id="browse">
         <aside className="sidebar">
-          <h2>Keşfet</h2>
+          <p className="brand-mark">Beacon</p>
+          <h2>Koleksiyonlar</h2>
 
           {meta && (
             <div className="browse-stats" aria-label="Katalog özeti">
@@ -279,35 +307,27 @@ export default function App() {
           />
 
           <div className="nav-block">
-            <h3 className="nav-label">Yayın paketleri</h3>
+            <h3 className="nav-label">Beacon paketleri</h3>
             <div className="nav-actions">
               <button
                 type="button"
-                className={`nav-card warn${mode === 'category' && selected === 'review' ? ' active' : ''}`}
+                className={`nav-card${mode === 'country' && selected === 'tr' ? ' active' : ''}`}
                 onClick={() => {
-                  setMode('category')
-                  setSelected('review')
+                  setMode('country')
+                  setSelected('tr')
                   setQuery('')
                   setVisibleCount(500)
                 }}
               >
-                <strong>İnceleme</strong>
-                <span>{meta?.reviewCount ?? 0} kayıt bekliyor</span>
+                <strong>Türkiye (ülke)</strong>
+                <span>
+                  Katalog TR
+                  {meta?.countries?.find((c) => c.code === 'tr')
+                    ? ` · ${meta.countries.find((c) => c.code === 'tr').count.toLocaleString('tr-TR')}`
+                    : ''}
+                </span>
               </button>
-              {[
-                { id: 'nexus-online', label: 'Çevrimiçi', hint: 'Sağlık kontrolünden geçenler' },
-                { id: 'pluto-tv', label: 'Pluto TV', hint: 'Canlı JWT yönlendirmeli' },
-                { id: 'samsung-tv', label: 'Samsung+', hint: 'Samsung TV Plus FAST' },
-                { id: 'plex-tv', label: 'Plex', hint: 'Plex ücretsiz canlı' },
-                { id: 'tubi-tv', label: 'Tubi', hint: 'Tubi Live TV' },
-                { id: 'roku-tv', label: 'Roku', hint: 'The Roku Channel' },
-                { id: 'whale-tv', label: 'Whale', hint: 'Whale TV Plus' },
-                { id: 'vidaa-tv', label: 'VIDAA', hint: 'Hisense ücretsiz' },
-                { id: 'free-tv', label: 'Free-TV', hint: 'Açık anten / ücretsiz' },
-                { id: 'nexus', label: 'Nexus', hint: 'Geniş katalog' },
-                { id: 'world-iptv', label: 'Dünya', hint: 'Doğrulanmış liste' },
-                { id: 'italy-open', label: 'İtalya', hint: 'Açık İtalyan kanalları' },
-              ].map((src) => {
+              {BEACON_PACKS.map((src) => {
                 const count = sourceCount(meta, src.id)
                 return (
                   <button
@@ -329,13 +349,26 @@ export default function App() {
                   </button>
                 )
               })}
+              <button
+                type="button"
+                className={`nav-card warn${mode === 'category' && selected === 'review' ? ' active' : ''}`}
+                onClick={() => {
+                  setMode('category')
+                  setSelected('review')
+                  setQuery('')
+                  setVisibleCount(500)
+                }}
+              >
+                <strong>İnceleme</strong>
+                <span>{meta?.reviewCount ?? 0} kayıt bekliyor</span>
+              </button>
             </div>
           </div>
 
           <div className="nav-block">
-            <h3 className="nav-label">Hızlı spor</h3>
+            <h3 className="nav-label">Hızlı ara</h3>
             <div className="nav-actions compact">
-              {['beIN', 'TRT Spor', 'S Sport', 'A Spor'].map((q) => (
+              {['TRT', 'Merhaba', 'Haber', 'Spor'].map((q) => (
                 <button
                   key={q}
                   type="button"
@@ -452,15 +485,17 @@ export default function App() {
         </aside>
 
         <main className="main">
-          <Player channel={active} />
-          <EpgPanel channelId={active?.id} />
+          <div className={`theater${active ? ' is-live' : ''}`} id="theater">
+            <Player channel={active} />
+            {active && <EpgPanel channelId={active?.id} />}
+          </div>
 
           <section className="channels">
             <div className="toolbar">
               <div className="toolbar-left">
                 <h2 className="section-title">
                   {mode === 'all'
-                    ? 'Tüm kanallar'
+                    ? 'Beacon katalog'
                     : mode === 'country'
                       ? countryLabel(selected)
                       : categoryLabel(selected)}
@@ -526,30 +561,22 @@ export default function App() {
       </div>
 
       <footer className="footer">
-        Yayın:{' '}
+        <strong className="footer-brand">Beacon</strong>
+        <span> açık yayın kataloğu · kaynaklar: </span>
         <a href="https://github.com/iptv-org/iptv" target="_blank" rel="noreferrer">
-          iptv-org/iptv
+          iptv-org
         </a>
         {' · '}
         <a href="https://github.com/Free-TV/IPTV" target="_blank" rel="noreferrer">
           Free-TV
         </a>
         {' · '}
-        <a href="https://github.com/dearbulut/iptv" target="_blank" rel="noreferrer">
-          Nexus
-        </a>
-        {' · '}
-        <a href="https://github.com/Romaxa55/world_ip_tv" target="_blank" rel="noreferrer">
-          World IPTV
-        </a>
-        {' · '}
         <a href="https://github.com/BuddyChewChew/app-m3u-generator" target="_blank" rel="noreferrer">
           FAST
         </a>
         {' · '}
-        Rehber:{' '}
         <a href="https://github.com/iptv-org/epg" target="_blank" rel="noreferrer">
-          iptv-org/epg
+          EPG
         </a>
       </footer>
     </div>

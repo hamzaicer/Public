@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-11-18T06:40:31.097Z",
+  "generatedAt": "2026-11-18T06:52:49.912Z",
   "totals": {
-    "found": 91801,
+    "found": 92654,
     "allowed": 28289,
     "review": 23,
     "blocked": 0,
-    "duplicate": 63489,
+    "duplicate": 64342,
     "invalid": 0
   },
   "sources": [
@@ -103,6 +103,32 @@
       }
     },
     {
+      "id": "turkey-live",
+      "label": "Beacon Türkiye",
+      "found": 16,
+      "added": 0,
+      "duplicate": 16,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0,
+      "rejectReasons": {
+        "duplicate-url": 16
+      }
+    },
+    {
+      "id": "turkey-lang",
+      "label": "Türkçe Yayınlar",
+      "found": 181,
+      "added": 0,
+      "duplicate": 181,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0,
+      "rejectReasons": {
+        "duplicate-url": 181
+      }
+    },
+    {
       "id": "samsung-tv",
       "label": "Samsung TV Plus",
       "found": 2661,
@@ -187,6 +213,19 @@
       "invalid": 0,
       "rejectReasons": {
         "duplicate-url": 1865
+      }
+    },
+    {
+      "id": "beacon-dizi",
+      "label": "Beacon Diziler",
+      "found": 656,
+      "added": 0,
+      "duplicate": 656,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0,
+      "rejectReasons": {
+        "duplicate-url": 656
       }
     },
     {

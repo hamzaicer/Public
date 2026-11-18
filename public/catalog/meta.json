@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-11-18T06:40:31.966Z",
+  "generatedAt": "2026-11-18T06:52:50.805Z",
   "totalStreams": 28289,
   "allCount": 28289,
   "reviewCount": 23,
   "blockedCount": 0,
-  "duplicateCount": 63489,
+  "duplicateCount": 64342,
   "invalidCount": 0,
   "addedBySource": {
     "iptv-org": 11542,
@@ -14,6 +14,8 @@
     "world-iptv": 741,
     "nexus-best": 0,
     "italy-open": 82,
+    "turkey-live": 0,
+    "turkey-lang": 0,
     "samsung-tv": 2651,
     "plex-tv": 2890,
     "tubi-tv": 181,
@@ -21,6 +23,7 @@
     "whale-tv": 357,
     "vidaa-tv": 788,
     "pluto-tv": 1227,
+    "beacon-dizi": 0,
     "iptv-org-streams": 1782
   },
   "countries": [
@@ -871,6 +874,10 @@
       "count": 780
     },
     {
+      "slug": "beacon-dizi",
+      "count": 656
+    },
+    {
       "slug": "sports",
       "count": 533
     },
@@ -916,6 +923,10 @@
     },
     {
       "slug": "legislative",
+      "count": 181
+    },
+    {
+      "slug": "turkey-lang",
       "count": 181
     },
     {
@@ -975,6 +986,10 @@
       "count": 17
     },
     {
+      "slug": "turkey-live",
+      "count": 16
+    },
+    {
       "slug": "relax",
       "count": 10
     },
@@ -994,7 +1009,10 @@
     "nexusBest": "/playlists/nexus-best.m3u",
     "worldIptv": "/playlists/world-iptv.m3u",
     "italyOpen": "/playlists/italy-open.m3u",
+    "turkeyLive": "/playlists/turkey-live.m3u8",
+    "turkeyLang": "/playlists/turkey-lang.m3u",
     "plutoTv": "/playlists/pluto-tv.m3u8",
+    "beaconDizi": "/playlists/beacon-dizi.m3u",
     "iptvOrgStreams": "/playlists/iptv-org-streams.m3u"
   },
   "sources": [
@@ -1069,6 +1087,26 @@
       "invalid": 0
     },
     {
+      "id": "turkey-live",
+      "label": "Beacon Türkiye",
+      "found": 16,
+      "added": 0,
+      "duplicate": 16,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0
+    },
+    {
+      "id": "turkey-lang",
+      "label": "Türkçe Yayınlar",
+      "found": 181,
+      "added": 0,
+      "duplicate": 181,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0
+    },
+    {
       "id": "samsung-tv",
       "label": "Samsung TV Plus",
       "found": 2661,
@@ -1134,6 +1172,16 @@
       "found": 3092,
       "added": 1227,
       "duplicate": 1865,
+      "review": 0,
+      "blocked": 0,
+      "invalid": 0
+    },
+    {
+      "id": "beacon-dizi",
+      "label": "Beacon Diziler",
+      "found": 656,
+      "added": 0,
+      "duplicate": 656,
       "review": 0,
       "blocked": 0,
       "invalid": 0

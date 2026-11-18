@@ -64,6 +64,23 @@ export const EXTRA_SOURCES = [
     defaultLicense: 'allowed',
   },
   {
+    name: 'turkey-live',
+    label: 'Beacon Türkiye',
+    url: 'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_turkey.m3u8',
+    file: 'turkey-live.m3u8',
+    categorySlug: 'turkey-live',
+    defaultLicense: 'allowed',
+    defaultReferrer: 'https://www.trt.net.tr/',
+  },
+  {
+    name: 'turkey-lang',
+    label: 'Türkçe Yayınlar',
+    url: 'https://iptv-org.github.io/iptv/languages/tur.m3u',
+    file: 'turkey-lang.m3u',
+    categorySlug: 'turkey-lang',
+    defaultLicense: 'allowed',
+  },
+  {
     name: 'samsung-tv',
     label: 'Samsung TV Plus',
     url: 'https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/samsungtvplus_all.m3u',
@@ -258,23 +275,94 @@ async function downloadPlutoBundle() {
   fs.writeFileSync(path.join(PLAYLISTS, 'pluto-tv.m3u8'), text)
   const total = text.split(/\r?\n/).filter((l) => l.startsWith('#EXTINF:')).length
   console.log(`ok (${total} channels via live JWT redirect)`)
+  return text
+}
+
+/** Beacon Diziler: iptv-org series + Türkçe dizi/FAST drama kanalları. */
+async function downloadDiziBundle(extraTexts = []) {
+  process.stdout.write('source beacon-dizi… ')
+  const chunks = ['#EXTM3U']
+  const seen = new Set()
+  const pushPair = (inf, opts, url) => {
+    const key = url.trim().toLowerCase()
+    if (!key || seen.has(key)) return
+    seen.add(key)
+    chunks.push(inf)
+    for (const o of opts) chunks.push(o)
+    chunks.push(url)
+  }
+
+  const ingest = (text, forceGroup) => {
+    const lines = text.split(/\r?\n/)
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i]
+      if (!line.startsWith('#EXTINF:')) continue
+      const name = line.split(',').pop() || ''
+      const blob = `${line} ${name}`.toLowerCase()
+      const isSeriesish =
+        forceGroup ||
+        blob.includes('series') ||
+        blob.includes('dizi') ||
+        blob.includes('drama') ||
+        blob.includes('soap') ||
+        blob.includes('merhaba') ||
+        blob.includes('türkische serien') ||
+        blob.includes('turkische serien')
+      if (!isSeriesish) continue
+      const opts = []
+      let url = ''
+      for (let j = i + 1; j < lines.length; j++) {
+        const next = lines[j]
+        if (next.startsWith('#EXTINF:')) break
+        if (next.startsWith('#EXTVLCOPT:')) {
+          opts.push(next)
+          continue
+        }
+        if (next.startsWith('http')) {
+          url = next
+          break
+        }
+      }
+      if (!url) continue
+      let inf = line
+      if (forceGroup && !/group-title="/i.test(inf)) {
+        inf = inf.replace('#EXTINF:', '#EXTINF:-1 group-title="Beacon Diziler",')
+      } else if (forceGroup) {
+        inf = inf.replace(/group-title="[^"]*"/i, 'group-title="Beacon Diziler"')
+      }
+      pushPair(inf, opts, url)
+    }
+  }
+
+  try {
+    ingest(await fetchText('https://iptv-org.github.io/iptv/categories/series.m3u'), true)
+  } catch (err) {
+    console.warn(`\nskip series base: ${err.message}`)
+  }
+  for (const text of extraTexts) ingest(text, false)
+
+  fs.writeFileSync(path.join(PLAYLISTS, 'beacon-dizi.m3u'), `${chunks.join('\n')}\n`)
+  console.log(`ok (${seen.size} channels)`)
 }
 
 async function downloadExtraSources() {
   ensureDir(PLAYLISTS)
+  const captured = {}
   for (const src of EXTRA_SOURCES) {
     process.stdout.write(`source ${src.name}… `)
     try {
       let text = await fetchText(src.url)
       if (src.defaultReferrer) text = withDefaultReferrer(text, src.defaultReferrer)
       fs.writeFileSync(path.join(PLAYLISTS, src.file), text)
+      captured[src.name] = text
       const n = text.split(/\r?\n/).filter((l) => l.startsWith('#EXTINF:')).length
       console.log(`ok (${n} channels)`)
     } catch (err) {
       console.warn(`skip ${src.name}: ${err.message}`)
     }
   }
-  await downloadPlutoBundle()
+  const plutoText = await downloadPlutoBundle()
+  await downloadDiziBundle([plutoText, captured['samsung-tv'], captured['plex-tv']].filter(Boolean))
   await downloadIptvOrgStreamsApi()
 }
 

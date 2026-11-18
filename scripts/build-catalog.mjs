@@ -18,6 +18,13 @@ const EXTRA_PLAYLISTS = [
     defaultLicense: 'allowed',
   },
   {
+    name: 'beacon-dizi',
+    label: 'Beacon Diziler',
+    file: 'beacon-dizi.m3u',
+    categorySlug: 'beacon-dizi',
+    defaultLicense: 'allowed',
+  },
+  {
     name: 'iptv-org-streams',
     label: 'iptv-org streams API',
     file: 'iptv-org-streams.m3u',
@@ -425,7 +432,10 @@ const meta = {
     nexusBest: '/playlists/nexus-best.m3u',
     worldIptv: '/playlists/world-iptv.m3u',
     italyOpen: '/playlists/italy-open.m3u',
+    turkeyLive: '/playlists/turkey-live.m3u8',
+    turkeyLang: '/playlists/turkey-lang.m3u',
     plutoTv: '/playlists/pluto-tv.m3u8',
+    beaconDizi: '/playlists/beacon-dizi.m3u',
     iptvOrgStreams: '/playlists/iptv-org-streams.m3u',
   },
   sources: report.sources.map((s) => ({

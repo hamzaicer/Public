@@ -64,7 +64,10 @@ const SOURCE_LABELS = {
   'nexus-best': 'Nexus Best',
   'world-iptv': 'World IPTV',
   'italy-open': 'İtalya',
-  'pluto-tv': 'Pluto TV',
+  'turkey-live': 'Türkiye',
+  'turkey-lang': 'Türkçe',
+  'beacon-dizi': 'Dizi',
+  'pluto-tv': 'Pluto',
   'samsung-tv': 'Samsung+',
   'plex-tv': 'Plex',
   'tubi-tv': 'Tubi',
@@ -270,13 +273,13 @@ export default function Player({ channel }) {
   const sourceLabel = channel?.source ? SOURCE_LABELS[channel.source] || channel.source : ''
 
   return (
-    <section className="panel player">
+    <section className={`panel player${channel ? ' has-channel' : ''}`}>
       <div className="player-stage">
         <video ref={videoRef} controls playsInline autoPlay muted />
         {!channel && (
           <div className="player-empty">
-            <strong>Bir kanal seç</strong>
-            <span>Soldan paket veya kategori seç, listeden yayına tıkla.</span>
+            <strong>Beacon Player</strong>
+            <span>Soldan bir Beacon paketi seç, listeden yayına tıkla — oynatıcı burada kalır.</span>
           </div>
         )}
         {channel && status === 'loading' && (
@@ -296,7 +299,8 @@ export default function Player({ channel }) {
       </div>
       <div className="player-meta">
         <div>
-          <h3>{channel?.name || 'Beacon Player'}</h3>
+          <p className="player-brand">Beacon</p>
+          <h3>{channel?.name || 'Kanal seçilmedi'}</h3>
           <p>
             {channel ? channel.group : 'Açık yayın kataloğu'}
             {sourceLabel ? ` · ${sourceLabel}` : ''}
